@@ -1,16 +1,22 @@
 {
   "name": "sunclubs",
   "version": "1.0.0",
-  "description": "Masters' Union Clubs and Fests website",
+  "description": "Sandip University Clubs and Fests website",
   "main": "index.html",
   "scripts": {
+    "dev": "npx http-server -p 8000 -c-1",
+    "start": "npx http-server -p 8000",
+    "serve": "npx http-server -p 3000 -c-1",
     "test": "echo \"No tests specified\""
   },
   "keywords": [
     "clubs",
     "fests",
-    "masters-union"
+    "sandip-university"
   ],
-  "author": "Masters' Union",
-  "license": "MIT"
+  "author": "Sandip University",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
 }
