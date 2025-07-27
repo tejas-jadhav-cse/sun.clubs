@@ -34,16 +34,8 @@
         }
     </script>
     
-    <!-- Manual environment variables injection for browser -->
-    <script>
-        window.__MANUAL_ENV__ = {
-            'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-            'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo',
-            'VITE_ENVIRONMENT': 'development',
-            'VITE_APP_NAME': 'Sandip University Clubs',
-            'VITE_APP_VERSION': '1.0.0'
-        };
-    </script>
+    <!-- Environment Variables Loader -->
+    <script src="./js/env-loader.js"></script>
     
     <script src="./js/jquery.min.js"></script>
     <script src="./js/input-validator.js"></script>
@@ -92,8 +84,9 @@
         .recruitment-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 80px 20px;
         }
+    
 
         .recruitment-header {
             text-align: center;
@@ -139,6 +132,8 @@
 
         .form-group.full-width {
             width: 100%;
+    
+        
         }
 
         .form-label {
@@ -167,11 +162,11 @@
             box-sizing: border-box;
         }
 
-        .form-input:focus {
+        /* .form-input:focus {
             outline: none;
             border-color: var(--black);
             background: var(--white);
-        }
+        } */
 
         .form-textarea {
             min-height: 100px;
@@ -250,7 +245,7 @@
 
         .category-title {
             font-family: 'go-medium';
-            font-size: 18px;
+            font-size: 16px;
             color: var(--black);
             margin-bottom: 16px;
             padding-bottom: 8px;
@@ -448,8 +443,10 @@
         /* Mobile responsive */
         @media (max-width: 768px) {
             .recruitment-container {
-                padding: 0 16px;
+                padding: 40px 16px;
             }
+        
+        
 
             .recruitment-title {
                 font-size: 36px;
@@ -676,7 +673,7 @@
                             placeholder="Enter your phone number"
                             data-validate="phone"
                         >
-                        <div class="error-message" id="phone-error"></div>
+                        <!-- <div class="error-message" id="phone-error"></div> -->
                     </div>
                 </div>
 
@@ -716,18 +713,19 @@
                         <div class="error-message" id="branch-error"></div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label">Year</label>
-                    <select id="year" class="form-input">
-                        <option value="">Select Year (Optional)</option>
-                        <option value="1st Year">1st Year</option>
-                        <option value="2nd Year">2nd Year</option>
-                        <option value="3rd Year">3rd Year</option>
-                        <option value="4th Year">4th Year</option>
-                        <option value="5th Year">5th Year</option>
-                    </select>
-                    <div class="error-message" id="year-error"></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Year</label>
+                        <select id="year" class="form-input">
+                            <option value="">Select Year (Optional)</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="5th Year">5th Year</option>
+                        </select>
+                        <div class="error-message" id="year-error"></div>
+                    </div>
                 </div>
 
                 <div class="form-group full-width">
@@ -735,7 +733,7 @@
                     
                     <!-- Tech Clubs Category -->
                     <div class="club-category">
-                        <h3 class="category-title">Tech Clubs</h3>
+                        <h5 class="category-title">Tech Clubs</h5>
                         <div class="clubs-grid">
                             <div class="club-option" data-club="sect-chapter">
                                 <div class="club-checkbox"></div>
@@ -798,7 +796,7 @@
 
                     <!-- LibArts Category -->
                     <div class="club-category">
-                        <h3 class="category-title">LibArts</h3>
+                        <h5 class="category-title">LibArts</h5>
                         <div class="clubs-grid">
                             <div class="club-option" data-club="dance-club">
                                 <div class="club-checkbox"></div>
@@ -841,7 +839,7 @@
 
                     <!-- CivicSide Category -->
                     <div class="club-category">
-                        <h3 class="category-title">CivicSide</h3>
+                        <h5 class="category-title">CivicSide</h5>
                         <div class="clubs-grid">
                             <div class="club-option" data-club="event-club">
                                 <div class="club-checkbox"></div>
@@ -876,7 +874,7 @@
 
                     <!-- Xcape Category -->
                     <div class="club-category">
-                        <h3 class="category-title">Xcape</h3>
+                        <h5 class="category-title">Xcape</h5>
                         <div class="clubs-grid">
                             <div class="club-option" data-club="cycling-club">
                                 <div class="club-checkbox"></div>
@@ -925,29 +923,49 @@
 
     <script>
         // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log('DOM Content Loaded - Initializing Club Recruitment Form');
             
-            // Initialize Supabase client using configuration with error handling
+            // Load environment variables first
+            let env = {};
+            try {
+                env = await getEnvironment();
+                console.log('🌍 Environment loaded:', Object.keys(env));
+            } catch (error) {
+                console.error('Failed to load environment:', error);
+                // Use fallback values
+                env = {
+                    'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+                    'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo',
+                    'VITE_ENVIRONMENT': 'development',
+                    'VITE_APP_NAME': 'Sandip University Clubs',
+                    'VITE_APP_VERSION': '1.0.0'
+                };
+            }
+            
+            // Initialize Supabase client using loaded environment variables
             let supabase = null;
             try {
                 if (typeof initializeSupabase === 'function') {
-                    supabase = initializeSupabase();
+                    supabase = initializeSupabase(env);
                 } else if (typeof window.createSupabaseClient === 'function') {
                     console.warn('initializeSupabase not available, using singleton createSupabaseClient');
-                    supabase = window.createSupabaseClient();
+                    supabase = window.createSupabaseClient(env);
                 } else if (window.supabaseClient) {
                     console.warn('Using existing supabaseClient instance');
                     supabase = window.supabaseClient;
                 } else {
-                    console.warn('No Supabase initialization methods available, using direct fallback');
-                    // Only create a new client if absolutely no other option exists
+                    console.warn('No Supabase initialization methods available, using direct initialization');
+                    // Create client directly with environment variables
                     const SupabaseLib = window.SupabaseLibrary || window.supabase;
                     if (SupabaseLib && SupabaseLib.createClient) {
-                        supabase = SupabaseLib.createClient('https://ycuxzzwlucnrhgpsucqc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo');
-                        console.warn('⚠️ Created fallback Supabase client - this may cause multiple instance warning');
+                        supabase = SupabaseLib.createClient(
+                            env.VITE_SUPABASE_URL, 
+                            env.VITE_SUPABASE_ANON_KEY
+                        );
+                        console.log('✅ Supabase client created with environment variables');
                     } else {
-                        console.error('Supabase library not available for fallback initialization');
+                        console.error('Supabase library not available');
                     }
                 }
             } catch (error) {

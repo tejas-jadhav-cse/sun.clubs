@@ -647,7 +647,7 @@ input:focus-within,
 textarea:focus,
 textarea:focus-visible,
 textarea:focus-within {
-  border: none;
+  border: 1px solid;
   outline: none;
 }
 

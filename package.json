@@ -4,9 +4,9 @@
   "description": "Sandip University Clubs and Fests website",
   "main": "index.html",
   "scripts": {
-    "dev": "npx http-server -p 8000 -c-1",
-    "start": "npx http-server -p 8000",
-    "serve": "npx http-server -p 3000 -c-1",
+    "dev": "npx http-server -p 8000 -c-1 --cors",
+    "start": "npx http-server -p 8000 --cors",
+    "serve": "npx http-server -p 3000 -c-1 --cors",
     "test": "echo \"No tests specified\""
   },
   "keywords": [

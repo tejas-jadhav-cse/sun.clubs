@@ -1,35 +1,36 @@
 /**
  * Secure Supabase Configuration for Club Recruitment
  * 
- * SECURITY NOTE: This now uses the secure configuration manager
- * Environment variables should be set up properly for production
+ * SECURITY NOTE: This now uses environment variables from .env file
+ * Make sure env-loader.js is loaded before this file
  */
 
-// Import configuration manager
-// Note: Make sure config-manager.js is loaded before this file
-
-// Get secure configuration
-const SUPABASE_CONFIG = (() => {
+// Get configuration from environment variables
+async function getSupabaseConfigFromEnv() {
     try {
-        if (typeof configManager === 'undefined') {
-            console.warn('⚠️ Configuration manager not loaded. Please include config-manager.js first.');
-            // Return fallback configuration for testing
+        if (typeof getEnvironment === 'function') {
+            const env = await getEnvironment();
+            return {
+                url: env.VITE_SUPABASE_URL,
+                anonKey: env.VITE_SUPABASE_ANON_KEY
+            };
+        } else {
+            console.warn('⚠️ Environment loader not available. Using fallback configuration.');
+            // Fallback configuration
             return {
                 url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
                 anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
             };
         }
-        return configManager.getSupabaseConfig();
     } catch (error) {
-        console.error('❌ Configuration Error:', error.message);
-        console.warn('⚠️ Using fallback configuration for testing');
+        console.error('❌ Failed to load environment configuration:', error);
         // Return fallback configuration
         return {
             url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
             anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
         };
     }
-})();
+}
 
 // Store the original Supabase library reference before we overwrite window.supabase
 const SupabaseLibrary = window.supabase;
@@ -37,8 +38,8 @@ const SupabaseLibrary = window.supabase;
 // Singleton Supabase client instance
 let supabaseClientInstance = null;
 
-// Initialize Supabase client with secure configuration (singleton pattern)
-function createSupabaseClient() {
+// Initialize Supabase client with environment configuration (singleton pattern)
+async function createSupabaseClient(envOverride = null) {
     // Return existing instance if already created
     if (supabaseClientInstance) {
         console.log('🔄 Returning existing Supabase client instance');
@@ -46,9 +47,12 @@ function createSupabaseClient() {
     }
 
     try {
+        // Get configuration from environment or use override
+        const config = envOverride || await getSupabaseConfigFromEnv();
+        
         if (SupabaseLibrary && SupabaseLibrary.createClient) {
-            supabaseClientInstance = SupabaseLibrary.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-            console.log('✅ Single Supabase client created');
+            supabaseClientInstance = SupabaseLibrary.createClient(config.url, config.anonKey);
+            console.log('✅ Single Supabase client created with environment variables');
             return supabaseClientInstance;
         } else {
             console.warn('⚠️ Supabase library not available during client creation');
@@ -60,13 +64,14 @@ function createSupabaseClient() {
     }
 }
 
-// Create the initial client instance
-const supabase = createSupabaseClient();
-
-// Make supabase client available globally (but preserve library access)
-if (supabase) {
-    window.supabaseClient = supabase;
+// Initialize Supabase function that can be called from HTML
+async function initializeSupabase(envOverride = null) {
+    return await createSupabaseClient(envOverride);
 }
+
+// Make functions available globally
+window.initializeSupabase = initializeSupabase;
+window.createSupabaseClient = createSupabaseClient;
 // Keep the original library accessible
 window.SupabaseLibrary = SupabaseLibrary;
 // Expose the singleton creation function
