@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <link rel="icon" href="./images/mu-fav-ico.png" type="image/x-icon">
+    <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="./css/category-buttons.css">
     <link rel="stylesheet" href="./css/council-popup.css">
     <link rel="stylesheet" href="./css/chairperson.css">
+    <link rel="stylesheet" href="./css/whatsapp-popup.css">
     <script src="./js/jquery.min.js"></script>
     <script src="./js/logger.js"></script>
     <script src="./js/swiper-bundle.min.js"></script>
@@ -76,6 +77,9 @@
                             <a href="./event-calendar.html" class="megaLink" id="nav__event-calendar">
                                 Event Calendar
                             </a>
+                            <a href="https://www.sandipuniversity.edu.in/blog/events/" class="megaLink" id="nav__recent-events">
+                                Recent Events
+                            </a>
                             <a href="./president-login.html" class="megaLink" id="nav__president-login">
                                 Club Admin
                             </a>
@@ -102,6 +106,10 @@
 
                         <a href="./event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Event Calendar
+                        </a>
+
+                        <a href="https://www.sandipuniversity.edu.in/blog/events/" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Recent Events
                         </a>
 
                         <a href="./president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
@@ -2627,7 +2635,7 @@ tech enthusiasts ready to make a difference.</p>
                     <p>Sports Secretary</p>
                     <p>School of Science</p>
                     <div class="member-social">
-                        <!-- <a href="#"><img src="./images/linkedin.svg" alt="LinkedIn"></a> -->
+                        <a href="https://www.linkedin.com/in/anuj-ugle-b2b2b9252?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
                         <a href="mailto:anujugle.sol@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
                     </div>
                 </div>
@@ -2844,6 +2852,136 @@ tech enthusiasts ready to make a difference.</p>
             // Initial setup and handle resize
             handleScrollBehavior();
             window.addEventListener('resize', handleScrollBehavior);
+        });
+    </script>
+
+    <!-- WhatsApp Community Pop-up -->
+    <div id="whatsappPopup" class="whatsapp-popup hidden">
+        <div class="whatsapp-popup-content">
+            <p class="whatsapp-popup-text">New to Clubs, join WhatsApp community Now!</p>
+            <a href="https://chat.whatsapp.com/KOMuHaYLhrk0KXjeTkpYpi" 
+               target="_blank" 
+               class="whatsapp-popup-button" 
+               id="joinNowBtn">
+                Join Now
+            </a>
+            <div class="whatsapp-popup-close" id="closePopup">&times;</div>
+        </div>
+    </div>
+
+    <script>
+        // WhatsApp Popup Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('whatsappPopup');
+            const closeBtn = document.getElementById('closePopup');
+            const joinBtn = document.getElementById('joinNowBtn');
+            
+            let isPopupVisible = true;
+            let scrollTimeout;
+            let autoHideTimeout;
+            let lastScrollY = window.scrollY;
+            
+            // Show popup initially
+            setTimeout(() => {
+                if (isPopupVisible) {
+                    showPopup();
+                }
+            }, 1000); // Delay to ensure page is loaded
+            
+            // Auto-hide after 120 seconds (2 minutes)
+            autoHideTimeout = setTimeout(() => {
+                if (isPopupVisible) {
+                    hidePopup();
+                    isPopupVisible = false;
+                }
+            }, 120000); // 120000ms = 2 minutes
+            
+            // Scroll behavior
+            window.addEventListener('scroll', () => {
+                if (!isPopupVisible) return;
+                
+                const currentScrollY = window.scrollY;
+                const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+                
+                // Clear existing timeout
+                clearTimeout(scrollTimeout);
+                
+                if (scrollDirection === 'down' && currentScrollY > 100) {
+                    // Scrolling down - hide popup
+                    hidePopup();
+                } else if (scrollDirection === 'up' || currentScrollY <= 100) {
+                    // Scrolling up or near top - show popup
+                    showPopup();
+                }
+                
+                // Debounce scroll events
+                scrollTimeout = setTimeout(() => {
+                    lastScrollY = currentScrollY;
+                }, 100);
+                
+                lastScrollY = currentScrollY;
+            });
+            
+            // Close button functionality
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hidePopup();
+                isPopupVisible = false;
+                clearTimeout(autoHideTimeout);
+            });
+            
+            // Join button click tracking
+            joinBtn.addEventListener('click', () => {
+                // Hide popup when user clicks join
+                hidePopup();
+                isPopupVisible = false;
+                clearTimeout(autoHideTimeout);
+                
+                // Optional: Log the click for analytics
+                if (typeof logger !== 'undefined') {
+                    logger.log('WhatsApp Community Join Clicked');
+                }
+            });
+            
+            // Show popup function
+            function showPopup() {
+                popup.classList.remove('hidden');
+                popup.classList.add('show');
+                popup.classList.add('animate-in');
+                popup.classList.remove('animate-out');
+            }
+            
+            // Hide popup function
+            function hidePopup() {
+                popup.classList.add('animate-out');
+                popup.classList.remove('animate-in');
+                
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                    popup.classList.remove('show');
+                }, 400);
+            }
+            
+            // Prevent popup from showing if user has interacted with main content
+            let hasInteracted = false;
+            const interactionEvents = ['click', 'scroll', 'keydown', 'touchstart'];
+            
+            interactionEvents.forEach(event => {
+                document.addEventListener(event, () => {
+                    hasInteracted = true;
+                }, { once: true, passive: true });
+            });
+            
+            // Enhanced responsive behavior
+            function handleResize() {
+                if (window.innerWidth <= 480) {
+                    popup.style.transform = 'translateX(-50%)';
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Initial call
         });
     </script>
 </body>
