@@ -234,6 +234,283 @@
 
             </script>
         </div>
+
+        <!-- DEVELOPMENT CAUTION MESSAGE - START -->
+        <!-- This section can be easily removed once development is complete -->
+        <div id="development-notice" class="development-notice">
+            <div class="development-notice-container">
+                <div class="development-notice-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="development-notice-content">
+                    <h3 class="development-notice-title">🚧 Site Under Development</h3>
+                    <p class="development-notice-text">
+                        We are currently working on it! Some features may misbehave. 
+                        Thanks for your cooperation and understanding.
+                    </p>
+                </div>
+                <button class="development-notice-close" onclick="closeDevelopmentNotice()" aria-label="Close notice">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <style>
+            .development-notice {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff6b6b, #ffa500);
+                color: white;
+                padding: 16px 20px;
+                border-radius: 12px;
+                z-index: 9999;
+                box-shadow: 0 8px 32px rgba(255, 107, 107, 0.4);
+                max-width: 400px;
+                width: calc(100vw - 40px);
+                animation: slideUpFadeIn 0.5s ease-out;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .development-notice-container {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                position: relative;
+            }
+
+            .development-notice-icon {
+                flex-shrink: 0;
+                width: 24px;
+                height: 24px;
+                color: white;
+            }
+
+            .development-notice-content {
+                flex: 1;
+            }
+
+            .development-notice-title {
+                font-family: 'go-medium', Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                margin: 0 0 4px 0;
+                color: white;
+            }
+
+            .development-notice-text {
+                font-family: 'go-regular', Arial, sans-serif;
+                font-size: 14px;
+                margin: 0;
+                opacity: 0.95;
+                line-height: 1.4;
+            }
+
+            .development-notice-close {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 50%;
+                transition: background-color 0.3s ease;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            }
+
+            .development-notice-close:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .development-notice.hidden {
+                display: none;
+            }
+
+            .development-notice.fade-out {
+                animation: slideDownFadeOut 0.5s ease-out forwards;
+            }
+
+            @keyframes slideUpFadeIn {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes slideDownFadeOut {
+                from {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+            }
+
+            /* Progress bar for auto-hide countdown */
+            .development-notice-progress {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 0 0 12px 12px;
+                animation: progressCountdown 10s linear forwards;
+            }
+
+            @keyframes progressCountdown {
+                from {
+                    width: 100%;
+                }
+                to {
+                    width: 0%;
+                }
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .development-notice {
+                    bottom: 15px;
+                    right: 15px;
+                    left: 15px;
+                    width: auto;
+                    max-width: none;
+                    padding: 14px 16px;
+                }
+
+                .development-notice-container {
+                    gap: 12px;
+                }
+
+                .development-notice-title {
+                    font-size: 14px;
+                }
+
+                .development-notice-text {
+                    font-size: 13px;
+                }
+
+                .development-notice-icon {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .development-notice-close {
+                    top: 6px;
+                    right: 6px;
+                    padding: 6px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .development-notice {
+                    bottom: 10px;
+                    right: 10px;
+                    left: 10px;
+                    padding: 12px 14px;
+                }
+
+                .development-notice-container {
+                    gap: 10px;
+                }
+
+                .development-notice-title {
+                    font-size: 13px;
+                    margin-bottom: 2px;
+                }
+
+                .development-notice-text {
+                    font-size: 12px;
+                    line-height: 1.3;
+                }
+
+                .development-notice-close {
+                    top: 4px;
+                    right: 4px;
+                    padding: 4px;
+                }
+            }
+
+            /* High contrast mode support */
+            @media (prefers-contrast: high) {
+                .development-notice {
+                    background: #ff4444;
+                    border: 2px solid #fff;
+                }
+            }
+
+            /* Reduced motion support */
+            @media (prefers-reduced-motion: reduce) {
+                .development-notice {
+                    animation: none;
+                }
+                
+                .development-notice.fade-out {
+                    animation: none;
+                    opacity: 0;
+                }
+                
+                .development-notice-progress {
+                    animation: none;
+                }
+            }
+        </style>
+
+        <script>
+            function closeDevelopmentNotice() {
+                const notice = document.getElementById('development-notice');
+                if (notice) {
+                    notice.classList.add('fade-out');
+                    
+                    setTimeout(() => {
+                        notice.classList.add('hidden');
+                    }, 500);
+                    
+                    // Store in localStorage so it stays closed during the session
+                    localStorage.setItem('developmentNoticeHidden', 'true');
+                }
+            }
+
+            // Auto-hide functionality and initialization
+            document.addEventListener('DOMContentLoaded', function() {
+                const notice = document.getElementById('development-notice');
+                
+                // Check if notice was previously closed
+                if (localStorage.getItem('developmentNoticeHidden') === 'true') {
+                    notice.classList.add('hidden');
+                    return;
+                }
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    if (!notice.classList.contains('hidden')) {
+                        closeDevelopmentNotice();
+                    }
+                }, 10000); // 10 seconds
+                
+                // Add progress bar element
+                const progressBar = document.createElement('div');
+                progressBar.className = 'development-notice-progress';
+                notice.appendChild(progressBar);
+            });
+        </script>
+        <!-- DEVELOPMENT CAUTION MESSAGE - END -->
+
         <main class="festPage intersectFiveHomePage techDsaiHomePage dsaiMobView">
             <section class="festHero">
                 <div class="festHeroWrapper">
@@ -780,6 +1057,54 @@
                                         </li>
                                     </ul>
                                 </div>
+
+                                <!-- CivicSide Content -->
+                                <div id="civicside-content" class="tab-content">
+                                    <ul class="sidebar-list">
+                                        <li class="sidebar-item active" data-target="event-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Event Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="media-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Media Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="helping-hand-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Helping Hand Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="youth-empowerment-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Youth Empowerment Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="women-empowerment-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Women Empowerment Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="ecological-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Ecological Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="fitness-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Fitness Club
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Xcape Content -->
+                                <div id="xcape-content" class="tab-content">
+                                    <ul class="sidebar-list">
+                                        <li class="sidebar-item active" data-target="cycling-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Cycling Club
+                                        </li>
+                                        <li class="sidebar-item" data-target="trekking-club">
+                                            <img class="arrowIconsrc" src="./images/Frame4273217543.svg">
+                                            Trekking Club
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
                             <div class="content-area" id="content-area">
@@ -1027,7 +1352,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="photography-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/SECTClub.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag23.webp">
                                                         <div class="marketingTextBoxi">
@@ -1042,7 +1367,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="literary-drama-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/Interfrat3.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag25.webp">
                                                         <div class="marketingTextBoxi">
@@ -1057,7 +1382,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="painting-art-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/BeverageMakingCompetition.11.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag23.webp">
                                                         <div class="marketingTextBoxi">
@@ -1072,7 +1397,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="music-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/CommunityJammingSession.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag31.webp">
                                                         <div class="marketingTextBoxi">
@@ -1087,7 +1412,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="quiz-debate-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/DebateWorkshop1.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag29.webp">
                                                         <div class="marketingTextBoxi">
@@ -1102,7 +1427,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="movie-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/SECTClub2.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag25.webp">
                                                         <div class="marketingTextBoxi">
@@ -1117,7 +1442,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="culinary-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/VisittoAaharFair2026.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag30.webp">
                                                         <div class="marketingTextBoxi">
@@ -1132,7 +1457,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="talk-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/DebateWorkshop1.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag29.webp">
                                                         <div class="marketingTextBoxi">
@@ -1148,7 +1473,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <div class="content-group" id="event-club" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="./images/DataCommunityMixer12.webp">
+                                                    <img src="./images/Frame1321316939.webp">
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag24.webp">
                                                         <div class="marketingTextBoxi">
@@ -1877,7 +2202,7 @@ tech enthusiasts ready to make a difference.</p>
                                         <picture>
                                             <source srcset="images/celeb2512.webp" media="(max-width: 767px)">
 
-                                            <img loading="lazy" src="./images/celeb2511.webp" alt="Glimpse">
+                                            <img loading="lazy" src="./images/celeb2511.webp" alt="Glimpse" style="border-radius: 12px;">
 
                                         </picture>
                                     </div>
@@ -2136,16 +2461,8 @@ tech enthusiasts ready to make a difference.</p>
                     categoryContentId = 'postgraduate-committee-content';
                 } else if (categoryName === 'civicside') {
                     categoryContentId = 'civicside-content';
-                    // Create civicside content if it doesn't exist
-                    if (!document.getElementById(categoryContentId)) {
-                        createCivicSideContent();
-                    }
                 } else if (categoryName === 'xcape') {
                     categoryContentId = 'xcape-content';
-                    // Create xcape content if it doesn't exist
-                    if (!document.getElementById(categoryContentId)) {
-                        createXcapeContent();
-                    }
                 }
 
                 const currentTabContent = document.getElementById(categoryContentId);
@@ -2169,115 +2486,6 @@ tech enthusiasts ready to make a difference.</p>
                         document.getElementById('content-area').scrollLeft = 0;
                     }
                 }
-            }
-
-            // Function to create CivicSide content if it doesn't exist
-            function createCivicSideContent() {
-                const civicSideContent = document.createElement('div');
-                civicSideContent.id = 'civicside-content';
-                civicSideContent.className = 'tab-content';
-
-                const sidebarList = document.createElement('ul');
-                sidebarList.className = 'sidebar-list';
-
-                // Add items for CivicSide category
-                const civicSideItems = categoryData.civicside;
-                civicSideItems.forEach((itemId, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'sidebar-item' + (index === 0 ? ' active' : '');
-                    li.setAttribute('data-target', itemId);
-
-                    const img = document.createElement('img');
-                    img.className = 'arrowIconsrc';
-                    img.src = 'images/Frame4273217543.svg';
-
-                    const itemName = getClubName(itemId);
-                    li.appendChild(img);
-                    li.appendChild(document.createTextNode(itemName));
-
-                    sidebarList.appendChild(li);
-                });
-
-                civicSideContent.appendChild(sidebarList);
-                document.querySelector('.sidebar').appendChild(civicSideContent);
-            }
-
-            // Function to create Xcape content if it doesn't exist
-            function createXcapeContent() {
-                const xcapeContent = document.createElement('div');
-                xcapeContent.id = 'xcape-content';
-                xcapeContent.className = 'tab-content';
-
-                const sidebarList = document.createElement('ul');
-                sidebarList.className = 'sidebar-list';
-
-                // Add items for Xcape category
-                const xcapeItems = categoryData.xcape;
-                xcapeItems.forEach((itemId, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'sidebar-item' + (index === 0 ? ' active' : '');
-                    li.setAttribute('data-target', itemId);
-
-                    const img = document.createElement('img');
-                    img.className = 'arrowIconsrc';
-                    img.src = 'images/Frame4273217543.svg';
-
-                    const itemName = getClubName(itemId);
-                    li.appendChild(img);
-                    li.appendChild(document.createTextNode(itemName));
-
-                    sidebarList.appendChild(li);
-                });
-
-                xcapeContent.appendChild(sidebarList);
-                document.querySelector('.sidebar').appendChild(xcapeContent);
-            }
-
-            // Helper function to get readable club names from IDs
-            function getClubName(id) {
-                const nameMap = {
-                    // Tech Clubs
-                    'sect-chapter': 'SECT Chapter',
-                    'cyberx': 'CyberX',
-                    'leads-community': 'Leads Community',
-                    'innovators-club': 'Innovators Club',
-                    'science-club': 'Science Club',
-                    'aeromodeling-club': 'Aeromodeling Club',
-                    'esports-club': 'Esports Club',
-                    'act-club': 'Action for Collective Transformation Club',
-                    'webmasters-club': 'WebMasters Club',
-                    'astronomy-club': 'Astronomy Club',
-                    'mathematics-club': 'Mathematics Club',
-                    'ml-ai-robotics-club': 'Machine Learning, AI & Robotics Club',
-                    'apps-bloggers-club': 'Apps and Bloggers Club',
-                    'energy-club': 'Energy Club',
-                    
-                    // LibArts Clubs
-                    'dance-club': 'Dance Club',
-                    'photography-club': 'Photography Club',
-                    'literary-drama-club': 'Literary & Drama Club',
-                    'painting-art-club': 'Painting & Art Club',
-                    'music-club': 'Music Club',
-                    'quiz-debate-club': 'Quiz & Debate Club',
-                    'movie-club': 'Movie Club',
-                    'culinary-club': 'Culinary Club',
-                    'talk-club': 'Talk Club',
-                    
-                    // CivicSide Clubs
-                    'event-club': 'Event Club',
-                    'media-club': 'Media Club',
-                    'helping-hand-club': 'Helping Hand Club',
-                    'youth-empowerment-club': 'Youth Empowerment Club',
-                    'women-empowerment-club': 'Women Empowerment Club',
-                    'ecological-club': 'Ecological Club',
-                    'fitness-club': 'Fitness Club',
-                    
-                    // Xcape Clubs
-                    'cycling-club': 'Cycling Club',
-                    'trekking-club': 'Trekking Club'
-                };
-
-                return nameMap[id] || id.replace(/-/g, ' ');
             }
 
             document.addEventListener('click', (e) => {
@@ -2555,8 +2763,8 @@ tech enthusiasts ready to make a difference.</p>
                     <p>Joint Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <!-- <a href="#"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="#"><img src="./images/email.svg" alt="Email"></a> -->
+                        <a href="https://www.linkedin.com/in/vaibhav-sanap-788b5a287?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:vaibhavsanap.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
                     </div>
                 </div>
 
@@ -2856,6 +3064,7 @@ tech enthusiasts ready to make a difference.</p>
     </script>
 
     <!-- WhatsApp Community Pop-up -->
+    <!-- COMMENTED OUT: WhatsApp popup per user request
     <div id="whatsappPopup" class="whatsapp-popup hidden">
         <div class="whatsapp-popup-content">
             <p class="whatsapp-popup-text">New to Clubs, join WhatsApp community Now!</p>
@@ -2984,6 +3193,7 @@ tech enthusiasts ready to make a difference.</p>
             handleResize(); // Initial call
         });
     </script>
+    END COMMENTED OUT SECTION -->
 </body>
 
 </html>
