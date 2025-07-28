@@ -1258,7 +1258,7 @@ input:focus {
 }
 
 .festPage .festHero {
-  background: url('../images/MacBookPro14_5.webp'), var(--black);
+  background: url('../images/background-hero.webp'), var(--black);
   padding-bottom: 0;
   line-height: 0;
   min-height: 107vh;
