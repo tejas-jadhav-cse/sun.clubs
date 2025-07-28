@@ -90,46 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("rounded-top");
-            } else {
-                entry.target.classList.remove("rounded-top");
-            }
-        });
-    }, {
-        root: null,
-        threshold: 0.5
-    });
-
-    wrappers.forEach(wrapper => observer.observe(wrapper));
-});
-
-
-
-function isElementInViewport($el) {
-    const rect = $el[0].getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-$(document).ready(function () {
-    $('.faqquestionWraps .faqanswers').not(':first').slideUp();
-    $('.faqquestionWraps ').off('click').on('click', function (event) {
-        event.stopPropagation(); // Prevent event from propagating up the DOM tree
-        let id = $(this).attr('data-rel');
-        $(this).toggleClass('active').siblings().removeClass('active');
-        $('#' + id).slideToggle().parent().siblings().find('.faqanswers').slideUp();
-    });
-});
-
-// Function to add the "visible" class to the element when it is in the viewport
-function addClassOnScroll() {
-    const $element = $(".journeyStarts"); // Replace with the selector of your element
-
-    $element.each(function () {
         if (isElementInViewport($(this))) {
             $(this).addClass("visible");
         } else {
@@ -1805,19 +1765,6 @@ function formatDate(dateString) {
 
     return `${day}${suffix(day)} ${month} | ${dayOfWeek}`;
 }
-
-const tzMap = [
-    {
-        "timezones": [
-            "America/Aruba"
-        ],
-        "latlng": [
-            12.5,
-            -69.96666666
-        ],
-        "name": "Aruba",
-        "country_code": "AW",
-        "capital": "Oranjestad"
     },
     {
         "timezones": [
@@ -4942,44 +4889,6 @@ const tzMap = [
         "name": "Zimbabwe",
         "country_code": "ZW",
         "capital": "Harare"
-    }
-]
-
-function convertJson() {
-    const timezoneCountryMap = tzMap.reduce((acc, country) => {
-        country.timezones.forEach((timezone) => {
-            acc[timezone] = country.country_code;
-        });
-        return acc;
-    }, {});
-    console.log('start-------------------------------------');
-    console.log(JSON.stringify(timezoneCountryMap, null, 2));
-    console.log('end-------------------------------------');
-}
-// convertJson();
-
-
-// to store the every url in the DB
-
-function captureURLonEveryPageRender() {
-    const apiUrl = `https://api.mastersunion.org/api/leads/captureClicks`;
-    const pageUrl = window.location.href; // Get the full URL of the current web page
-
-    fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ url: pageUrl })
-    })
-        .then(response => response.json())
-        .then(data => console.log("Success of url save in db:", data))
-        .catch(error => console.error("Error:", error));
-}
-
-// Call the function whenever needed
-captureURLonEveryPageRender();
-
 
 
 
