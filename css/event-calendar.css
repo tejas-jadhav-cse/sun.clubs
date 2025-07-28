@@ -32,7 +32,7 @@
 }
 
 .go-HighlightHeading {
-    font-size: 120px;
+    font-size: 60px;
     line-height: 120%;
     color: var(--white);
     font-family: 'go-regular';
@@ -739,7 +739,7 @@
     }
     
     .go-HighlightHeading {
-        font-size: 140px;
+        font-size: 62px;
     }
     
     .heroParaTech {
@@ -765,7 +765,7 @@
     }
     
     .go-HighlightHeading {
-        font-size: 160px;
+        font-size: 60px;
     }
     
     .heroParaTech {
@@ -795,7 +795,7 @@
     }
     
     .go-HighlightHeading {
-        font-size: 100px;
+        font-size: 60px;
     }
     
     .heroParaTech {
@@ -828,7 +828,7 @@
     }
     
     .go-HighlightHeading {
-        font-size: 80px;
+        font-size: 50px;
     }
     
     .heroParaTech {
