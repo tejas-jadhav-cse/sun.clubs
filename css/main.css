@@ -1427,7 +1427,7 @@ input:focus {
   justify-content: center;
   align-items: center;
   border-bottom: 6px solid;
-  border-image: linear-gradient(90deg, #39B6D8 6.41%, #F7D344 51.47%, #E38330 96.52%);
+  border-image: linear-gradient(90deg, #4159d0 6.41%, #c84fc0 51.47%, #ffcd70 96.52%); 
   border-image-slice: 1;
 }
 
