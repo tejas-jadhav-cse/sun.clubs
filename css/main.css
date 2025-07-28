@@ -1408,7 +1408,7 @@ input:focus {
 }
 
 .festPage .digitsPara {
-  background: linear-gradient(280deg, #F7D344 9.39%, #E38330 101.03%);
+    background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
