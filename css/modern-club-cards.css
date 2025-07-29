@@ -6,7 +6,7 @@
     border-radius: 16px;
     padding: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: none;
+    transition: none !important;
     max-width: 420px !important;
     min-height: 480px !important;
     display: flex;
@@ -15,7 +15,13 @@
     position: relative;
 }
 
-/* Remove hover effects */
+/* Completely remove all hover effects */
+.festPage .postCard:hover {
+    transform: none !important;
+    scale: none !important;
+    transition: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
 
 /* Image styling */
 .festPage .postCard > img {
@@ -23,12 +29,17 @@
     aspect-ratio: 16/9;
     border-radius: 12px;
     object-fit: cover;
-    transition: none;
+    transition: none !important;
     min-height: unset !important;
     margin-bottom: 16px;
 }
 
-/* Remove image hover effects */
+/* Remove image hover effects completely */
+.festPage .postCard > img:hover {
+    transform: none !important;
+    scale: none !important;
+    transition: none !important;
+}
 
 /* Marketing wrapper - now acts as content area */
 .festPage .postCard .marketingWrapper {
@@ -41,6 +52,14 @@
     flex-grow: 1;
     gap: 12px;
     background: transparent;
+    transition: none !important;
+}
+
+/* Remove marketing wrapper hover effects */
+.festPage .postCard .marketingWrapper:hover {
+    transform: none !important;
+    scale: none !important;
+    transition: none !important;
 }
 
 /* Hide the icon tag */
@@ -545,4 +564,156 @@
     .festPage .gradientTextMarketing {
         font-size: 17px !important;
     }
+}
+
+/* ========================================
+   COMPREHENSIVE HOVER EFFECTS REMOVAL
+   ======================================== */
+
+/* Remove ALL possible hover effects on club cards and related elements with maximum specificity */
+.festPage .content-group:hover,
+.festPage .content-card:hover,
+.festPage .content-card .postCard:hover,
+.festPage .postCard:hover,
+.festPage .postCard .marketingWrapper:hover,
+.festPage .marketingWrapper:hover,
+.festPage .marketingTextBoxi:hover,
+.festPage .headingMarket:hover,
+.festPage .primaryText:hover,
+.festPage .club-tagline:hover,
+.festPage .member-count:hover,
+.modern-club-card:hover,
+.card-content:hover,
+.club-name:hover,
+.club-description:hover,
+.festPage .gridBox:hover,
+.festPage .postCard:hover .marketingWrapper,
+.festPage .postCard:hover img {
+    transform: none !important;
+    scale: none !important;
+    transition: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    opacity: 1 !important;
+    filter: none !important;
+    animation: none !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+}
+
+/* Remove hover effects on images within club cards with maximum specificity */
+.festPage .postCard > img:hover,
+.festPage .content-card .postCard > img:hover,
+.festPage .marketingWrapper > img:hover,
+.card-image:hover,
+.festPage .gridBox img:hover,
+.festPage .postCard:hover > img {
+    transform: none !important;
+    scale: none !important;
+    transition: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+}
+
+/* Ensure no transitions on any club card related elements with maximum specificity */
+.festPage .content-group,
+.festPage .content-card,
+.festPage .content-card .postCard,
+.festPage .postCard,
+.festPage .postCard .marketingWrapper,
+.festPage .marketingWrapper,
+.festPage .marketingTextBoxi,
+.festPage .postCard > img,
+.festPage .content-card .postCard > img,
+.modern-club-card,
+.card-content,
+.card-image,
+.festPage .gridBox,
+.festPage .gridBox img {
+    transition: none !important;
+    animation: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+}
+
+/* Additional overrides for any remaining hover effects */
+* .festPage .postCard:hover,
+* .festPage .content-card:hover,
+* .festPage .gridBox:hover {
+    transform: none !important;
+    -webkit-transform: none !important;
+}
+
+/* Override any external CSS that might add hover effects */
+.festPage .postCard,
+.festPage .content-card,
+.festPage .gridBox {
+    will-change: auto !important;
+}
+
+/* Disable pointer events animations */
+.festPage .postCard *,
+.festPage .content-card *,
+.festPage .gridBox * {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* CRITICAL: Override main.css gridBox hover effects completely */
+.festPage .gridBox:hover::before {
+    opacity: 0 !important;
+    transition: none !important;
+    visibility: hidden !important;
+    display: none !important;
+}
+
+.festPage .gridBox:hover .overLayDetail {
+    bottom: -100% !important;
+    transition: none !important;
+    height: 50% !important;
+    transition-delay: 0s !important;
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important;
+}
+
+/* Nuclear option: Disable ALL hover effects on gridBox */
+.festPage .gridBox,
+.festPage .gridBox::before,
+.festPage .gridBox .overLayDetail {
+    transition: none !important;
+    -webkit-transition: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
+}
+
+.festPage .gridBox:hover,
+.festPage .gridBox:hover::before,
+.festPage .gridBox:hover .overLayDetail,
+.festPage .gridBox:hover * {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    opacity: inherit !important;
+    scale: 1 !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure overlay stays hidden on hover */
+.festPage .gridBox .overLayDetail {
+    bottom: -100% !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
