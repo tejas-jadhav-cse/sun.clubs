@@ -2,6 +2,31 @@
 
 A comprehensive club recruitment system with form submission, data validation, and admin dashboard - integrated with Supabase for backend data management.
 
+## 🚨 SECURITY NOTICE
+
+**This project has been secured and no longer contains hardcoded credentials.** 
+
+**⚠️ IMPORTANT:** Before deploying, you MUST set up environment variables. See [NETLIFY_SETUP.md](NETLIFY_SETUP.md) for detailed instructions.
+
+## 🔧 Environment Setup
+
+### Required Environment Variables
+```
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_APP_NAME=Sandip University Clubs
+VITE_APP_VERSION=1.0.0
+VITE_ENVIRONMENT=production
+```
+
+### Quick Setup for Netlify
+1. Copy `.env.example` to `.env`
+2. Fill in your actual Supabase credentials
+3. Set the same variables in your Netlify dashboard
+4. Deploy
+
+📖 **See [NETLIFY_SETUP.md](NETLIFY_SETUP.md) for complete setup instructions**
+
 ## 🌟 Features
 
 ### Student Application Form (`club-recruitment.html`)

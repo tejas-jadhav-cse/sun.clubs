@@ -85,14 +85,16 @@ class EnvironmentLoader {
     }
 
     loadFallbackEnvironment() {
-        // Fallback configuration
-        this.env = {
-            'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-            'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo',
-            'VITE_ENVIRONMENT': 'development',
-            'VITE_APP_NAME': 'Sandip University Clubs',
-            'VITE_APP_VERSION': '1.0.0'
-        };
+        // No fallback configuration - require environment variables
+        console.error('🚨 CRITICAL: No environment variables found!');
+        console.error('Please set the following environment variables:');
+        console.error('- VITE_SUPABASE_URL');
+        console.error('- VITE_SUPABASE_ANON_KEY');
+        console.error('- VITE_ENVIRONMENT');
+        console.error('- VITE_APP_NAME');
+        console.error('- VITE_APP_VERSION');
+        
+        throw new Error('Missing required environment variables. Please configure your hosting platform.');
     }
 
     get(key) {

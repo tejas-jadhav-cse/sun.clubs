@@ -1,27 +1,30 @@
 /**
  * Static Configuration for Basic Hosting
  * Use this when deploying to basic static hosting that doesn't support environment variables
+ * WARNING: This file should NOT be used if environment variables are available
  */
 
-// Replace the complex config manager with simple static config
-window.__STATIC_CONFIG__ = {
-    supabase: {
-        url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+// Check if environment variables are available first
+if (typeof window !== 'undefined' && (window.__ENV__ || window.__MANUAL_ENV__)) {
+    console.log('🔧 Environment variables detected, skipping static config');
+} else {
+    console.error('🚨 CRITICAL: No environment configuration found!');
+    console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables in your hosting platform.');
+    throw new Error('Missing Supabase configuration. Please set environment variables.');
+}
+
+// Provide fallback config manager that throws errors for missing config
+window.configManager = {
+    getSupabaseConfig: () => {
+        throw new Error('🚨 No Supabase configuration available. Please set environment variables.');
     },
-    app: {
+    getAppConfig: () => ({
         name: 'Sandip University Clubs',
         version: '1.0.0',
         environment: 'production'
-    }
-};
-
-// Provide fallback config manager for static hosting
-window.configManager = {
-    getSupabaseConfig: () => window.__STATIC_CONFIG__.supabase,
-    getAppConfig: () => window.__STATIC_CONFIG__.app,
+    }),
     isAdminEnabled: () => false,
     getEnvironment: () => 'production'
 };
 
-console.log('🔧 Static configuration loaded for basic hosting');
+console.log('🔧 Static configuration loaded - environment variables required');

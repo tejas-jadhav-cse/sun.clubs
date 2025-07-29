@@ -349,11 +349,10 @@
             if (typeof getEnvironment === 'function') {
               env = await getEnvironment();
             } else {
-              // Fallback environment variables
-              env = {
-                'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-                'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-              };
+              // No fallback - require environment variables
+              console.error('🚨 CRITICAL: No environment variables found!');
+              console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
+              throw new Error('Missing required environment variables');
             }
             
             // Initialize Supabase client with proper error handling
@@ -766,11 +765,10 @@
             if (typeof getEnvironment === 'function') {
               env = await getEnvironment();
             } else {
-              // Fallback environment variables
-              env = {
-                'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-                'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-              };
+              // No fallback - require environment variables
+              console.error('🚨 CRITICAL: No environment variables found!');
+              console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
+              throw new Error('Missing required environment variables');
             }
             
             // Initialize Supabase client with proper error handling
@@ -921,11 +919,10 @@
                 if (typeof getEnvironment === 'function') {
                   env = await getEnvironment();
                 } else {
-                  // Fallback environment variables
-                  env = {
-                    'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-                    'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-                  };
+                  // No fallback - require environment variables
+                  console.error('🚨 CRITICAL: No environment variables found!');
+                  console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
+                  throw new Error('Missing required environment variables');
                 }
                 
                 // Initialize Supabase client with proper error handling

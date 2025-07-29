@@ -52,10 +52,7 @@ async function getSupabaseConfigFromEnv() {
 }
 
 function getFallbackConfig() {
-    return {
-        url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-    };
+    throw new Error('🚨 SECURITY: No Supabase configuration found! Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
 }
 
 // Store the original Supabase library reference before we overwrite window.supabase
@@ -235,8 +232,8 @@ const MESSAGES = {
 
 // Fallback Supabase configuration (will be replaced by environment variables)
 const SUPABASE_CONFIG = {
-    url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+    url: '',
+    anonKey: ''
 };
 
 /**
