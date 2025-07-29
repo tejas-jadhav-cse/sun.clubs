@@ -1,5 +1,13 @@
 /* Cleaned up version of main.css - Only used CSS classes */
 
+/* Font face declarations */
+@font-face {
+  font-family: "The Seasons";
+  src: url('../fonts/The Seasons Font/fonnts.com-theseasons-bd.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
 /* File input focus styles */
 input[type="file"]:focus-within {
   outline: none !important;
@@ -1279,16 +1287,20 @@ input:focus {
   top: 8%;
 }
 
-.festPage .festHeroHeading {
+.festPage .HeroHeading {
   font-size: 160px;
   font-style: italic;
   font-weight: 600;
   line-height: 150%;
   color: var(--white);
-  font-family: "Fraunces", serif;
+  font-family: "Zilla Slab", serif;; 
   white-space: nowrap;
   padding-right: 10px;
+  letter-spacing: -3.5px;
 }
+
+  /* sexy font: font-family: "Fraunces", serif; */
+
 
 .festPage .tiltedCardWrapper {
   overflow: visible;
