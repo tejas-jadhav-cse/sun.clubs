@@ -36,6 +36,8 @@
     
     <!-- Environment Variables Loader -->
     <script src="./js/env-loader.js"></script>
+    <!-- Error Boundary -->
+    <script src="./js/error-boundary.js"></script>
     
     <script src="./js/jquery.min.js"></script>
     <script src="./js/input-validator.js"></script>
@@ -923,8 +925,13 @@
             // Load environment variables first
             let env = {};
             try {
-                env = await getEnvironment();
-                console.log('🌍 Environment loaded:', Object.keys(env));
+                if (typeof getEnvironment === 'function') {
+                    env = await getEnvironment();
+                    console.log('🌍 Environment loaded:', Object.keys(env));
+                } else {
+                    console.warn('⚠️ getEnvironment function not available, using fallback');
+                    throw new Error('getEnvironment not available');
+                }
             } catch (error) {
                 console.error('Failed to load environment:', error);
                 // Use fallback values
@@ -941,10 +948,15 @@
             let supabase = null;
             try {
                 if (typeof initializeSupabase === 'function') {
-                    supabase = initializeSupabase(env);
+                    supabase = await initializeSupabase(env);
+                    if (supabase) {
+                        console.log('✅ Supabase client initialized successfully');
+                    } else {
+                        console.warn('⚠️ Supabase client initialization returned null');
+                    }
                 } else if (typeof window.createSupabaseClient === 'function') {
                     console.warn('initializeSupabase not available, using singleton createSupabaseClient');
-                    supabase = window.createSupabaseClient(env);
+                    supabase = await window.createSupabaseClient(env);
                 } else if (window.supabaseClient) {
                     console.warn('Using existing supabaseClient instance');
                     supabase = window.supabaseClient;
@@ -1012,6 +1024,7 @@
                         'SP': ['Pharmacy', 'Pharmaceutical Sciences'],
                         'SIPS': ['Physiotherapy', 'Occupational Therapy'],
                         'Jr. College': ['Science', 'Commerce', 'Arts']
+                        
                     }
                 },
                 university: {

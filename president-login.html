@@ -26,13 +26,17 @@
   <link rel="stylesheet" href="./css/category-buttons.css">
   <link rel="stylesheet" href="./css/council-popup.css">
   <link rel="stylesheet" href="./css/president.css">
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Environment Variables Loader -->
+  <script src="./js/env-loader.js"></script>
+  
   <!-- Core Libraries -->
   <script src="./js/jquery.min.js"></script>
   <script src="./js/swiper-bundle.min.js"></script>
   <script src="./js/filestack.min.js"></script>
-  
-  <!-- Supabase JS Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <!-- Core utility scripts (load in order) -->
   <script src="./js/config-manager.js"></script>
@@ -49,8 +53,28 @@
     // Initialize error handling early
     window.addEventListener('error', function(e) {
       console.error('JavaScript Error:', e.error);
-      if (e.error && e.error.message && e.error.message.includes('supabase')) {
-        console.error('Supabase configuration error. Please check your setup.');
+      if (e.error && e.error.message) {
+        if (e.error.message.includes('supabase')) {
+          console.error('Supabase configuration error. Please check your setup.');
+        } else if (e.error.message.includes('Cannot read properties of undefined')) {
+          console.error('Undefined property access error. This usually means a dependency is not loaded yet.');
+          // Try to show a user-friendly message
+          if (typeof showModernErrorMessage === 'function') {
+            showModernErrorMessage('System is still loading. Please wait a moment and try again.');
+          }
+        }
+      }
+    });
+    
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(e) {
+      console.error('Unhandled Promise Rejection:', e.reason);
+      if (e.reason && e.reason.message && e.reason.message.includes('Cannot read properties of undefined')) {
+        console.error('Promise rejection due to undefined property access');
+        if (typeof showModernErrorMessage === 'function') {
+          showModernErrorMessage('System is still loading. Please wait a moment and try again.');
+        }
+        e.preventDefault(); // Prevent the error from appearing in console
       }
     });
   </script>
@@ -316,18 +340,44 @@
         const password = document.getElementById('password').value;
         
         try {
-          // Initialize Supabase client using singleton pattern
-          let supabaseClient = window.createSupabaseClient ? window.createSupabaseClient() : null;
+          // Initialize Supabase client using environment variables
+          let supabaseClient = null;
           
-          if (!supabaseClient) {
-            // Fallback: try to use global supabaseClient or initialize directly
-            if (window.supabaseClient) {
-              supabaseClient = window.supabaseClient;
-            } else if (typeof initializeSupabase === 'function') {
-              supabaseClient = initializeSupabase();
+          try {
+            // Load environment variables first
+            let env = {};
+            if (typeof getEnvironment === 'function') {
+              env = await getEnvironment();
             } else {
-              throw new Error('Supabase client not available. Please check configuration.');
+              // Fallback environment variables
+              env = {
+                'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+                'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+              };
             }
+            
+            // Initialize Supabase client with proper error handling
+            if (typeof initializeSupabase === 'function') {
+              supabaseClient = await initializeSupabase(env);
+            } else if (typeof window.createSupabaseClient === 'function') {
+              supabaseClient = await window.createSupabaseClient(env);
+            } else if (window.supabaseClient) {
+              supabaseClient = window.supabaseClient;
+            } else {
+              // Direct initialization as fallback
+              const SupabaseLib = window.supabase;
+              if (SupabaseLib && SupabaseLib.createClient) {
+                supabaseClient = SupabaseLib.createClient(
+                  env.VITE_SUPABASE_URL, 
+                  env.VITE_SUPABASE_ANON_KEY
+                );
+              } else {
+                throw new Error('Supabase library not available');
+              }
+            }
+          } catch (initError) {
+            console.error('Supabase initialization error:', initError);
+            throw new Error('Failed to initialize database connection. Please refresh the page and try again.');
           }
           
           if (!supabaseClient) {
@@ -707,19 +757,58 @@
       // Check if user is already logged in - separate function
       async function checkExistingSession() {
         try {
-          // Check if supabase is available
-          if (typeof supabase === 'undefined') {
-            console.error('Supabase not loaded for session check');
+          // Initialize Supabase client first
+          let supabaseClient = null;
+          
+          try {
+            // Load environment variables first
+            let env = {};
+            if (typeof getEnvironment === 'function') {
+              env = await getEnvironment();
+            } else {
+              // Fallback environment variables
+              env = {
+                'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+                'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+              };
+            }
+            
+            // Initialize Supabase client with proper error handling
+            if (typeof initializeSupabase === 'function') {
+              supabaseClient = await initializeSupabase(env);
+            } else if (typeof window.createSupabaseClient === 'function') {
+              supabaseClient = await window.createSupabaseClient(env);
+            } else if (window.supabaseClient) {
+              supabaseClient = window.supabaseClient;
+            } else {
+              // Direct initialization as fallback
+              const SupabaseLib = window.supabase;
+              if (SupabaseLib && SupabaseLib.createClient) {
+                supabaseClient = SupabaseLib.createClient(
+                  env.VITE_SUPABASE_URL, 
+                  env.VITE_SUPABASE_ANON_KEY
+                );
+              } else {
+                console.warn('Supabase library not available for session check');
+                return;
+              }
+            }
+          } catch (initError) {
+            console.error('Supabase initialization error during session check:', initError);
             return;
           }
           
-          // Test Supabase connection
+          if (!supabaseClient) {
+            console.warn('Supabase client not available for session check');
+            return;
+          }
+          
           if (typeof logger !== 'undefined') {
-            logger.debug('Testing Supabase connection');
+            logger.debug('Testing Supabase connection for session check');
           }
           
           // Try to fetch session
-          const { data: { session }, error } = await supabase.auth.getSession();
+          const { data: { session }, error } = await supabaseClient.auth.getSession();
           
           if (typeof logger !== 'undefined') {
             logger.debug('Session check result', { hasSession: !!session, hasError: !!error });
@@ -743,7 +832,7 @@
             }
             
             // Get club president data for this user
-            const { data: presidentData, error: presidentError } = await supabase
+            const { data: presidentData, error: presidentError } = await supabaseClient
               .from('club_presidents')
               .select(`
                 *,
@@ -779,9 +868,28 @@
         }
       }
       
-      // Initialize session check
+      // Initialize session check with dependency wait
       document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(checkExistingSession, 500); // Small delay to ensure dependencies are loaded
+        // Wait for all dependencies to load before checking session
+        const checkDependencies = () => {
+          const hasSupabase = typeof window.supabase !== 'undefined';
+          const hasGetEnvironment = typeof getEnvironment === 'function';
+          const hasInitializeSupabase = typeof initializeSupabase === 'function';
+          
+          if (hasSupabase && (hasGetEnvironment || hasInitializeSupabase)) {
+            console.log('✅ Dependencies loaded, checking existing session');
+            setTimeout(checkExistingSession, 100);
+          } else {
+            console.log('⏳ Waiting for dependencies...', {
+              hasSupabase,
+              hasGetEnvironment,
+              hasInitializeSupabase
+            });
+            setTimeout(checkDependencies, 200);
+          }
+        };
+        
+        checkDependencies();
       });
       
       // Handle forgot password - single event listener
@@ -790,12 +898,6 @@
         if (forgotLink) {
           forgotLink.addEventListener('click', async function(e) {
             e.preventDefault();
-            
-            // Check if supabase is available
-            if (typeof supabase === 'undefined') {
-              showModernErrorMessage('Database connection not available. Please refresh the page and try again.');
-              return;
-            }
             
             const email = document.getElementById('email').value.trim();
             
@@ -810,7 +912,51 @@
             }
 
             try {
-              const { error } = await supabase.auth.resetPasswordForEmail(email, {
+              // Initialize Supabase client
+              let supabaseClient = null;
+              
+              try {
+                // Load environment variables first
+                let env = {};
+                if (typeof getEnvironment === 'function') {
+                  env = await getEnvironment();
+                } else {
+                  // Fallback environment variables
+                  env = {
+                    'VITE_SUPABASE_URL': 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+                    'VITE_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+                  };
+                }
+                
+                // Initialize Supabase client with proper error handling
+                if (typeof initializeSupabase === 'function') {
+                  supabaseClient = await initializeSupabase(env);
+                } else if (typeof window.createSupabaseClient === 'function') {
+                  supabaseClient = await window.createSupabaseClient(env);
+                } else if (window.supabaseClient) {
+                  supabaseClient = window.supabaseClient;
+                } else {
+                  // Direct initialization as fallback
+                  const SupabaseLib = window.supabase;
+                  if (SupabaseLib && SupabaseLib.createClient) {
+                    supabaseClient = SupabaseLib.createClient(
+                      env.VITE_SUPABASE_URL, 
+                      env.VITE_SUPABASE_ANON_KEY
+                    );
+                  } else {
+                    throw new Error('Supabase library not available');
+                  }
+                }
+              } catch (initError) {
+                console.error('Supabase initialization error for password reset:', initError);
+                throw new Error('Database connection not available. Please refresh the page and try again.');
+              }
+              
+              if (!supabaseClient) {
+                throw new Error('Database connection not available. Please refresh the page and try again.');
+              }
+
+              const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
                 redirectTo: window.location.origin + '/president-login.html'
               });
 

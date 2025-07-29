@@ -31,10 +31,20 @@ class ErrorBoundary {
         // Handle resource loading errors
         window.addEventListener('error', (event) => {
             if (event.target !== window) {
+                const resourceUrl = event.target.src || event.target.href || 'unknown';
+                const elementInfo = {
+                    tag: event.target.tagName,
+                    id: event.target.id || 'no-id',
+                    class: event.target.className || 'no-class',
+                    src: event.target.src || 'no-src',
+                    href: event.target.href || 'no-href'
+                };
+                
                 this.handleError({
                     type: 'Resource Error',
-                    message: `Failed to load resource: ${event.target.src || event.target.href}`,
+                    message: `Failed to load resource: ${resourceUrl}`,
                     element: event.target.tagName,
+                    elementDetails: elementInfo,
                     timestamp: new Date().toISOString()
                 });
             }
@@ -107,6 +117,9 @@ class ErrorBoundary {
         console.error('Message:', errorInfo.message);
         if (errorInfo.filename) {
             console.error('File:', `${errorInfo.filename}:${errorInfo.line}:${errorInfo.column}`);
+        }
+        if (errorInfo.elementDetails) {
+            console.error('Element Details:', errorInfo.elementDetails);
         }
         if (errorInfo.stack) {
             console.error('Stack:', errorInfo.stack);

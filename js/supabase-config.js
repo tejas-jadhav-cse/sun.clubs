@@ -15,21 +15,47 @@ async function getSupabaseConfigFromEnv() {
                 anonKey: env.VITE_SUPABASE_ANON_KEY
             };
         } else {
-            console.warn('⚠️ Environment loader not available. Using fallback configuration.');
-            // Fallback configuration
-            return {
-                url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-                anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-            };
+            console.warn('⚠️ Environment loader not available. Waiting for it to load...');
+            
+            // Try to wait a bit for the env loader to become available
+            return new Promise((resolve) => {
+                let attempts = 0;
+                const maxAttempts = 10;
+                const checkInterval = 100; // ms
+                
+                const checkForEnvLoader = () => {
+                    attempts++;
+                    if (typeof getEnvironment === 'function') {
+                        getEnvironment().then(env => {
+                            resolve({
+                                url: env.VITE_SUPABASE_URL,
+                                anonKey: env.VITE_SUPABASE_ANON_KEY
+                            });
+                        }).catch(() => {
+                            resolve(getFallbackConfig());
+                        });
+                    } else if (attempts >= maxAttempts) {
+                        console.warn('⚠️ Environment loader still not available after waiting. Using fallback.');
+                        resolve(getFallbackConfig());
+                    } else {
+                        setTimeout(checkForEnvLoader, checkInterval);
+                    }
+                };
+                
+                checkForEnvLoader();
+            });
         }
     } catch (error) {
         console.error('❌ Failed to load environment configuration:', error);
-        // Return fallback configuration
-        return {
-            url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
-            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
-        };
+        return getFallbackConfig();
     }
+}
+
+function getFallbackConfig() {
+    return {
+        url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+    };
 }
 
 // Store the original Supabase library reference before we overwrite window.supabase
@@ -40,22 +66,36 @@ let supabaseClientInstance = null;
 
 // Initialize Supabase client with environment configuration (singleton pattern)
 async function createSupabaseClient(envOverride = null) {
+    console.log('🏗️ createSupabaseClient called with envOverride:', envOverride);
+    
     // Return existing instance if already created
     if (supabaseClientInstance) {
-        console.log('🔄 Returning existing Supabase client instance');
+        console.log('🔄 Returning existing Supabase client instance:', supabaseClientInstance);
+        console.log('🔍 Existing instance has .from method:', typeof supabaseClientInstance.from);
         return supabaseClientInstance;
     }
 
     try {
         // Get configuration from environment or use override
         const config = envOverride || await getSupabaseConfigFromEnv();
+        console.log('🔧 Using config:', { url: config.url, hasAnonKey: !!config.anonKey });
+        
+        console.log('📚 SupabaseLibrary available:', !!SupabaseLibrary);
+        console.log('📚 SupabaseLibrary.createClient available:', !!SupabaseLibrary?.createClient);
         
         if (SupabaseLibrary && SupabaseLibrary.createClient) {
+            console.log('🚀 Creating Supabase client...');
             supabaseClientInstance = SupabaseLibrary.createClient(config.url, config.anonKey);
-            console.log('✅ Single Supabase client created with environment variables');
+            console.log('✅ Single Supabase client created:', supabaseClientInstance);
+            console.log('🔍 New instance has .from method:', typeof supabaseClientInstance.from);
+            console.log('🔍 New instance methods:', Object.keys(supabaseClientInstance));
             return supabaseClientInstance;
         } else {
             console.warn('⚠️ Supabase library not available during client creation');
+            console.log('Available on window:', {
+                supabase: !!window.supabase,
+                supabaseKeys: window.supabase ? Object.keys(window.supabase) : 'N/A'
+            });
             return null;
         }
     } catch (error) {
@@ -193,30 +233,59 @@ const MESSAGES = {
     }
 };
 
+// Fallback Supabase configuration (will be replaced by environment variables)
+const SUPABASE_CONFIG = {
+    url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+};
+
 /**
  * Initialize Supabase client
- * @returns {Object|null} Supabase client or null if not configured
+ * @param {Object} envOverride - Optional environment override
+ * @returns {Promise<Object|null>} Supabase client or null if not configured
  */
-function initializeSupabase() {
-    // Check if configuration is using placeholder values
-    if (SUPABASE_CONFIG.url === 'YOUR_SUPABASE_URL' || 
-        SUPABASE_CONFIG.anonKey === 'YOUR_SUPABASE_ANON_KEY' ||
-        !SUPABASE_CONFIG.url || 
-        !SUPABASE_CONFIG.anonKey) {
-        console.warn('Supabase not configured. Please update SUPABASE_CONFIG in supabase-config.js');
+async function initializeSupabase(envOverride = null) {
+    try {
+        // Use environment variables if available, otherwise fall back to SUPABASE_CONFIG
+        let config;
+        if (envOverride) {
+            config = {
+                url: envOverride.VITE_SUPABASE_URL || SUPABASE_CONFIG.url,
+                anonKey: envOverride.VITE_SUPABASE_ANON_KEY || SUPABASE_CONFIG.anonKey
+            };
+        } else {
+            try {
+                const envConfig = await getSupabaseConfigFromEnv();
+                config = envConfig;
+            } catch (error) {
+                console.warn('⚠️ Using fallback SUPABASE_CONFIG:', error);
+                config = SUPABASE_CONFIG;
+            }
+        }
+
+        // Check if configuration is using placeholder values
+        if (config.url === 'YOUR_SUPABASE_URL' || 
+            config.anonKey === 'YOUR_SUPABASE_ANON_KEY' ||
+            !config.url || 
+            !config.anonKey) {
+            console.warn('Supabase not configured. Please update configuration');
+            return null;
+        }
+
+        console.log('🔥 Getting Supabase client instance...');
+        
+        // Return existing singleton instance instead of creating a new one
+        if (supabaseClientInstance) {
+            console.log('✅ Returning existing Supabase client instance');
+            return supabaseClientInstance;
+        }
+
+        // Create new client with the resolved config
+        return await createSupabaseClient(config);
+    } catch (error) {
+        console.error('❌ Error in initializeSupabase:', error);
         return null;
     }
-
-    console.log('🔥 Getting Supabase client instance...');
-    
-    // Return existing singleton instance instead of creating a new one
-    if (supabaseClientInstance) {
-        console.log('✅ Returning existing Supabase client instance');
-        return supabaseClientInstance;
-    }
-
-    // If no instance exists, create one using the singleton function
-    return createSupabaseClient();
 }
 
 /**
@@ -225,29 +294,43 @@ function initializeSupabase() {
  * @returns {Promise<Object>} Result of the submission
  */
 async function submitApplication(formData) {
-    const supabase = initializeSupabase();
+    console.log('📝 Starting submitApplication with data:', formData);
     
-    if (!supabase) {
-        // Fallback for testing without Supabase
-        if (typeof logger !== 'undefined') {
-            logger.debug('Test submission (Supabase not configured):', formData);
-        }
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
-        return { success: true, data: formData };
-    }
-
     try {
+        const supabase = await initializeSupabase();
+        console.log('🔥 Supabase client for submission:', supabase);
+        console.log('🔍 Supabase client type:', typeof supabase);
+        console.log('🔍 Has .from method:', typeof supabase?.from);
+        
+        if (!supabase) {
+            console.warn('⚠️ No Supabase client available, using fallback submission');
+            // Fallback for testing without Supabase
+            if (typeof logger !== 'undefined') {
+                logger.debug('Test submission (Supabase not configured):', formData);
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+            return { success: true, data: formData };
+        }
+
+        console.log('🚀 Attempting to insert data into club_applications table...');
         const { data, error } = await supabase
             .from('club_applications')
             .insert([formData]);
 
         if (error) {
+            console.error('❌ Supabase insert error:', error);
             throw error;
         }
 
+        console.log('✅ Successfully inserted data:', data);
         return { success: true, data };
     } catch (error) {
-        console.error('Supabase submission error:', error);
+        console.error('💥 Supabase submission error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            name: error.name,
+            stack: error.stack
+        });
         return { success: false, error: error.message };
     }
 }

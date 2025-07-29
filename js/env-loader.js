@@ -117,8 +117,14 @@ function getEnvironment() {
     return envPromise;
 }
 
-// Export for use in other modules
-window.getEnvironment = getEnvironment;
-window.envLoader = envLoader;
-
-export { getEnvironment, envLoader };
+// Ensure functions are available immediately
+if (typeof window !== 'undefined') {
+    // Export for use in other modules
+    window.getEnvironment = getEnvironment;
+    window.envLoader = envLoader;
+    
+    // Auto-initialize environment loading
+    getEnvironment().catch(error => {
+        console.warn('Auto-initialization of environment failed:', error);
+    });
+}
