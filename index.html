@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="./images/favicon.svg" type="image/favicon.svg">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,6 @@
     <meta name="description" content="Explore Student Clubs and Fests at Sandip University">
     <meta property="og:title" content="Clubs & Fests at Sandip University">
     <meta property="og:description" content="Explore SUN Clubs, Sandip University">
-    <meta name="twitter:card" content="summary_large_image">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
@@ -32,18 +31,17 @@
     <script src="./js/filestack.min.js"></script>
 </head>
 
-
-<!-- just checking the git commit pushed or not -->
 <body>
     <div id="preloader">
         <div class="preloader">
             <img loading="lazy" src="./images/preloader.gif" alt="Loader">
         </div>
-    </div>    <script>
+    </div>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Hide preloader after DOM is ready
             $("#preloader").fadeOut(3000);
-            
+
             // Show preloader on navigation
             document.querySelectorAll(".darkHeader a, footer a").forEach((link) => {
                 link.addEventListener("click", function () {
@@ -78,7 +76,8 @@
                             <a href="./event-calendar.html" class="megaLink" id="nav__event-calendar">
                                 Event Calendar
                             </a>
-                            <a href="https://www.sandipuniversity.edu.in/blog/events/" class="megaLink" id="nav__recent-events">
+                            <a href="https://www.sandipuniversity.edu.in/blog/events/" class="megaLink"
+                                id="nav__recent-events">
                                 Recent Events
                             </a>
                             <a href="./president-login.html" class="megaLink" id="nav__president-login">
@@ -90,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="mobMenuOuter">
                     <div class="mobMenuHeader">
                         <a href="./" target="_blank" rel="noopener noreferrer" class="logo">
@@ -109,7 +108,8 @@
                             Event Calendar
                         </a>
 
-                        <a href="https://www.sandipuniversity.edu.in/blog/events/" class="mobLink font-white font-14 font-medium font-uppercase">
+                        <a href="https://www.sandipuniversity.edu.in/blog/events/"
+                            class="mobLink font-white font-14 font-medium font-uppercase">
                             Recent Events
                         </a>
 
@@ -128,14 +128,14 @@
                 $('.megaLink').click(function () {
                     // Toggle active state for the clicked link
                     $(this).toggleClass('active').siblings().removeClass('active');
-                    
+
                     // Check if any megaLink is active to determine menu state
                     if ($('.megaLink.active').length > 0) {
                         $('header').addClass('menuActive');
                     } else {
                         $('header').removeClass('menuActive');
                     }
-                    
+
                     if ($('.darkHeader').hasClass('menuActive')) {
                         if (typeof logger !== 'undefined') {
                             logger.debug("Blurring BG");
@@ -146,11 +146,11 @@
                         $('.blurScreen').removeClass('active')
                         $('body').css('overflow', 'auto');
                     }
-                    
+
                     setActiveClassHeader();
                 })
                 // Note: .tabs-nav elements removed as they don't exist in the current HTML structure
-                
+
                 $('.mobMenuItem').click(function () {
                     if (typeof logger !== 'undefined') {
                         logger.debug('click');
@@ -218,7 +218,7 @@
                         // Handle special routes mapping
                         const routes = {
                             "club-recruitment": "club-recruitment",
-                            "event-calendar": "event-calendar", 
+                            "event-calendar": "event-calendar",
                             "president-login": "president-login",
                             "become-sandipian": "become-sandipian"
                         };
@@ -242,19 +242,22 @@
             <div class="development-notice-container">
                 <div class="development-notice-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path
+                            d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <div class="development-notice-content">
                     <h3 class="development-notice-title">🚧 Site Under Development</h3>
                     <p class="development-notice-text">
-                        We are currently working on it! Some features may misbehave. 
+                        We are currently working on it! Some features may misbehave.
                         Thanks for your cooperation and understanding.
                     </p>
                 </div>
                 <button class="development-notice-close" onclick="closeDevelopmentNotice()" aria-label="Close notice">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
             </div>
@@ -265,7 +268,7 @@
                 position: fixed;
                 bottom: 20px;
                 right: 20px;
-                background: linear-gradient(135deg, #ff6b6b, #ffa500);
+                background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
                 color: white;
                 padding: 16px 20px;
                 border-radius: 12px;
@@ -346,6 +349,7 @@
                     transform: translateY(100%);
                     opacity: 0;
                 }
+
                 to {
                     transform: translateY(0);
                     opacity: 1;
@@ -357,6 +361,7 @@
                     transform: translateY(0);
                     opacity: 1;
                 }
+
                 to {
                     transform: translateY(100%);
                     opacity: 0;
@@ -378,6 +383,7 @@
                 from {
                     width: 100%;
                 }
+
                 to {
                     width: 0%;
                 }
@@ -460,12 +466,12 @@
                 .development-notice {
                     animation: none;
                 }
-                
+
                 .development-notice.fade-out {
                     animation: none;
                     opacity: 0;
                 }
-                
+
                 .development-notice-progress {
                     animation: none;
                 }
@@ -477,33 +483,33 @@
                 const notice = document.getElementById('development-notice');
                 if (notice) {
                     notice.classList.add('fade-out');
-                    
+
                     setTimeout(() => {
                         notice.classList.add('hidden');
                     }, 500);
-                    
+
                     // Store in localStorage so it stays closed during the session
                     localStorage.setItem('developmentNoticeHidden', 'true');
                 }
             }
 
             // Auto-hide functionality and initialization
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const notice = document.getElementById('development-notice');
-                
+
                 // Check if notice was previously closed
                 if (localStorage.getItem('developmentNoticeHidden') === 'true') {
                     notice.classList.add('hidden');
                     return;
                 }
-                
+
                 // Auto-hide after 10 seconds
                 setTimeout(() => {
                     if (!notice.classList.contains('hidden')) {
                         closeDevelopmentNotice();
                     }
                 }, 10000); // 10 seconds
-                
+
                 // Add progress bar element
                 const progressBar = document.createElement('div');
                 progressBar.className = 'development-notice-progress';
@@ -555,15 +561,17 @@
                         dil mein likhi jaati hai.”
                     </p>
 
-                    
+
                     <!-- <p class="festHeroPara">“Every student has a spark.<br>
                         our clubs help it shine”
                     </p> -->
 
 
                     <div class="heroImageFestBox">
-                        <img class="heroImageFest mob-hide" src="./images/character-hero.webp" alt="Character Hero Image"> 
-                        <img class="heroImageFest mob-visible" src="./images/character-mob-hero.webp" alt="Character mobile Hero Image">
+                        <img class="heroImageFest mob-hide" src="./images/character-hero.webp"
+                            alt="Character Hero Image">
+                        <img class="heroImageFest mob-visible" src="./images/character-mob-hero.webp"
+                            alt="Character mobile Hero Image">
                     </div>
                 </div>
             </section>
@@ -667,7 +675,7 @@
 
 
 
-<!-- 
+            <!-- 
 
 
 
@@ -902,7 +910,7 @@
 
 
 
-<!--             
+            <!--             
             <section class="staticSponserSection">
                 <div class="container">
                     <div class="staticLogoWrapper">
@@ -977,7 +985,7 @@
 
 
 
-            
+
             <section class="chairpersonSection boardNewLinkedin">
                 <div class="container">
                     <div class="newClassWrapper">
@@ -987,12 +995,12 @@
                                     Learning. Leading. Transforming.
                                 </p>
                                 <h2 class="sectionHeading whiteBgHead">
-                                    Doing More Than Just 
+                                    Doing More Than Just
                                     <span class="lightMuVector">Degrees
                                     </span>
                                 </h2>
                             </div>
-                            
+
                             <!-- Desktop quote box (moved below heading) -->
                             <div class="greybox desktop-greybox">
                                 <div class="contentWrapper">
@@ -1003,9 +1011,12 @@
                                         </div>
                                         <img loading="lazy" src="./images/colonmark.svg" alt="Quote">
                                     </div>
-                                    <p>I am inspired by the collective passion and drive of our students, faculty, and staff. We
-                                        are a community of changemakers, pioneers, and lifelong learners who are committed to
-                                        making a positive impact. Education at Sandip University is not just a means to an end, but a
+                                    <p>I am inspired by the collective passion and drive of our students, faculty, and
+                                        staff. We
+                                        are a community of changemakers, pioneers, and lifelong learners who are
+                                        committed to
+                                        making a positive impact. Education at Sandip University is not just a means to
+                                        an end, but a
                                         transformative journey that shapes leaders and innovators.
                                     </p>
                                 </div>
@@ -1013,7 +1024,8 @@
                         </div>
 
                         <div class="newclassRight">
-                            <img loading="lazy" src="./images/PNG/chairman.webp" alt="Chairperson" class="chairman-image">
+                            <img loading="lazy" src="./images/PNG/chairman.webp" alt="Chairperson"
+                                class="chairman-image">
 
                             <!-- Mobile quote box (original position for mobile) -->
                             <div class="greybox mobile-greybox">
@@ -1025,9 +1037,12 @@
                                         </div>
                                         <img loading="lazy" src="./images/colonmark.svg" alt="Quote">
                                     </div>
-                                    <p>I am inspired by the collective passion and drive of our students, faculty, and staff. We
-                                        are a community of changemakers, pioneers, and lifelong learners who are committed to
-                                        making a positive impact. Education at Sandip University is not just a means to an end, but a
+                                    <p>I am inspired by the collective passion and drive of our students, faculty, and
+                                        staff. We
+                                        are a community of changemakers, pioneers, and lifelong learners who are
+                                        committed to
+                                        making a positive impact. Education at Sandip University is not just a means to
+                                        an end, but a
                                         transformative journey that shapes leaders and innovators.
                                     </p>
                                 </div>
@@ -1229,7 +1244,9 @@
                                                             </h4>
                                                             <div class="club-tagline">Where code meets innovation</div>
                                                             <p class="primaryText">
-                                                                Join the exclusive community of developers who are building the future. Limited spots available for students who think beyond the ordinary.</p>
+                                                                Join the exclusive community of developers who are
+                                                                building the future. Limited spots available for
+                                                                students who think beyond the ordinary.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">550+</span>
@@ -1251,7 +1268,10 @@
                                                                 CyberX Club
                                                             </h4>
                                                             <div class="club-tagline">Secure the digital frontier</div>
-                                                            <p class="primaryText">Master cybersecurity skills that companies desperately need. Learn ethical hacking, penetration testing, and become the guardian of digital assets.</p>
+                                                            <p class="primaryText">Master cybersecurity skills that
+                                                                companies desperately need. Learn ethical hacking,
+                                                                penetration testing, and become the guardian of digital
+                                                                assets.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">85+</span>
@@ -1271,7 +1291,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Leads Community</h4>
                                                             <div class="club-tagline">Lead the change</div>
-                                                            <p class="primaryText">Shape tomorrow's leaders today. Join our exclusive network of visionaries, innovators, and game-changers who turn ideas into million-dollar realities.</p>
+                                                            <p class="primaryText">Shape tomorrow's leaders today. Join
+                                                                our exclusive network of visionaries, innovators, and
+                                                                game-changers who turn ideas into million-dollar
+                                                                realities.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">200+</span>
@@ -1291,7 +1314,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Innovators Club</h4>
                                                             <div class="club-tagline">Innovation starts here</div>
-                                                            <p class="primaryText">Turn your wildest ideas into billion-dollar startups. Access exclusive mentorship, funding opportunities, and the network that separates dreamers from disruptors.</p>
+                                                            <p class="primaryText">Turn your wildest ideas into
+                                                                billion-dollar startups. Access exclusive mentorship,
+                                                                funding opportunities, and the network that separates
+                                                                dreamers from disruptors.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">120+</span>
@@ -1311,7 +1337,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Science Club</h4>
                                                             <div class="club-tagline">Discover the extraordinary</div>
-                                                            <p class="primaryText">Unlock the secrets of the universe through cutting-edge research and experiments. Join the minds who will solve tomorrow's biggest challenges and revolutionize our world.</p>
+                                                            <p class="primaryText">Unlock the secrets of the universe
+                                                                through cutting-edge research and experiments. Join the
+                                                                minds who will solve tomorrow's biggest challenges and
+                                                                revolutionize our world.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">95+</span>
@@ -1330,8 +1359,12 @@
                                                         <img src="./images/IconTag5.webp">
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Aeromodeling Club</h4>
-                                                            <div class="club-tagline">Taking flight with innovation</div>
-                                                            <p class="primaryText">Taking flight through the art and science of aircraft design and modeling. We build, test, and fly model aircraft while exploring aerodynamics, engineering principles, and aviation technology.</p>
+                                                            <div class="club-tagline">Taking flight with innovation
+                                                            </div>
+                                                            <p class="primaryText">Taking flight through the art and
+                                                                science of aircraft design and modeling. We build, test,
+                                                                and fly model aircraft while exploring aerodynamics,
+                                                                engineering principles, and aviation technology.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">45+</span>
@@ -1351,7 +1384,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Esports Club</h4>
                                                             <div class="club-tagline">Game on, level up</div>
-                                                            <p class="primaryText">Compete at the highest level in digital gaming and esports tournaments. We foster teamwork, strategic thinking, and competitive gaming skills while building a thriving esports community on campus.</p>
+                                                            <p class="primaryText">Compete at the highest level in
+                                                                digital gaming and esports tournaments. We foster
+                                                                teamwork, strategic thinking, and competitive gaming
+                                                                skills while building a thriving esports community on
+                                                                campus.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">180+</span>
@@ -1369,9 +1406,14 @@
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag7.webp">
                                                         <div class="marketingTextBoxi">
-                                                            <h4 class="headingMarket">Action for Collective Transformation Club</h4>
+                                                            <h4 class="headingMarket">Action for Collective
+                                                                Transformation Club</h4>
                                                             <div class="club-tagline">Unite, transform, impact</div>
-                                                            <p class="primaryText">Driving meaningful social change through collective action and community engagement. We empower students to address societal challenges and create lasting positive impact through collaborative initiatives.</p>
+                                                            <p class="primaryText">Driving meaningful social change
+                                                                through collective action and community engagement. We
+                                                                empower students to address societal challenges and
+                                                                create lasting positive impact through collaborative
+                                                                initiatives.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">75+</span>
@@ -1391,7 +1433,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">WebMasters Club</h4>
                                                             <div class="club-tagline">Code the future</div>
-                                                            <p class="primaryText">Building the digital future through web development, design, and technology innovation. We create websites, web applications, and digital solutions while sharing knowledge about modern web technologies.</p>
+                                                            <p class="primaryText">Building the digital future through
+                                                                web development, design, and technology innovation. We
+                                                                create websites, web applications, and digital solutions
+                                                                while sharing knowledge about modern web technologies.
+                                                            </p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">110+</span>
@@ -1411,7 +1457,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Astronomy Club</h4>
                                                             <div class="club-tagline">Reach for the stars</div>
-                                                            <p class="primaryText">Exploring the infinite cosmos and celestial wonders beyond our world. We organize stargazing sessions, telescope observations, and astronomical research while sharing the beauty of space science with fellow enthusiasts.</p>
+                                                            <p class="primaryText">Exploring the infinite cosmos and
+                                                                celestial wonders beyond our world. We organize
+                                                                stargazing sessions, telescope observations, and
+                                                                astronomical research while sharing the beauty of space
+                                                                science with fellow enthusiasts.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">65+</span>
@@ -1431,7 +1481,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Mathematics Club</h4>
                                                             <div class="club-tagline">Numbers never lie</div>
-                                                            <p class="primaryText">Discovering the beauty and logic of mathematical concepts through problem-solving, competitions, and collaborative learning. We make mathematics engaging and accessible for students at all levels.</p>
+                                                            <p class="primaryText">Discovering the beauty and logic of
+                                                                mathematical concepts through problem-solving,
+                                                                competitions, and collaborative learning. We make
+                                                                mathematics engaging and accessible for students at all
+                                                                levels.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">80+</span>
@@ -1449,9 +1503,14 @@
                                                     <div class="marketingWrapper">
                                                         <img src="./images/IconTag11.webp">
                                                         <div class="marketingTextBoxi">
-                                                            <h4 class="headingMarket">Machine Learning, AI & Robotics Club</h4>
-                                                            <div class="club-tagline">Machines that think, robots that dream</div>
-                                                            <p class="primaryText">Pioneering the future with artificial intelligence, machine learning algorithms, and robotic innovations. We build intelligent systems, explore automation, and advance the frontiers of technology.</p>
+                                                            <h4 class="headingMarket">Machine Learning, AI & Robotics
+                                                                Club</h4>
+                                                            <div class="club-tagline">Machines that think, robots that
+                                                                dream</div>
+                                                            <p class="primaryText">Pioneering the future with artificial
+                                                                intelligence, machine learning algorithms, and robotic
+                                                                innovations. We build intelligent systems, explore
+                                                                automation, and advance the frontiers of technology.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">150+</span>
@@ -1471,7 +1530,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Apps and Bloggers Club</h4>
                                                             <div class="club-tagline">Create, share, inspire</div>
-                                                            <p class="primaryText">Creating digital content and mobile applications that make a difference. We combine app development skills with creative blogging to share knowledge, build communities, and develop innovative solutions.</p>
+                                                            <p class="primaryText">Creating digital content and mobile
+                                                                applications that make a difference. We combine app
+                                                                development skills with creative blogging to share
+                                                                knowledge, build communities, and develop innovative
+                                                                solutions.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">90+</span>
@@ -1491,7 +1554,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Energy Club</h4>
                                                             <div class="club-tagline">Powering tomorrow today</div>
-                                                            <p class="primaryText">Powering the future through renewable energy research and sustainable solutions. We explore clean energy technologies, conduct energy efficiency projects, and promote sustainable practices for a greener tomorrow.</p>
+                                                            <p class="primaryText">Powering the future through renewable
+                                                                energy research and sustainable solutions. We explore
+                                                                clean energy technologies, conduct energy efficiency
+                                                                projects, and promote sustainable practices for a
+                                                                greener tomorrow.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">55+</span>
@@ -1512,7 +1579,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Dance Club</h4>
                                                             <div class="club-tagline">Move to the rhythm</div>
-                                                            <p class="primaryText">Express yourself through rhythm and movement! We celebrate all dance forms from classical to contemporary, hip-hop to folk, creating a vibrant space for dancers to learn, perform, and showcase their passion.</p>
+                                                            <p class="primaryText">Express yourself through rhythm and
+                                                                movement! We celebrate all dance forms from classical to
+                                                                contemporary, hip-hop to folk, creating a vibrant space
+                                                                for dancers to learn, perform, and showcase their
+                                                                passion.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">125+</span>
@@ -1532,7 +1603,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Photography Club</h4>
                                                             <div class="club-tagline">Capture the moment</div>
-                                                            <p class="primaryText">Capture life's moments through the lens! From portrait photography to landscape shots, we explore the art of visual storytelling and help members develop their skills in digital and film photography.</p>
+                                                            <p class="primaryText">Capture life's moments through the
+                                                                lens! From portrait photography to landscape shots, we
+                                                                explore the art of visual storytelling and help members
+                                                                develop their skills in digital and film photography.
+                                                            </p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">85+</span>
@@ -1552,7 +1627,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Literary Drama Club</h4>
                                                             <div class="club-tagline">Words that move souls</div>
-                                                            <p class="primaryText">Where words come alive on stage! We blend the art of literature with theatrical performance, exploring classic and contemporary works through creative writing, poetry, and dramatic presentations.</p>
+                                                            <p class="primaryText">Where words come alive on stage! We
+                                                                blend the art of literature with theatrical performance,
+                                                                exploring classic and contemporary works through
+                                                                creative writing, poetry, and dramatic presentations.
+                                                            </p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">70+</span>
@@ -1572,7 +1651,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Painting Art Club</h4>
                                                             <div class="club-tagline">Paint your dreams</div>
-                                                            <p class="primaryText">Unleash your creativity on canvas! From watercolors to acrylics, abstract to realistic, we provide a space for artists to explore different mediums, techniques, and styles while building an artistic community.</p>
+                                                            <p class="primaryText">Unleash your creativity on canvas!
+                                                                From watercolors to acrylics, abstract to realistic, we
+                                                                provide a space for artists to explore different
+                                                                mediums, techniques, and styles while building an
+                                                                artistic community.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">60+</span>
@@ -1592,7 +1675,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Music Club</h4>
                                                             <div class="club-tagline">Create harmony together</div>
-                                                            <p class="primaryText">Harmony in diversity! Whether you're into classical, rock, folk, or fusion, our music club welcomes all genres and skill levels. Join us for jam sessions, performances, and musical collaborations.</p>
+                                                            <p class="primaryText">Harmony in diversity! Whether you're
+                                                                into classical, rock, folk, or fusion, our music club
+                                                                welcomes all genres and skill levels. Join us for jam
+                                                                sessions, performances, and musical collaborations.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">140+</span>
@@ -1612,7 +1698,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Quiz Debate Club</h4>
                                                             <div class="club-tagline">Think, speak, conquer</div>
-                                                            <p class="primaryText">Sharpen your intellect through engaging debates and challenging quizzes! We foster critical thinking, public speaking skills, and knowledge sharing across diverse topics and current affairs.</p>
+                                                            <p class="primaryText">Sharpen your intellect through
+                                                                engaging debates and challenging quizzes! We foster
+                                                                critical thinking, public speaking skills, and knowledge
+                                                                sharing across diverse topics and current affairs.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">100+</span>
@@ -1632,7 +1721,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Movie Club</h4>
                                                             <div class="club-tagline">Stories that inspire</div>
-                                                            <p class="primaryText">Cinema enthusiasts unite! From classic films to indie productions, we organize movie screenings, film discussions, and reviews while exploring the art of filmmaking and storytelling through visual media.</p>
+                                                            <p class="primaryText">Cinema enthusiasts unite! From
+                                                                classic films to indie productions, we organize movie
+                                                                screenings, film discussions, and reviews while
+                                                                exploring the art of filmmaking and storytelling through
+                                                                visual media.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">95+</span>
@@ -1652,7 +1745,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Culinary Club</h4>
                                                             <div class="club-tagline">Flavors that unite</div>
-                                                            <p class="primaryText">Taste the world through food! We explore diverse cuisines, cooking techniques, and food culture while organizing cooking competitions, food festivals, and culinary workshops for all food enthusiasts.</p>
+                                                            <p class="primaryText">Taste the world through food! We
+                                                                explore diverse cuisines, cooking techniques, and food
+                                                                culture while organizing cooking competitions, food
+                                                                festivals, and culinary workshops for all food
+                                                                enthusiasts.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">105+</span>
@@ -1672,7 +1769,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Talk Club</h4>
                                                             <div class="club-tagline">Speak with confidence</div>
-                                                            <p class="primaryText">Master the art of communication! We focus on developing public speaking skills, presentation techniques, and confident communication through workshops, practice sessions, and speaking competitions.</p>
+                                                            <p class="primaryText">Master the art of communication! We
+                                                                focus on developing public speaking skills, presentation
+                                                                techniques, and confident communication through
+                                                                workshops, practice sessions, and speaking competitions.
+                                                            </p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">75+</span>
@@ -1693,7 +1794,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Event Club</h4>
                                                             <div class="club-tagline">Making moments memorable</div>
-                                                            <p class="primaryText">Creating unforgettable experiences through innovative event planning and execution. From concept to celebration, we bring ideas to life and make every moment memorable for our campus community.</p>
+                                                            <p class="primaryText">Creating unforgettable experiences
+                                                                through innovative event planning and execution. From
+                                                                concept to celebration, we bring ideas to life and make
+                                                                every moment memorable for our campus community.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">120+</span>
@@ -1713,7 +1817,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Media Club</h4>
                                                             <div class="club-tagline">Stories that connect</div>
-                                                            <p class="primaryText">Storytelling through digital media, journalism, and creative content creation. We capture campus life, share student voices, and connect our community through powerful visual and written narratives.</p>
+                                                            <p class="primaryText">Storytelling through digital media,
+                                                                journalism, and creative content creation. We capture
+                                                                campus life, share student voices, and connect our
+                                                                community through powerful visual and written
+                                                                narratives.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">85+</span>
@@ -1733,7 +1841,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Helping Hand Club</h4>
                                                             <div class="club-tagline">Service with a smile</div>
-                                                            <p class="primaryText">Dedicated to community service and social welfare through volunteering initiatives. We extend support to those in need, organize charity drives, and create positive impact beyond campus boundaries.</p>
+                                                            <p class="primaryText">Dedicated to community service and
+                                                                social welfare through volunteering initiatives. We
+                                                                extend support to those in need, organize charity
+                                                                drives, and create positive impact beyond campus
+                                                                boundaries.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">160+</span>
@@ -1752,8 +1864,13 @@
                                                         <img src="./images/IconTag19.webp">
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Youth Empowerment Club</h4>
-                                                            <div class="club-tagline">Empowering tomorrow's leaders</div>
-                                                            <p class="primaryText">Empowering young minds through skill development, leadership training, and career guidance. We create opportunities for personal growth and professional development to shape tomorrow's leaders.</p>
+                                                            <div class="club-tagline">Empowering tomorrow's leaders
+                                                            </div>
+                                                            <p class="primaryText">Empowering young minds through skill
+                                                                development, leadership training, and career guidance.
+                                                                We create opportunities for personal growth and
+                                                                professional development to shape tomorrow's leaders.
+                                                            </p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">90+</span>
@@ -1773,7 +1890,10 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Women Empowerment Club</h4>
                                                             <div class="club-tagline">Strength in sisterhood</div>
-                                                            <p class="primaryText">Promoting gender equality and women's rights through awareness campaigns, skill-building workshops, and mentorship programs. We celebrate women's achievements and foster inclusive growth for all.</p>
+                                                            <p class="primaryText">Promoting gender equality and women's
+                                                                rights through awareness campaigns, skill-building
+                                                                workshops, and mentorship programs. We celebrate women's
+                                                                achievements and foster inclusive growth for all.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">130+</span>
@@ -1793,7 +1913,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Ecological Club</h4>
                                                             <div class="club-tagline">Green today, green tomorrow</div>
-                                                            <p class="primaryText">Environmental conservation and sustainability through green initiatives, awareness campaigns, and eco-friendly practices. We promote environmental responsibility and work towards a greener future for our planet.</p>
+                                                            <p class="primaryText">Environmental conservation and
+                                                                sustainability through green initiatives, awareness
+                                                                campaigns, and eco-friendly practices. We promote
+                                                                environmental responsibility and work towards a greener
+                                                                future for our planet.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">115+</span>
@@ -1813,7 +1937,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Fitness Club</h4>
                                                             <div class="club-tagline">Strong body, strong mind</div>
-                                                            <p class="primaryText">Promoting physical wellness and healthy living through fitness activities, workout sessions, and wellness workshops. We encourage an active lifestyle and create a supportive fitness community on campus.</p>
+                                                            <p class="primaryText">Promoting physical wellness and
+                                                                healthy living through fitness activities, workout
+                                                                sessions, and wellness workshops. We encourage an active
+                                                                lifestyle and create a supportive fitness community on
+                                                                campus.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">200+</span>
@@ -1834,7 +1962,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Cycling Club</h4>
                                                             <div class="club-tagline">Pedal towards adventure</div>
-                                                            <p class="primaryText">Pedal your way to adventure! We organize cycling expeditions, road trips, and fitness rides while promoting sustainable transportation and building a community of cycling enthusiasts who love the open road.</p>
+                                                            <p class="primaryText">Pedal your way to adventure! We
+                                                                organize cycling expeditions, road trips, and fitness
+                                                                rides while promoting sustainable transportation and
+                                                                building a community of cycling enthusiasts who love the
+                                                                open road.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">70+</span>
@@ -1854,7 +1986,11 @@
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">Trekking Club</h4>
                                                             <div class="club-tagline">Conquer every peak</div>
-                                                            <p class="primaryText">Conquer mountains and explore nature! We organize trekking expeditions, hiking adventures, and outdoor camping trips, fostering a love for nature while building endurance and team spirit among adventure seekers.</p>
+                                                            <p class="primaryText">Conquer mountains and explore nature!
+                                                                We organize trekking expeditions, hiking adventures, and
+                                                                outdoor camping trips, fostering a love for nature while
+                                                                building endurance and team spirit among adventure
+                                                                seekers.</p>
                                                             <div class="member-count">
                                                                 <span class="member-label">Members:</span>
                                                                 <span class="member-number">55+</span>
@@ -1884,7 +2020,8 @@
                                     <div class="masterImage">
                                         <picture>
                                             <source srcset="./images/council-mob.webp" media="(max-width: 767px)">
-                                            <img loading="lazy" src="./images/council.webp" alt="Glimpse" style="border-radius: 12px;">
+                                            <img loading="lazy" src="./images/council.webp" alt="Glimpse"
+                                                style="border-radius: 12px;">
                                         </picture>
                                     </div>
 
@@ -2249,7 +2386,8 @@
             <div class="upperFooter">
                 <div class="container flexbox">
                     <a href="./index.html" class="menuLogo  menuLogofooter">
-                        <img loading="lazy" src="./images/SU-logo.webp" class="scalebig2" alt="SU Logo" style="padding-left: 3.5%;">
+                        <img loading="lazy" src="./images/SU-logo.webp" class="scalebig2" alt="SU Logo"
+                            style="padding-left: 3.5%;">
                     </a>
 
                     <div class="bottomFooter flexbox">
@@ -2259,7 +2397,7 @@
                             <a href="./club-recruitment.html" class="footerHeading">Club Recruitment</a>
                             <a href="./about-us.html" class="footerHeading hide">Contact Us</a>
 
-                        </div>                  
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2301,8 +2439,7 @@
                         </div>
                         <div class="footerLinkRight flexbox ">
 
-                            <a href="https://x.com/sandipuniv"
-                                target="_blank">
+                            <a href="https://x.com/sandipuniv" target="_blank">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -2342,9 +2479,9 @@
                 </div>
             </div>
         </footer> <!-- main links for js library -->
-        
+
         <script defer="" async="" src="./js/main.js"></script>
-        <script defer="" async="" src="./js/sliders.js"></script> 
+        <script defer="" async="" src="./js/sliders.js"></script>
     </section>
 
 
@@ -2357,7 +2494,8 @@
             <!-- Left Column - About Council -->
             <div class="modal-left">
                 <h2>Student Council</h2>
-                <p>The Student Council at Sandip University is the voice of our vibrant student community. We're dedicated
+                <p>The Student Council at Sandip University is the voice of our vibrant student community. We're
+                    dedicated
                     to enhancing your campus experience through meaningful initiatives, events, and advocacy.</p>
 
                 <h3>Our Mission</h3>
@@ -2378,7 +2516,8 @@
                     <a href="https://www.instagram.com/sun.student.council?created-by-sect" class="social-icon">
                         <img src="./images/instagram.svg" alt="Instagram">
                     </a>
-                    <a href="https://www.linkedin.com/company/student-council-sandip-university?createdBy=sect" class="social-icon">
+                    <a href="https://www.linkedin.com/company/student-council-sandip-university?createdBy=sect"
+                        class="social-icon">
                         <img src="./images/linkedin.svg" alt="LinkedIn">
                     </a>
                     <a href="mailto:studentcouncil@sandipuniversity.edu.in" class="social-icon">
@@ -2398,8 +2537,10 @@
                     <p>Student Council President</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/shubham-sarode-642436316?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:shubhamsarode.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/shubham-sarode-642436316?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:shubhamsarode.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2419,7 +2560,8 @@
                     <p>School of Science</p>
                     <div class="member-social">
                         <!-- <a href="#"><img src="./images/linkedin.svg" alt="LinkedIn"></a> -->
-                        <a href="mailto:jaydeepshinde.sos@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="mailto:jaydeepshinde.sos@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2428,8 +2570,10 @@
                     <p>Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/adesh-dakhore-227b7a328?createdbysect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:adeshdakhore.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/adesh-dakhore-227b7a328?createdbysect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:adeshdakhore.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2438,8 +2582,10 @@
                     <p>Joint Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/vaibhav-sanap-788b5a287?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:vaibhavsanap.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/vaibhav-sanap-788b5a287?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:vaibhavsanap.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2448,8 +2594,10 @@
                     <p>Lady Representative</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/sneha-bhagwat-062761374?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:snehabhagwat.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/sneha-bhagwat-062761374?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:snehabhagwat.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2458,8 +2606,10 @@
                     <p>Cultural Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/mohit-pagare-2ba2a7297?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:mohitpagare.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/mohit-pagare-2ba2a7297?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:mohitpagare.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2468,8 +2618,10 @@
                     <p>Cultural Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/janhvi-bhoyar-671326268?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:janhvibhoyar.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/janhvi-bhoyar-671326268?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:janhvibhoyar.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2478,8 +2630,10 @@
                     <p>Cultural Secretary</p>
                     <p>School of Commerce & Management</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/dikshita-bhalerao-514262345?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:dikshitabhaleraosandipuni@gmail.com"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/dikshita-bhalerao-514262345?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:dikshitabhaleraosandipuni@gmail.com"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2488,8 +2642,10 @@
                     <p>Media Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/tanmay-dhole-777a59221?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:tanmaydhole.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/tanmay-dhole-777a59221?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:tanmaydhole.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2498,8 +2654,10 @@
                     <p>Media Secretary</p>
                     <p>School of Computer Science & Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/utkarashmahale?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:utkarshmahale.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/utkarashmahale?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:utkarshmahale.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2508,18 +2666,21 @@
                     <p>Sports Secretary</p>
                     <p>School of Science</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/jyoti-rathore-0aab73234?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="https://www.linkedin.com/in/jyoti-rathore-0aab73234?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
                         <a href="mailto:Jyotisandipuniversity@gmail.com"><img src="./images/email.svg" alt="Email"></a>
                     </div>
                 </div>
-                
+
                 <div class="council-member">
                     <h4>Anuj Ugle</h4>
                     <p>Sports Secretary</p>
                     <p>School of Science</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/anuj-ugle-b2b2b9252?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:anujugle.sol@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/anuj-ugle-b2b2b9252?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:anujugle.sol@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2528,8 +2689,10 @@
                     <p>Discipline Secretary</p>
                     <p>School of Science</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/nikheelpatil?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:nikhilpatil.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/nikheelpatil?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:nikhilpatil.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2538,7 +2701,8 @@
                     <p>Discipline Secretary</p>
                     <p>School of Science</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/sumairah-sameer-farooqui-325a931b9?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="https://www.linkedin.com/in/sumairah-sameer-farooqui-325a931b9?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
                         <a href="mailto:sumairah1906@gmail.com"><img src="./images/email.svg" alt="Email"></a>
                     </div>
                 </div>
@@ -2550,8 +2714,10 @@
                     <p>School of Computer Science & Engineering</p>
                     <p>B.Tech - CSE</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/saikannadkar?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:saikannadkar.socse@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/saikannadkar?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:saikannadkar.socse@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2570,12 +2736,14 @@
                     <p>School of Engineering & Technology</p>
                     <p>B.Tech Civil Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/luckey-kumar-karn-b10a5b352?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:luckykarn.soet@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/luckey-kumar-karn-b10a5b352?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:luckykarn.soet@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
-                 <div class="council-member">
+                <div class="council-member">
                     <h4>Vijay Khemnar</h4>
                     <p>School of Engineering & Technology</p>
                     <p>B.Tech Mechanical Engineering</p>
@@ -2585,22 +2753,25 @@
                     </div>
                 </div>
 
-                 <div class="council-member">
+                <div class="council-member">
                     <h4>Piyush Dongre</h4>
                     <p>School of Engineering & Technology</p>
                     <p>B.Tech Electrical Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/piysuh-dongre-700912375?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:piyushdongre.soet@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/piysuh-dongre-700912375?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:piyushdongre.soet@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
-                 <div class="council-member">
+                <div class="council-member">
                     <h4>Shreya Singh Chauhan</h4>
                     <p>School of Engineering & Technology</p>
                     <p>B.Tech CSE <em>(FE)</em></p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/shreya-s-7a9561321?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="https://www.linkedin.com/in/shreya-s-7a9561321?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
                         <a href="mailto:shreya.singh82000@gmail.com"><img src="./images/email.svg" alt="Email"></a>
                     </div>
                 </div>
@@ -2610,8 +2781,10 @@
                     <p>School of Engineering & Technology</p>
                     <p>B.Tech Aerospace Engineering</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/jaanisha-ahuja-233763328?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:janishaahuja.soet@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/jaanisha-ahuja-233763328?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:janishaahuja.soet@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2620,8 +2793,10 @@
                     <p>School of Science</p>
                     <p>B.Sc Forensic Science</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/michelle-joseph-664a56225?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:michellejoseph.socms@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/michelle-joseph-664a56225?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:michellejoseph.socms@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2630,8 +2805,10 @@
                     <p>School of Commerce & Management Studies</p>
                     <p>BBA</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/jitender-jangra-0210192a7?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:jitendrajangir.sos@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/jitender-jangra-0210192a7?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:jitendrajangir.sos@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2640,8 +2817,10 @@
                     <p>School of Pharmaceutical Science</p>
                     <p>B. Pharm</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/salman-kureshi-a411b8375?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:salmankureshi.socms@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/salman-kureshi-a411b8375?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:salmankureshi.socms@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2650,8 +2829,10 @@
                     <p>School of Law</p>
                     <p>B.A. LLB</p>
                     <div class="member-social">
-                        <a href="https://www.linkedin.com/in/anuj-ugle-b2b2b9252?created-by-sect"><img src="./images/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="mailto:anujugle.sol@sandipuniversity.edu.in"><img src="./images/email.svg" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/anuj-ugle-b2b2b9252?created-by-sect"><img
+                                src="./images/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="mailto:anujugle.sol@sandipuniversity.edu.in"><img src="./images/email.svg"
+                                alt="Email"></a>
                     </div>
                 </div>
 
@@ -2872,4 +3053,3 @@
 </body>
 
 </html>
-
