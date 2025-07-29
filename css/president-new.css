@@ -1,12 +1,9 @@
-/* Import Google Fonts - Fraunces */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
 
-/* Root variables matching main website */
 :root {
   --vh: 1vh;
 }
 
-/* President Login Section Styling - Matching main website's caseUnion pattern */
 .president-login-section {
   background: var(--black);
   min-height: 100vh;
@@ -31,7 +28,6 @@
   padding: 40px 0;
 }
 
-/* Left Side - Branding */
 .login-branding {
   color: var(--white);
   padding-right: 40px;
@@ -87,7 +83,6 @@
   filter: brightness(0) invert(1);
 }
 
-/* Right Side - Login Form */
 .login-form-container {
   padding-left: 40px;
 }
@@ -256,7 +251,6 @@
   text-decoration: underline;
 }
 
-/* Background Decorative Elements */
 .login-bg-decoration {
   position: absolute;
   top: 0;
@@ -314,7 +308,6 @@
   }
 }
 
-/* Header active state for login page */
 .megaLink.active {
   color: #F7D344 !important;
   position: relative;
@@ -331,7 +324,6 @@
   border-radius: 1px;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .login-content-area {
     grid-template-columns: 1fr;

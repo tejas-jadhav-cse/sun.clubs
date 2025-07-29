@@ -389,13 +389,11 @@
         font-size: 18px;
         font-weight: 350;
         line-height: 120%;
-        /* 21.6px */
         color: var(--black);
         border: 1px solid var(--black);
         border-radius: 60px;
         max-width: fit-content;
         cursor: pointer;
-        /* font-weight: 400; */
         font-family: "Fraunces", serif;
     }
 
@@ -671,7 +669,6 @@
 
     .highlightTechUpper {
         display: flex;
-        /* gap: 40px; */
         align-items: flex-end;
         justify-content: space-around;
         padding-inline: 70px;
@@ -739,7 +736,6 @@
     .techContentDivi {
         display: flex;
         flex-direction: column;
-        /* gap: 10px; */
         position: relative;
         padding-block: 8px;
     }
@@ -803,7 +799,6 @@
         font-size: 16px;
         font-family: "go-regular";
         line-height: 120%;
-        /* 19.2px */
         color: var(--white);
     }
 
@@ -814,7 +809,6 @@
         font-weight: 400;
 
         line-height: 120%;
-        /* 15.6px */
         color: var(--grey18);
     }
 
@@ -822,7 +816,6 @@
         font-size: 12px;
         font-family: "go-regular";
         line-height: 140%;
-        /* 16.8px */
         color: var(--grey10);
     }
 
@@ -858,9 +851,7 @@
         font-size: 28px;
         font-family: var(--go-regular);
         line-height: 120%;
-        /* 33.6px */
         width: 100%;
-        /* max-width: 40%; */
     }
 
     .mwd40 {
@@ -923,7 +914,6 @@
         font-size: 13px;
         font-weight: 400;
         line-height: 130%;
-        /* 16.9px */
     }
 
     .curriculumHead {
@@ -1025,7 +1015,6 @@
         font-size: 13px;
         font-family: var(--go-medium);
         line-height: 150%;
-        /* 19.5px */
         color: var(--black);
         max-width: fit-content;
     }
@@ -1094,28 +1083,12 @@
         gap: 20px;
         max-width: 350px;
         width: 100%;
-
-        /* animation:tabActiveAnimate .3s; */
     }
 
     .stickyBox {
         position: sticky;
         top: 8rem;
     }
-
-    /* @keyframes tabActiveAnimate 
-         {
-            0%{
-                opacity: 0;
-                transform: translateY(-4px);
-            }
-    
-           100%{
-                opacity: 1;
-                transform: translateY(0px);
-            }
-            
-        } */
 
     .yearButton {
         display: flex;
@@ -1130,7 +1103,6 @@
         font-weight: 400;
 
         line-height: 120%;
-        /* 16.8px */
         color: var(--black);
         background: var(--grey4);
         max-width: fit-content;
@@ -1206,17 +1178,14 @@
     .yearBelowRightHeading {
         display: flex;
         justify-content: space-between;
-        /* border-bottom: 1px solid var(--grey18); */
         align-items: center;
     }
 
     .yearBelowRightHeading p {
         font-size: 20px;
         line-height: 120%;
-        /* 24px */
         color: var(--black);
         font-family: var(--go-medium);
-        /* margin-bottom: 18px; */
     }
 
     .semButtonsDiv {
@@ -1236,7 +1205,6 @@
     .appliedPara {
         font-size: 14px !important;
         line-height: 140%;
-        /* 19.6px */
         color: var(--black);
         font-family: "go-regular" !important;
     }
@@ -1312,7 +1280,6 @@
         font-size: 28px;
         font-family: var(--go-regular);
         line-height: 120%;
-        /* 33.6px */
         color: var(--white);
     }
 
@@ -1508,12 +1475,9 @@
         font-weight: 400;
         line-height: 150%;
         display: -webkit-box;
-        /* -webkit-line-clamp: 4; */
         -webkit-box-orient: vertical;
         overflow: hidden;
         min-height: 180px;
-
-        /* 23.4px */
     }
 
     .yearBelowDivi .content-section {
@@ -4222,21 +4186,6 @@
     padding: 40px 0;
     background: var(--white);
 
-
-    /* .roadMapWrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        justify-content: center;
-        align-items: center;
-    } */
-
-    /* .roadmapBoxParent {
-        display: flex;
-        gap: 12px;
-        align-items: stretch;
-    } */
-
     .roadmapBox {
         border: 1px solid var(--grey4);
         background: var(--white3);
@@ -4423,11 +4372,6 @@
         color: var(--grey4);
     }
 
-    .whyApply {
-        background: url(../images/netVector.svg);
-        background-repeat: no-repeat;
-        background-position: left;
-    }
 
     .applyWrapper {
         display: flex;
@@ -6211,22 +6155,22 @@
     .headingWrap.masterleft {
         width: 45%;
     }
-    
-    .admissionTrack{
+
+    .admissionTrack {
         padding: 60px;
 
-        .container{
+        .container {
             padding: 0;
         }
 
-        .admissionTrackWrapper{
+        .admissionTrackWrapper {
             display: flex;
             justify-content: space-between;
             gap: 50px;
             align-items: center;
         }
 
-        .admissionTrackLeft{
+        .admissionTrackLeft {
             width: 100%;
             max-width: 661px;
             display: flex;
@@ -6234,22 +6178,22 @@
             gap: 32px;
         }
 
-        .admissionTrackUpper{
+        .admissionTrackUpper {
             display: flex;
             flex-direction: column;
-            gap:12px;
+            gap: 12px;
         }
 
-        .admissionTrackContent{
+        .admissionTrackContent {
             font-size: 14px;
             line-height: 150%;
             color: var(--grey3);
-            
+
         }
 
-        .admissionTrackRight{
+        .admissionTrackRight {
             width: 100%;
-            max-width:526px;
+            max-width: 526px;
         }
     }
 }

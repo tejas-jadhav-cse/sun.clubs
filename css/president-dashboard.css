@@ -1,6 +1,3 @@
-/* President Dashboard Styles */
-/* Following the existing design system from master-production.css */
-
 :root {
     --dashboard-primary: #0a6d62;
     --dashboard-bg: #f8fafb;
@@ -12,14 +9,11 @@
     --dashboard-warning: #ffc107;
     --dashboard-danger: #dc3545;
     --dashboard-info: #17a2b8;
-    
-    /* Consistent with existing website */
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
     --border-radius: 8px;
     --transition: all 0.3s ease;
 }
 
-/* Reset and Base Styles */
 * {
     box-sizing: border-box;
 }
@@ -39,43 +33,19 @@ body {
     padding: 0 20px;
 }
 
-/* Loading Screen */
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Header */
-
-/* Main Dashboard */
-
-/* Stats Section */
-
-/* Navigation Tabs */
-
-/* Tab Content */
 .tab-content {
     min-height: 500px;
 }
 
-/* Section Headers */
-
-/* Filter Select */
-
-/* Export Button */
-
-/* Applications Grid */
-
-/* Application Cards */
-
-/* Status badges for applications */
 .status-pending {
     background: #fff3cd;
     color: #856404;
 }
-
-/* Loading States */
 
 .loading-spinner {
     width: 40px;
@@ -86,10 +56,6 @@ body {
     animation: spin 1s linear infinite;
     margin-bottom: 16px;
 }
-
-/* Empty States */
-
-/* Form Styles */
 
 .form-group {
     display: flex;
@@ -130,9 +96,6 @@ body {
     min-height: 100px;
 }
 
-/* Club Info */
-
-/* Modals */
 .modal {
     display: none;
     position: fixed;
@@ -169,8 +132,6 @@ body {
 .modal-close:hover {
     color: var(--dashboard-text);
 }
-
-/* Toast Notifications */
 
 .toast {
     background: var(--dashboard-card-bg);
@@ -212,13 +173,6 @@ body {
     }
 }
 
-/* Event Admin Dashboard Styles */
-
-/* Modal Styles */
-
-/* Search Input */
-
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 0 15px;
