@@ -43,9 +43,8 @@
     --red: #9B0909;
     --red1: #B2212A;
     --warning: #DC0000;
-    --gradient: linear-gradient(90deg, #39B6D8 6.41%, #F7D344 51.47%, #E38330 96.52%);
-    --gradient2: linear-gradient(90deg, #39B6D8 6.41%, #F7D344 51.47%);
-
+    background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
+    background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
     --orange: #eca63919;
     --darkOrange: #E38330;
 

@@ -91,10 +91,7 @@ header.menuActive {
 /* Mega link navigation */
 .megaLink.active,
 .megaLink:hover {
-  background: linear-gradient(92deg,
-      #39b6d8 -9.11%,
-      #f7d344 45.44%,
-      #e38330 100%);
+      background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1420,7 +1417,7 @@ input:focus {
 }
 
 .festPage .digitsPara {
-    background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
