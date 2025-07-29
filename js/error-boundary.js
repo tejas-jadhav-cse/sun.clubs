@@ -98,8 +98,18 @@ class ErrorBoundary {
      * Check if in production environment
      */
     isProduction() {
-        return typeof configManager !== 'undefined' && 
-               configManager.getAppConfig().environment === 'production';
+        try {
+            if (typeof configManager !== 'undefined') {
+                return configManager.getAppConfig().environment === 'production';
+            }
+            
+            // Fallback checks
+            return window.location.hostname !== 'localhost' && 
+                   window.location.hostname !== '127.0.0.1' &&
+                   !window.location.hostname.includes('local');
+        } catch (error) {
+            return true; // Err on the side of caution
+        }
     }
 
     /**
