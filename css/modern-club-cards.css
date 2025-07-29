@@ -6,7 +6,7 @@
     border-radius: 16px;
     padding: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: none;
     max-width: 420px !important;
     min-height: 480px !important;
     display: flex;
@@ -15,10 +15,7 @@
     position: relative;
 }
 
-.festPage .postCard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
+/* Remove hover effects */
 
 /* Image styling */
 .festPage .postCard > img {
@@ -26,14 +23,12 @@
     aspect-ratio: 16/9;
     border-radius: 12px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: none;
     min-height: unset !important;
     margin-bottom: 16px;
 }
 
-.festPage .postCard:hover > img {
-    transform: scale(1.05);
-}
+/* Remove image hover effects */
 
 /* Marketing wrapper - now acts as content area */
 .festPage .postCard .marketingWrapper {
@@ -168,11 +163,11 @@
 .festPage .content-area::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    transition: background 0.3s ease;
+    transition: none;
 }
 
 .festPage .content-area::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* New modern card structure (for when HTML is updated) */
@@ -181,7 +176,7 @@
     border-radius: 16px;
     padding: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: none;
     max-width: 420px;
     min-height: 480px;
     display: flex;
@@ -189,10 +184,7 @@
     overflow: hidden;
 }
 
-.modern-club-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
+/* Remove modern card hover effects */
 
 .card-image-container {
     width: 100%;
@@ -206,12 +198,10 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: none;
 }
 
-.modern-club-card:hover .card-image {
-    transform: scale(1.05);
-}
+/* Remove card image hover effects */
 
 .card-content {
     padding: 8px 6px;

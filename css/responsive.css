@@ -101,10 +101,6 @@
     border-radius: 12px;
   }
 
-  .caution {
-    /* align-items: flex-start; */
-  }
-
   .caution p {
     font-family: "go-regular";
   }
