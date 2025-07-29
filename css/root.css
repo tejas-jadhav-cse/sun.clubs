@@ -398,7 +398,7 @@ select {
 }
 
 .gradientText {
-    background: linear-gradient(102deg, #39B6D8 0%, #F7D344 50%, #E38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -411,7 +411,7 @@ select {
 }
 
 .gradientTextMenaLanding {
-    background: linear-gradient(102deg, #39B6D8 0%, #F7D344 50%, #E38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -790,7 +790,8 @@ button.BlackBtn {
 }
 
 .gradientMuBg {
-    background: url('../images/gradientBgMuLogo.svg'), linear-gradient(125deg, #39b6d8 0%, #f7d344 50%, #e38330 100%);
+    background: url('../images/gradientBgMuLogo.svg'), linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
+
     padding: 40px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -832,7 +833,7 @@ button.BlackBtn {
 
 .gradientButton::before {
     content: "";
-    background: linear-gradient(102deg, #39B6D8 0%, #F7D344 50%, #E38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
     position: absolute;
     /* top: -1px;
     left: -1px;

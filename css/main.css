@@ -91,7 +91,7 @@ header.menuActive {
 /* Mega link navigation */
 .megaLink.active,
 .megaLink:hover {
-      background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -115,10 +115,7 @@ header.menuActive {
 }
 
 .megaLink:active {
-  background: linear-gradient(92deg,
-      #39b6d8 -9.11%,
-      #f7d344 45.44%,
-      #e38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -359,7 +356,7 @@ section {
   width: 100%;
   padding: 80px 20px 25px;
   color: var(--black);
-  background: linear-gradient(204deg, #39b6d8 0%, #f7d344 50%, #e38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -714,10 +711,7 @@ input:focus {
 
 .highlightsec .list.active {
   border-bottom: 5px solid yellow;
-  background: linear-gradient(92deg,
-      #39b6d8 7.6%,
-      #f7d344 53.43%,
-      #e38330 99.26%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -897,7 +891,7 @@ input:focus {
   content: "";
   width: 12px;
   height: 12px;
-  background: linear-gradient(180deg, #39b6d8 0%, #f7d344 50%, #e38330 100%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   position: absolute;
   top: 4px;
   left: 4px;
@@ -1529,7 +1523,7 @@ input:focus {
 }
 
 .festPage .gradientTextMarketing {
-  background: linear-gradient(91deg, #39B6D8 -33.27%, #F7D344 48.31%, #E38330 63.35%);
+  background: linear-gradient(92deg, #4159d0 7.6%, #c84fc0 53.43%, #ffcd70 99.26%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
