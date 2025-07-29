@@ -1,0 +1,558 @@
+/* Modern Club Card Styles - Override existing styles */
+
+/* Modern styling for existing postCard structure */
+.festPage .postCard {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    max-width: 420px !important;
+    min-height: 480px !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.festPage .postCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling */
+.festPage .postCard > img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    min-height: unset !important;
+    margin-bottom: 16px;
+}
+
+.festPage .postCard:hover > img {
+    transform: scale(1.05);
+}
+
+/* Marketing wrapper - now acts as content area */
+.festPage .postCard .marketingWrapper {
+    position: static !important;
+    bottom: unset !important;
+    left: unset !important;
+    padding: 8px 6px !important;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 12px;
+    background: transparent;
+}
+
+/* Hide the icon tag */
+.festPage .marketingWrapper > img {
+    display: none;
+}
+
+/* Text content styling */
+.festPage .marketingTextBoxi {
+    display: flex;
+    flex-direction: column;
+    gap: 12px !important;
+    align-items: flex-start !important;
+    flex-grow: 1;
+}
+
+/* Club name styling */
+.festPage .headingMarket {
+    font-size: 24px !important;
+    font-weight: 700;
+    color: #1a1a1a !important;
+    margin: 0;
+    font-family: var(--go-bold, 'Arial', sans-serif) !important;
+    line-height: 1.2 !important;
+    text-transform: none;
+}
+
+/* Remove gradient text styling for cleaner look */
+.festPage .gradientTextMarketing {
+    background: none !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    color: #1a1a1a !important;
+    font-size: 24px !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    font-family: var(--go-bold, 'Arial', sans-serif) !important;
+}
+
+/* Primary text styling */
+.festPage .primaryText {
+    font-size: 16px !important;
+    color: #333 !important;
+    line-height: 1.5 !important;
+    margin: 0;
+    font-family: var(--go-regular, 'Arial', sans-serif) !important;
+    flex-grow: 1;
+}
+
+/* Add tagline styling */
+.club-tagline {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    font-weight: 500;
+    font-family: var(--go-medium, 'Arial', sans-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    order: -1; /* Show before description */
+}
+
+/* Member count styling */
+.member-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: auto;
+}
+
+.member-label {
+    font-size: 14px;
+    color: #666;
+    font-family: var(--go-regular, 'Arial', sans-serif);
+}
+
+.member-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c5aa0;
+    font-family: var(--go-bold, 'Arial', sans-serif);
+}
+
+/* Layout optimizations for mobile */
+.festPage .content-container {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    width: max-content;
+}
+
+.festPage .content-group {
+    display: flex;
+    gap: 20px;
+    min-width: fit-content;
+    position: relative;
+}
+
+.festPage .content-area {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced scrollbar styling */
+.festPage .content-area::-webkit-scrollbar {
+    height: 8px;
+}
+
+.festPage .content-area::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin: 0 20px;
+}
+
+.festPage .content-area::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.festPage .content-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* New modern card structure (for when HTML is updated) */
+.modern-club-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    max-width: 420px;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modern-club-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.modern-club-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 12px;
+}
+
+.club-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    font-family: var(--go-bold, 'Arial', sans-serif);
+    line-height: 1.2;
+}
+
+.club-description {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    margin: 0;
+    font-family: var(--go-regular, 'Arial', sans-serif);
+    flex-grow: 1;
+}
+
+/* Mobile Layout Fixes - Maintain horizontal sliding */
+@media (max-width: 768px) {
+    .festPage .content-container {
+        display: flex !important;
+        gap: 16px !important;
+        height: 100% !important;
+        width: max-content !important;
+        padding: 0 16px;
+    }
+    
+    .festPage .content-group {
+        display: flex !important;
+        gap: 16px !important;
+        min-width: fit-content !important;
+        position: relative;
+        flex-shrink: 0;
+    }
+    
+    .festPage .content-card {
+        width: 300px !important;
+        max-width: 300px !important;
+        flex-shrink: 0;
+    }
+    
+    .festPage .content-area {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding-bottom: 10px;
+        scroll-snap-type: x mandatory;
+    }
+    
+    /* Scroll snap for smooth sliding */
+    .festPage .content-group {
+        scroll-snap-align: start;
+    }
+    
+    /* Custom scrollbar for mobile */
+    .festPage .content-area::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .festPage .content-area::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+    
+    .festPage .content-area::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+    
+    .festPage .content-area::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Override conflicting responsive.css styles */
+    .festPage .postCard {
+        max-width: 300px !important;
+        max-height: unset !important;
+        min-width: 300px !important;
+        width: 300px !important;
+    }
+    
+    .festPage .gridBox {
+        max-width: 300px !important;
+        min-width: 300px !important;
+        width: 300px !important;
+    }
+    
+    .festPage .marketingWrapper {
+        bottom: unset !important;
+        position: static !important;
+        padding: 10px 8px !important;
+    }
+    
+    /* Add momentum scrolling for iOS */
+    .festPage .content-area {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Fade effect at edges */
+    .festPage .content-area::before,
+    .festPage .content-area::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 20px;
+        z-index: 2;
+        pointer-events: none;
+    }
+    
+    .festPage .content-area::before {
+        left: 0;
+        }
+    
+    .festPage .content-area::after {
+        right: 0;
+        }
+}
+
+@media (max-width: 480px) {
+    .festPage .content-container {
+        gap: 12px !important;
+        padding: 0 12px;
+    }
+    
+    .festPage .content-group {
+        gap: 12px !important;
+    }
+    
+    .festPage .content-card {
+        width: 280px !important;
+        max-width: 280px !important;
+        min-width: 280px !important;
+    }
+    
+    .festPage .postCard {
+        max-width: 280px !important;
+        min-width: 280px !important;
+        width: 280px !important;
+    }
+    
+    .festPage .gridBox {
+        max-width: 280px !important;
+        min-width: 280px !important;
+        width: 280px !important;
+    }
+}
+
+@media (max-width: 375px) {
+    .festPage .content-container {
+        padding: 0 8px;
+    }
+    
+    .festPage .content-card {
+        width: 260px !important;
+        max-width: 260px !important;
+        min-width: 260px !important;
+    }
+    
+    .festPage .postCard {
+        max-width: 260px !important;
+        min-width: 260px !important;
+        width: 260px !important;
+    }
+    
+    .festPage .gridBox {
+        max-width: 260px !important;
+        min-width: 260px !important;
+        width: 260px !important;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .festPage .postCard,
+    .modern-club-card {
+        max-width: 380px;
+        min-height: 450px !important;
+    }
+    
+    .festPage .headingMarket,
+    .club-name {
+        font-size: 22px !important;
+    }
+    
+    .festPage .primaryText,
+    .club-description {
+        font-size: 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .festPage .postCard,
+    .modern-club-card {
+        max-width: 100% !important;
+        min-height: 420px !important;
+        padding: 12px !important;
+        margin: 0 auto 20px auto;
+        border-radius: 14px;
+    }
+    
+    .festPage .postCard > img {
+        border-radius: 10px;
+        margin-bottom: 14px;
+    }
+    
+    .festPage .postCard .marketingWrapper {
+        padding: 10px 8px !important;
+        gap: 10px;
+    }
+    
+    .festPage .marketingTextBoxi {
+        gap: 10px !important;
+    }
+    
+    .festPage .headingMarket,
+    .club-name {
+        font-size: 20px !important;
+        line-height: 1.3 !important;
+    }
+    
+    .club-tagline {
+        font-size: 12px;
+        letter-spacing: 0.3px;
+    }
+    
+    .festPage .primaryText,
+    .club-description {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+    }
+
+    .festPage .gradientTextMarketing {
+        font-size: 20px !important;
+    }
+
+    .member-count {
+        padding-top: 10px;
+        gap: 6px;
+    }
+
+    .member-label {
+        font-size: 13px;
+    }
+
+    .member-number {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .festPage .postCard,
+    .modern-club-card {
+        max-width: 100% !important;
+        min-height: 380px !important;
+        padding: 10px !important;
+        margin: 0 auto 16px auto;
+        border-radius: 12px;
+    }
+    
+    .festPage .postCard > img {
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .festPage .postCard .marketingWrapper {
+        padding: 8px 6px !important;
+        gap: 8px;
+    }
+    
+    .festPage .marketingTextBoxi {
+        gap: 8px !important;
+    }
+    
+    .festPage .headingMarket,
+    .club-name {
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+    }
+    
+    .club-tagline {
+        font-size: 11px;
+        letter-spacing: 0.2px;
+    }
+    
+    .festPage .primaryText,
+    .club-description {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+    }
+
+    .festPage .gradientTextMarketing {
+        font-size: 18px !important;
+    }
+
+    .member-count {
+        padding-top: 8px;
+        gap: 5px;
+    }
+
+    .member-label {
+        font-size: 12px;
+    }
+
+    .member-number {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 375px) {
+    .festPage .postCard,
+    .modern-club-card {
+        min-height: 360px !important;
+        padding: 8px !important;
+        margin: 0 auto 14px auto;
+    }
+    
+    .festPage .headingMarket,
+    .club-name {
+        font-size: 17px !important;
+    }
+    
+    .club-tagline {
+        font-size: 10px;
+    }
+    
+    .festPage .primaryText,
+    .club-description {
+        font-size: 12px !important;
+    }
+
+    .festPage .gradientTextMarketing {
+        font-size: 17px !important;
+    }
+}
