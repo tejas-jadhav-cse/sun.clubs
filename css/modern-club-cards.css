@@ -155,10 +155,14 @@
 }
 
 .festPage .content-group {
-    display: flex;
     gap: 20px;
     min-width: fit-content;
     position: relative;
+    /* Don't set display here - let main.css handle it with category-visible class */
+}
+
+.festPage .content-group.category-visible {
+    display: flex !important; /* Only show when category is active */
 }
 
 .festPage .content-area {
@@ -259,7 +263,6 @@
     }
     
     .festPage .content-group {
-        display: flex !important;
         gap: 16px !important;
         min-width: fit-content !important;
         position: relative;

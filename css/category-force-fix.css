@@ -1,0 +1,58 @@
+/* BRUTE FORCE CSS FIX FOR MOBILE CATEGORY FILTERING */
+
+/* Force hide all content groups by default */
+.festPage .content-group {
+    display: none !important;
+}
+
+/* Force show only when specifically marked as visible */
+.festPage .content-group.force-visible {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Mobile specific overrides */
+@media (max-width: 768px) {
+    .festPage .content-group {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    .festPage .content-group.force-visible {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        gap: 16px !important;
+        min-width: fit-content !important;
+        position: relative !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Force container to be flex */
+    .festPage .content-container {
+        display: flex !important;
+        gap: 16px !important;
+        height: 100% !important;
+        width: max-content !important;
+        padding: 0 16px !important;
+    }
+    
+    .festPage .content-card {
+        width: 300px !important;
+        max-width: 300px !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+/* Even more specific overrides for stubborn elements */
+@media (max-width: 767px) {
+    .festPage .content-group:not(.force-visible) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+    }
+}

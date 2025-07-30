@@ -25,10 +25,12 @@
     <link rel="stylesheet" href="./css/chairperson.css">
     <link rel="stylesheet" href="./css/whatsapp-popup.css">
     <link rel="stylesheet" href="./css/modern-club-cards.css">
+    <link rel="stylesheet" href="./css/category-force-fix.css">
     <script src="./js/jquery.min.js"></script>
     <script src="./js/logger.js"></script>
     <script src="./js/swiper-bundle.min.js"></script>
     <script src="./js/filestack.min.js"></script>
+    <script src="./js/category-fix.js"></script>
 </head>
 
 <body>
@@ -2247,7 +2249,7 @@
 
             // Set up event listeners for category buttons
             categoryButtons.forEach(button => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (e) => {
                     const targetCategory = button.getAttribute('data-category');
                     switchCategory(targetCategory);
                 });
@@ -2282,8 +2284,15 @@
 
                 // Show only the content groups for this category
                 const idsToShow = categoryData[categoryName] || [];
+                
                 document.querySelectorAll('.content-group').forEach(group => {
-                    group.style.display = idsToShow.includes(group.id) ? 'flex' : 'none';
+                    if (idsToShow.includes(group.id)) {
+                        group.classList.add('category-visible');
+                        group.style.display = 'flex';
+                    } else {
+                        group.classList.remove('category-visible');
+                        group.style.display = 'none';
+                    }
                 });
 
                 // Highlight the first item in the sidebar
@@ -2369,8 +2378,20 @@
             });
 
             // Initial load
-            switchCategory('tech');
-            isInitialLoad = false;
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(() => {
+                    switchCategory('tech');
+                    isInitialLoad = false;
+                }, 100);
+            });
+            
+            // Also call immediately in case DOM is already loaded
+            if (document.readyState !== 'loading') {
+                setTimeout(() => {
+                    switchCategory('tech');
+                    isInitialLoad = false;
+                }, 100);
+            }
         </script>
 
 

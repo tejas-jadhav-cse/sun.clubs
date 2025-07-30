@@ -1185,10 +1185,14 @@ input:focus {
 
 
 .festPage .content-group {
-  display: flex;
   gap: 20px;
   min-width: fit-content;
   position: relative;
+  display: none !important; /* Hide by default with higher priority */
+}
+
+.festPage .content-group.category-visible {
+  display: flex !important; /* Show when category is active with higher priority */
 }
 
 .festPage .content-group:first-child::before {
