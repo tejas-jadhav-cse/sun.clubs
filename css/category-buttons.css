@@ -2,7 +2,7 @@
 .category-buttons {
   position: relative;
   border-radius: 0px;
-  padding: 3px;
+  padding: 2px;
   background: var(--black);
   z-index: 1;
   width: fit-content;
@@ -28,14 +28,14 @@
 }
 
 .category-btn {
-  padding: 8px 15px;
+  padding: 7px 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
   backdrop-filter: blur(2.5px);
-  font-size: 19px;
-  line-height: 110%;
+  font-size: 16px;
+  line-height: 100%;
   font-family: var(--go-medium);
   color: var(--white);
   cursor: pointer;
@@ -53,12 +53,12 @@
 /* Responsive styles for category buttons */
 @media screen and (max-width: 768px) {
   .category-buttons {
-    width: 100%;
+    width: 90%;
     justify-content: space-between;
   }
 
   .category-btn {
-    font-size: 16px;
+    font-size: 15px;
     padding: 1px 1px;
 
   }
@@ -71,7 +71,7 @@
 
   .category-btn {
     margin: 4px;
-    font-size: 12px;
-    padding: 6px 10px;
+    font-size: 10px;
+    padding: 6px 9px;
   }
 }

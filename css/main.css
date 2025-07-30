@@ -374,23 +374,11 @@ section {
   gap: 10px;
 }
 
-/* Journey starts */
-.journeyStarts {
-  padding: 50px 0;
-  position: relative;
-  background: url("../images/MasterJourney.webp"),
-    var(--white);
-  background-size: cover;
-  background-position: left top;
-  background-repeat: no-repeat;
-  transition: 0.4s ease-in;
-}
-
 /* Footer */
 footer {
   position: relative;
   display: block;
-  background: url("../images/footerBG.webp");
+  background: url("../images/footer-bg.webp");
   background-size: cover;
 }
 
@@ -1096,13 +1084,13 @@ input:focus {
 }
 
 .festPage .sidebar {
-  width: 100%;
-  max-width: 27.5%;
+  width: 130%;
+  max-width: 30%;
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: 25px;
-  margin-left: 70px;
+  margin-left: 65px;
 }
 
 .festPage .content-area::-webkit-scrollbar-thumb {
@@ -1192,6 +1180,8 @@ input:focus {
   height: 100%;
   width: max-content;
 }
+
+
 
 .festPage .content-group {
   display: flex;
