@@ -1084,8 +1084,9 @@ input:focus {
 }
 
 .festPage .sidebar {
-  width: 130%;
-  max-width: 30%;
+  width: 350px;
+  min-width: 350px;
+  max-width: 350px;
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
