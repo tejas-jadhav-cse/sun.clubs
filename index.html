@@ -2284,7 +2284,7 @@
 
                 // Show only the content groups for this category
                 const idsToShow = categoryData[categoryName] || [];
-                
+
                 document.querySelectorAll('.content-group').forEach(group => {
                     if (idsToShow.includes(group.id)) {
                         group.classList.add('category-visible');
@@ -2378,13 +2378,13 @@
             });
 
             // Initial load
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 setTimeout(() => {
                     switchCategory('tech');
                     isInitialLoad = false;
                 }, 100);
             });
-            
+
             // Also call immediately in case DOM is already loaded
             if (document.readyState !== 'loading') {
                 setTimeout(() => {
