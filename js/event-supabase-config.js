@@ -1,50 +1,44 @@
 /**
  * Secure Supabase Configuration for Event Calendar
- * Uses the secure configuration manager to protect credentials
+ * Uses the global Supabase client instance to avoid multiple GoTrueClient warnings
  */
 
 // Global variables for lazy initialization
-let supabaseClient = null;
-let SUPABASE_CONFIG = null;
+let eventSupabaseClient = null;
 
-// Initialize Supabase client asynchronously
+// Initialize Supabase client asynchronously using the global singleton
 async function initializeSupabase() {
     try {
-        if (supabaseClient) {
-            return supabaseClient; // Already initialized
+        if (eventSupabaseClient) {
+            return eventSupabaseClient; // Already initialized
         }
 
         console.log('🗄️ Initializing Supabase client for events...');
         
-        if (typeof configManager === 'undefined') {
-            throw new Error('Configuration manager not loaded. Please include config-manager.js first.');
+        // Use the global createSupabaseClient function to get the singleton instance
+        if (typeof createSupabaseClient === 'function') {
+            eventSupabaseClient = await createSupabaseClient();
+            if (eventSupabaseClient) {
+                console.log('✅ Event Supabase client initialized using global singleton');
+                return eventSupabaseClient;
+            } else {
+                throw new Error('Global Supabase client creation returned null');
+            }
+        } else {
+            throw new Error('Global createSupabaseClient function not available. Please ensure supabase-config.js is loaded first.');
         }
-
-        // Wait for configuration to be loaded
-        SUPABASE_CONFIG = await configManager.loadConfiguration();
-        const supabaseConfig = SUPABASE_CONFIG.supabase;
-        
-        if (!supabaseConfig.url || !supabaseConfig.anonKey) {
-            throw new Error('Supabase configuration is incomplete');
-        }
-
-        // Initialize Supabase client
-        supabaseClient = supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
-        console.log('✅ Supabase client initialized successfully');
-        
-        return supabaseClient;
     } catch (error) {
-        console.error('❌ Supabase initialization failed:', error);
+        console.error('❌ Event Supabase initialization failed:', error);
         throw error;
     }
 }
 
 // Function to get Supabase client (ensures it's initialized)
 async function getSupabaseClient() {
-    if (!supabaseClient) {
+    if (!eventSupabaseClient) {
         await initializeSupabase();
     }
-    return supabaseClient;
+    return eventSupabaseClient;
 }
 
 // Secure authentication helper functions
@@ -571,24 +565,24 @@ window.AuthHelper = AuthHelper;
 
 // Auto-initialize when the page loads
 if (typeof window !== 'undefined') {
-    // Wait for config manager to be ready, then initialize
-    const waitForConfigAndInit = async () => {
+    // Wait for global supabase config to be ready, then initialize
+    const waitForGlobalSupabaseAndInit = async () => {
         try {
-            if (typeof configManager !== 'undefined') {
+            if (typeof createSupabaseClient === 'function') {
                 await initializeEventManager();
                 // Make eventManager globally available
                 window.eventManager = eventManager;
             } else {
                 // Retry after a short delay
-                setTimeout(waitForConfigAndInit, 100);
+                setTimeout(waitForGlobalSupabaseAndInit, 100);
             }
         } catch (error) {
             console.warn('EventManager auto-initialization failed:', error);
         }
     };
     
-    // Start auto-initialization after a brief delay
-    setTimeout(waitForConfigAndInit, 200);
+    // Start auto-initialization after a brief delay to ensure dependencies are loaded
+    setTimeout(waitForGlobalSupabaseAndInit, 300);
 }
 
 console.log('🗄️ Event Supabase Config: Module loaded and ready for async initialization');
