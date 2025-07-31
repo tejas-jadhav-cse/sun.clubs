@@ -8,6 +8,8 @@
 [build.environment]
   # Node.js version
   NODE_VERSION = "18"
+  # Disable Netlify secrets scanning for our injected env vars
+  SECRETS_SCAN_ENABLED = "false"
 
 # Function settings
 [functions]

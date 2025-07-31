@@ -23,14 +23,14 @@ class EnvironmentLoader {
 
         try {
             // Priority order for loading environment variables:
-            // 1. Build-time injected variables (highest priority)
-            // 2. Netlify function endpoint
+            // 1. Netlify function endpoint (highest priority)
+            // 2. Build-time injected variables  
             // 3. Window injected variables
             // 4. Meta tags
             // 5. Local .env file (development only)
 
-            await this.loadFromBuildInjection() ||
             await this.loadFromNetlifyFunction() ||
+            await this.loadFromBuildInjection() ||
             await this.loadFromWindow() ||
             await this.loadFromMetaTags() ||
             await this.loadFromEnvFile();
@@ -48,10 +48,16 @@ class EnvironmentLoader {
     }
 
     async loadFromBuildInjection() {
-        if (window.__NETLIFY_ENV__ || window.__BUILD_ENV__) {
-            this.env = { ...(window.__NETLIFY_ENV__ || window.__BUILD_ENV__) };
-            console.log('✅ Environment variables loaded from build injection');
-            return true;
+        // Check if build process marked environment as configured
+        if (window.__ENV_INJECTED__ || window.__NETLIFY_ENV__ || window.__BUILD_ENV__) {
+            if (window.__NETLIFY_ENV__ || window.__BUILD_ENV__) {
+                this.env = { ...(window.__NETLIFY_ENV__ || window.__BUILD_ENV__) };
+                console.log('✅ Environment variables loaded from build injection');
+                return true;
+            } else if (window.__ENV_INJECTED__) {
+                console.log('🔄 Build configured environment - will try Netlify function');
+                return false; // Continue to try Netlify function
+            }
         }
         return false;
     }

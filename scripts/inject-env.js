@@ -67,12 +67,14 @@ function injectIntoFile(filePath, envVars) {
     
     let content = fs.readFileSync(filePath, 'utf8');
     
-    // Create the injection script
+    // Instead of injecting actual values, inject a reference that will be resolved at runtime
     const envScript = `
     <!-- Environment Variables (Injected during build) -->
     <script>
-        window.__NETLIFY_ENV__ = ${JSON.stringify(envVars, null, 2)};
-        console.log('🌐 Environment variables loaded from build injection');
+        // Environment variables will be loaded from Netlify function
+        window.__ENV_INJECTED__ = true;
+        window.__ENV_BUILD_TIME__ = '${Date.now()}';
+        console.log('🌐 Environment variables configured for Netlify runtime loading');
     </script>`;
 
     // Try to inject before closing head tag
@@ -83,19 +85,19 @@ function injectIntoFile(filePath, envVars) {
         content = content.replace('<body>', `<body>\n${envScript}`);
     }
 
-    // Also add meta tags for backup
-    const metaTags = Object.entries(envVars)
-        .map(([key, value]) => `    <meta name="env:${key}" content="${value}">`)
-        .join('\n');
-    
-    const metaInjection = `\n    <!-- Environment Variables as Meta Tags -->\n${metaTags}\n`;
+    // Add meta tags indicating environment is configured (without actual values)
+    const metaTags = `
+    <!-- Environment Configuration Meta Tags -->
+    <meta name="env:configured" content="true">
+    <meta name="env:build-time" content="${Date.now()}">
+    <meta name="env:netlify" content="true">`;
     
     if (content.includes('</head>')) {
-        content = content.replace('</head>', `${metaInjection}</head>`);
+        content = content.replace('</head>', `${metaTags}\n</head>`);
     }
 
     fs.writeFileSync(filePath, content);
-    console.log(`✅ Successfully injected into ${path.basename(filePath)}`);
+    console.log(`✅ Successfully configured ${path.basename(filePath)} for Netlify environment loading`);
 }
 
 function createEnvConfigFile(envVars) {
