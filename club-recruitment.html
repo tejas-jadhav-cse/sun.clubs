@@ -981,7 +981,7 @@
 
             if (!supabase) {
                 console.error('🚨 No Supabase client available! Cannot proceed with form submission.');
-                showError('Configuration error: Database connection not available. Please refresh the page and try again.');
+                showGlobalError('Configuration error: Database connection not available. Please refresh the page and try again.');
                 return;
             }
 
@@ -997,7 +997,18 @@
             console.warn('⚠️ Modern app initialization not available, using legacy mode');
             
             // You can implement fallback logic here if needed
-            showError('Configuration loading failed. Please refresh the page.');
+            showGlobalError('Configuration loading failed. Please refresh the page.');
+        }
+
+        // Global error function that works without setupForm
+        function showGlobalError(message) {
+            const errorBanner = document.getElementById('error-banner');
+            if (errorBanner) {
+                errorBanner.textContent = message;
+                errorBanner.style.display = 'block';
+            } else {
+                console.error('Error banner not found:', message);
+            }
         }
 
         // Main form setup function
@@ -1525,7 +1536,8 @@
                     setTimeout(() => testBtn.style.border = '', 1000);
                 }
             }, 100);
-        
+        } // Close setupForm function
+
         // Hamburger Menu Functionality
         $(document).ready(function() {
             // Hamburger menu click handler
