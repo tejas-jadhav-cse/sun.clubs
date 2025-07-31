@@ -1,23 +1,63 @@
-# Netlify Environment Variables Setup
+# Netlify Deployment Setup Guide - FIXED SOLUTION
 
-## 🚨 CRITICAL: Security Configuration Required
+This guide will help you fix the Supabase initialization issue on Netlify.
 
-This project requires environment variables to be configured in your Netlify dashboard. **Do not deploy without setting these up first.**
+## 🚨 The Problem IDENTIFIED AND SOLVED
 
-## Required Environment Variables
+The issue occurs because environment variables in Netlify are not automatically available to client-side JavaScript. The application was trying to access environment variables that were set in Netlify but weren't being properly injected into the frontend code.
 
-### Supabase Configuration
+**ROOT CAUSE**: Missing Supabase script imports in index.html and no build process to inject environment variables.
+
+## ✅ The Solution IMPLEMENTED
+
+We've implemented a multi-layered approach to handle environment variables properly:
+
+### 1. Build-time Environment Injection ✅
+
+The build process now automatically injects environment variables into your HTML files during deployment.
+
+### 2. Netlify Function Endpoint ✅
+
+A serverless function serves environment variables to the client-side when needed.
+
+### 3. Multiple Fallback Methods ✅
+
+The system tries several methods to load environment variables in order of priority.
+
+## 🔧 Setup Instructions
+
+### Step 1: Set Environment Variables in Netlify
+
+1. Go to your Netlify dashboard
+2. Select your site
+3. Navigate to **Site settings** > **Environment variables**
+4. Add the following variables:
+
+#### Required Variables:
 ```
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
-### App Configuration
+#### Optional Variables:
 ```
+VITE_ENVIRONMENT=production
 VITE_APP_NAME=Sandip University Clubs
 VITE_APP_VERSION=1.0.0
-VITE_ENVIRONMENT=production
 ```
+
+### Step 2: Update Build Settings
+
+In your Netlify dashboard, ensure the build settings are:
+
+- **Build command**: `npm run build` (or leave empty, the netlify.toml will handle it)
+- **Publish directory**: `.` (current directory)
+
+### Step 3: Deploy Your Site
+
+1. Commit and push all the new files to your repository
+2. Netlify will automatically redeploy
+3. The build process will inject environment variables into your HTML files
 
 ### Optional Admin Configuration
 ```
