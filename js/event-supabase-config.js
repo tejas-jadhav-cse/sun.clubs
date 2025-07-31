@@ -1,13 +1,14 @@
 /**
  * Secure Supabase Configuration for Event Calendar
  * Uses the global Supabase client instance to avoid multiple GoTrueClient warnings
+ * Version: 2.0 - Fixed variable conflicts (2025-07-31)
  */
 
 // Global variables for lazy initialization
 let eventSupabaseClient = null;
 
 // Initialize Supabase client asynchronously using the global singleton
-async function initializeSupabase() {
+async function initializeEventSupabase() {
     try {
         if (eventSupabaseClient) {
             return eventSupabaseClient; // Already initialized
@@ -36,7 +37,7 @@ async function initializeSupabase() {
 // Function to get Supabase client (ensures it's initialized)
 async function getSupabaseClient() {
     if (!eventSupabaseClient) {
-        await initializeSupabase();
+        await initializeEventSupabase();
     }
     return eventSupabaseClient;
 }
@@ -537,7 +538,7 @@ INSERT INTO club_events (
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { EventManager, AuthHelper, initializeSupabase, getSupabaseClient, CREATE_TABLE_SQL };
+    module.exports = { EventManager, AuthHelper, initializeEventSupabase, getSupabaseClient, CREATE_TABLE_SQL };
 }
 
 // Create global instance for browser use
@@ -546,7 +547,7 @@ let eventManager = null;
 // Initialize EventManager after Supabase is ready
 async function initializeEventManager() {
     try {
-        await initializeSupabase();
+        await initializeEventSupabase();
         eventManager = new EventManager();
         console.log('✅ EventManager initialized successfully');
         return eventManager;
@@ -557,7 +558,7 @@ async function initializeEventManager() {
 }
 
 // Make functions available globally
-window.initializeSupabase = initializeSupabase;
+window.initializeEventSupabase = initializeEventSupabase;
 window.getSupabaseClient = getSupabaseClient;
 window.initializeEventManager = initializeEventManager;
 window.EventManager = EventManager;
