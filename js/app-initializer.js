@@ -78,16 +78,32 @@ class AppInitializer {
     async initializeSupabase() {
         console.log('🗄️ AppInitializer: Initializing Supabase...');
         
-        if (typeof initializeSupabase === 'function') {
-            this.components.supabase = await initializeSupabase();
-            if (this.components.supabase) {
-                console.log('✅ Supabase client initialized');
+        try {
+            if (typeof initializeSupabase === 'function') {
+                this.components.supabase = await initializeSupabase();
+                if (this.components.supabase) {
+                    console.log('✅ Supabase client initialized');
+                } else {
+                    console.warn('⚠️ Supabase client initialization returned null');
+                }
             } else {
-                console.warn('⚠️ Supabase client initialization returned null');
+                console.warn('⚠️ initializeSupabase function not available');
+                this.components.supabase = null;
             }
-        } else {
-            console.warn('⚠️ initializeSupabase function not available');
+            
+            // Also initialize EventManager if available
+            if (typeof initializeEventManager === 'function') {
+                this.components.eventManager = await initializeEventManager();
+                if (this.components.eventManager) {
+                    console.log('✅ EventManager initialized');
+                } else {
+                    console.warn('⚠️ EventManager initialization failed');
+                }
+            }
+        } catch (error) {
+            console.error('❌ Supabase initialization failed:', error);
             this.components.supabase = null;
+            this.components.eventManager = null;
         }
     }
 

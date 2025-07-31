@@ -210,12 +210,24 @@ class EventCalendar {
 
     async loadEvents() {
         try {
-            // Check if eventManager is available
-            if (typeof eventManager === 'undefined') {
-                console.warn('EventManager not available, using empty events array');
-                this.events = [];
-                this.filteredEvents = [];
-                return;
+            // Wait for eventManager to be available
+            if (typeof eventManager === 'undefined' || !eventManager) {
+                console.log('⏳ Waiting for EventManager to initialize...');
+                // Wait up to 5 seconds for eventManager to be available
+                let attempts = 0;
+                const maxAttempts = 50; // 5 seconds with 100ms intervals
+                
+                while ((typeof eventManager === 'undefined' || !eventManager) && attempts < maxAttempts) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+                
+                if (typeof eventManager === 'undefined' || !eventManager) {
+                    console.warn('EventManager not available after waiting, using empty events array');
+                    this.events = [];
+                    this.filteredEvents = [];
+                    return;
+                }
             }
             
             this.showLoading();
@@ -238,9 +250,22 @@ class EventCalendar {
 
     async loadClubFilters() {
         try {
-            if (typeof eventManager === 'undefined') {
-                // If eventManager is not available, skip loading club filters
-                return;
+            // Wait for eventManager to be available
+            if (typeof eventManager === 'undefined' || !eventManager) {
+                console.log('⏳ Waiting for EventManager to initialize for club filters...');
+                // Wait up to 5 seconds for eventManager to be available
+                let attempts = 0;
+                const maxAttempts = 50; // 5 seconds with 100ms intervals
+                
+                while ((typeof eventManager === 'undefined' || !eventManager) && attempts < maxAttempts) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+                
+                if (typeof eventManager === 'undefined' || !eventManager) {
+                    console.warn('EventManager not available for club filters, skipping');
+                    return;
+                }
             }
             
             const clubs = await eventManager.getUniqueClubs();

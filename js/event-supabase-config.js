@@ -3,21 +3,49 @@
  * Uses the secure configuration manager to protect credentials
  */
 
-// Get secure configuration
-const SUPABASE_CONFIG = (() => {
+// Global variables for lazy initialization
+let supabaseClient = null;
+let SUPABASE_CONFIG = null;
+
+// Initialize Supabase client asynchronously
+async function initializeSupabase() {
     try {
+        if (supabaseClient) {
+            return supabaseClient; // Already initialized
+        }
+
+        console.log('🗄️ Initializing Supabase client for events...');
+        
         if (typeof configManager === 'undefined') {
             throw new Error('Configuration manager not loaded. Please include config-manager.js first.');
         }
-        return configManager.getSupabaseConfig();
+
+        // Wait for configuration to be loaded
+        SUPABASE_CONFIG = await configManager.loadConfiguration();
+        const supabaseConfig = SUPABASE_CONFIG.supabase;
+        
+        if (!supabaseConfig.url || !supabaseConfig.anonKey) {
+            throw new Error('Supabase configuration is incomplete');
+        }
+
+        // Initialize Supabase client
+        supabaseClient = supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
+        console.log('✅ Supabase client initialized successfully');
+        
+        return supabaseClient;
     } catch (error) {
-        console.error('❌ Configuration Error:', error.message);
+        console.error('❌ Supabase initialization failed:', error);
         throw error;
     }
-})();
+}
 
-// Initialize Supabase client
-const supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+// Function to get Supabase client (ensures it's initialized)
+async function getSupabaseClient() {
+    if (!supabaseClient) {
+        await initializeSupabase();
+    }
+    return supabaseClient;
+}
 
 // Secure authentication helper functions
 class AuthHelper {
@@ -26,7 +54,8 @@ class AuthHelper {
         try {
             // TODO: Implement server-side admin verification
             // This should make an authenticated API call to verify admin status
-            const response = await supabaseClient.rpc('verify_admin_status', { 
+            const client = await getSupabaseClient();
+            const response = await client.rpc('verify_admin_status', { 
                 user_email: email 
             });
             
@@ -55,7 +84,8 @@ class EventManager {
     // Fetch all events
     async getAllEvents() {
         try {
-            const { data, error } = await supabaseClient
+            const client = await getSupabaseClient();
+            const { data, error } = await client
                 .from(this.tableName)
                 .select('*')
                 .order('event_date', { ascending: true });
@@ -74,7 +104,8 @@ class EventManager {
     // Fetch events by date range
     async getEventsByDateRange(startDate, endDate) {
         try {
-            const { data, error } = await supabaseClient
+            const client = await getSupabaseClient();
+            const { data, error } = await client
                 .from(this.tableName)
                 .select('*')
                 .gte('event_date', startDate)
@@ -95,7 +126,8 @@ class EventManager {
     // Fetch events by club
     async getEventsByClub(clubName) {
         try {
-            const { data, error } = await supabaseClient
+            const client = await getSupabaseClient();
+            const { data, error } = await client
                 .from(this.tableName)
                 .select('*')
                 .eq('club_name', clubName)
@@ -115,7 +147,8 @@ class EventManager {
     // Fetch events by type
     async getEventsByType(eventType) {
         try {
-            const { data, error } = await supabaseClient
+            const client = await getSupabaseClient();
+            const { data, error } = await client
                 .from(this.tableName)
                 .select('*')
                 .eq('event_type', eventType)
@@ -148,8 +181,9 @@ class EventManager {
             
             // Add admin headers if using secret key method
             const headers = AuthHelper.getAdminHeaders();
+            const client = await getSupabaseClient();
             
-            let query = supabaseClient
+            let query = client
                 .from(this.tableName)
                 .insert([cleanedData])
                 .select();
@@ -190,8 +224,9 @@ class EventManager {
         try {
             // Add admin headers if using secret key method
             const headers = AuthHelper.getAdminHeaders();
+            const client = await getSupabaseClient();
             
-            let query = supabaseClient
+            let query = client
                 .from(this.tableName)
                 .update(updates)
                 .eq('id', eventId)
@@ -292,8 +327,9 @@ class EventManager {
         try {
             // Add admin headers if using secret key method
             const headers = AuthHelper.getAdminHeaders();
+            const client = await getSupabaseClient();
             
-            let query = supabaseClient
+            let query = client
                 .from(this.tableName)
                 .delete()
                 .eq('id', eventId);
@@ -323,7 +359,8 @@ class EventManager {
     // Get unique club names for filter dropdown
     async getUniqueClubs() {
         try {
-            const { data, error } = await supabaseClient
+            const client = await getSupabaseClient();
+            const { data, error } = await client
                 .from(this.tableName)
                 .select('club_name')
                 .not('club_name', 'is', null);
@@ -396,9 +433,6 @@ class EventManager {
         return timeString;
     }
 }
-
-// Initialize event manager
-const eventManager = new EventManager();
 
 // SQL for creating the table (run this in your Supabase SQL editor)
 const CREATE_TABLE_SQL = `
@@ -509,5 +543,52 @@ INSERT INTO club_events (
 
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { eventManager, CREATE_TABLE_SQL };
+    module.exports = { EventManager, AuthHelper, initializeSupabase, getSupabaseClient, CREATE_TABLE_SQL };
 }
+
+// Create global instance for browser use
+let eventManager = null;
+
+// Initialize EventManager after Supabase is ready
+async function initializeEventManager() {
+    try {
+        await initializeSupabase();
+        eventManager = new EventManager();
+        console.log('✅ EventManager initialized successfully');
+        return eventManager;
+    } catch (error) {
+        console.error('❌ Failed to initialize EventManager:', error);
+        return null;
+    }
+}
+
+// Make functions available globally
+window.initializeSupabase = initializeSupabase;
+window.getSupabaseClient = getSupabaseClient;
+window.initializeEventManager = initializeEventManager;
+window.EventManager = EventManager;
+window.AuthHelper = AuthHelper;
+
+// Auto-initialize when the page loads
+if (typeof window !== 'undefined') {
+    // Wait for config manager to be ready, then initialize
+    const waitForConfigAndInit = async () => {
+        try {
+            if (typeof configManager !== 'undefined') {
+                await initializeEventManager();
+                // Make eventManager globally available
+                window.eventManager = eventManager;
+            } else {
+                // Retry after a short delay
+                setTimeout(waitForConfigAndInit, 100);
+            }
+        } catch (error) {
+            console.warn('EventManager auto-initialization failed:', error);
+        }
+    };
+    
+    // Start auto-initialization after a brief delay
+    setTimeout(waitForConfigAndInit, 200);
+}
+
+console.log('🗄️ Event Supabase Config: Module loaded and ready for async initialization');
