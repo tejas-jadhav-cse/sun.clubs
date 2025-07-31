@@ -106,7 +106,6 @@ netlify env:set VITE_ENVIRONMENT "production"
 - ❌ **Never expose**: Service role keys should NEVER be used in client-side code
 - 🔒 **RLS Required**: Ensure Row Level Security (RLS) is enabled on your Supabase tables
 - 🛡️ **Policies**: Configure proper RLS policies to protect your data
-
 ## Deployment Checklist
 
 - [ ] Environment variables set in Netlify dashboard
