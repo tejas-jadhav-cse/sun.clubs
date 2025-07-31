@@ -498,7 +498,14 @@ class EventCalendar {
         
         const modal = document.getElementById('eventModal');
         modal.classList.add('active');
+        modal.removeAttribute('aria-hidden');
         document.body.style.overflow = 'hidden';
+        
+        // Focus the first focusable element in the modal for accessibility
+        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+            firstFocusable.focus();
+        }
     }
 
     populateEventModal(event) {
@@ -589,6 +596,7 @@ class EventCalendar {
     closeModal() {
         const modal = document.getElementById('eventModal');
         modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = 'auto';
         this.selectedEvent = null;
     }
@@ -608,11 +616,19 @@ class EventCalendar {
     openShareModal() {
         const shareModal = document.getElementById('shareModal');
         shareModal.classList.add('active');
+        shareModal.removeAttribute('aria-hidden');
+        
+        // Focus the first focusable element in the share modal
+        const firstFocusable = shareModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+            firstFocusable.focus();
+        }
     }
 
     closeShareModal() {
         const shareModal = document.getElementById('shareModal');
         shareModal.classList.remove('active');
+        shareModal.setAttribute('aria-hidden', 'true');
     }
 
     generateEventURL() {
