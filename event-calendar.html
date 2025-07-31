@@ -1,75 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- working perfectly fine -->
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=5">
     <title>Event Calendar - Sandip University Clubs</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
+    
+    <!-- Google Fonts -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
     </style>
 
+    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="./css/master-production.css">
     <link rel="stylesheet" href="./css/event-calendar.css">
 
-    <!-- Supabase CDN -->
+    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Environment Variables Loader -->
-    <script src="./js/env-loader.js"></script>
-    <!-- Netlify Environment Injector (fallback) -->
-    <script src="./js/netlify-env-injector.js"></script>
-    <!-- Error Boundary -->
-    <script src="./js/error-boundary.js"></script>
-
     <script src="./js/jquery.min.js"></script>
 
-    <!-- Configuration Management -->
+    <!-- Environment & Configuration Scripts -->
+    <script src="./js/env-loader.js"></script>
+    <script src="./js/netlify-env-injector.js"></script>
+    <script src="./js/error-boundary.js"></script>
     <script src="./js/config-manager.js"></script>
-    <!-- Core utility scripts (load in order) -->
+
+    <!-- Core Utility Scripts (load in order) -->
     <script src="./js/logger.js"></script>
     <script src="./js/datetime-manager.js"></script>
     <script src="./js/input-validator.js"></script>
     <script src="./js/modal-manager.js"></script>
 
-    <!-- Main Supabase Configuration (singleton) -->
+    <!-- Supabase Configuration Scripts -->
     <script src="./js/supabase-config.js?v=2.0"></script>
-    <!-- Event-specific Supabase Configuration -->
     <script src="./js/event-supabase-config.js?v=2.0"></script>
+    
     <!-- Application Initializer (loads after all dependencies) -->
     <script src="./js/app-initializer.js?v=2.0"></script>
 </head>
 
 <body>
-
+    <!-- Preloader -->
     <div id="preloader">
         <div class="preloader">
-            <img loading="lazy" src="./images/preloader.gif" alt="Loader">
+            <img loading="lazy" src="./images/preloader.gif" alt="Loading...">
         </div>
     </div>
 
+    <!-- Main Content Section -->
     <section class="main-section">
         <div class="main">
-            <!-- Header (same as index.html but with active state for event-calendar) -->
+            <!-- Header Navigation -->
             <header id="header" class="darkHeader">
+                <!-- Top Menu with Logo -->
                 <div class="container">
                     <div class="topMenu flexbox">
-                        <img loading="lazy" src="./images/SU-logo.webp" class="logo-main" alt="SU Logo">
+                        <img loading="lazy" src="./images/SU-logo.webp" class="logo-main" alt="Sandip University Logo">
                     </div>
                 </div>
+                
+                <!-- Main Navigation Menu -->
                 <div class="container">
                     <div class="mainMenu flexbox">
+                        <!-- Mobile Hamburger Menu -->
                         <div class="hamburger">
-                            <img loading="lazy" src="./images/hamburger.svg" alt="Icon" class="">
+                            <img loading="lazy" src="./images/hamburger.svg" alt="Menu Icon">
                         </div>
+                        
+                        <!-- Desktop Logo -->
                         <a href="./" class="menuLogo">
-                            <img loading="lazy" src="./images/logo.webp" class="" alt="sunclubs logo">
+                            <img loading="lazy" src="./images/logo.webp" alt="SUN Clubs Logo">
                         </a>
+                        
+                        <!-- Desktop Navigation Links -->
                         <div class="megaMenus flexbox">
                             <a href="./club-recruitment.html" class="megaLink" id="nav__club-recruitment">
                                 Club Recruitment
@@ -77,8 +85,7 @@
                             <a href="./event-calendar.html" class="megaLink active" id="nav__event-calendar">
                                 Event Calendar
                             </a>
-                            <a href="https://www.sandipuniversity.edu.in/blog/events/" class="megaLink"
-                                id="nav__recent-events">
+                            <a href="https://www.sandipuniversity.edu.in/blog/events/" class="megaLink" id="nav__recent-events">
                                 Recent Events
                             </a>
                             <a href="./president-login.html" class="megaLink" id="nav__president-login">
@@ -91,29 +98,26 @@
                     </div>
                 </div>
 
+                <!-- Mobile Menu Overlay -->
                 <div class="mobMenuOuter">
                     <div class="mobMenuHeader">
-                        <a href="./" target="_blank" rel="noopener noreferrer" class="logo">
-                            <img loading="lazy" src="./images/logo.webp" class="" alt="SUN Clubs LOGO">
+                        <a href="./" class="logo">
+                            <img loading="lazy" src="./images/logo.webp" alt="SUN Clubs Logo">
                         </a>
                         <div class="closeIcon">
-                            <img loading="lazy" src="./images/menuCloseIcon.svg" alt="Icon" class="">
+                            <img loading="lazy" src="./images/menuCloseIcon.svg" alt="Close Menu">
                         </div>
                     </div>
                     <div class="mobMenuBody">
                         <a href="./club-recruitment.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Club Recruitment
                         </a>
-
                         <a href="./event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Event Calendar
                         </a>
-
-                        <a href="https://www.sandipuniversity.edu.in/blog/events/"
-                            class="mobLink font-white font-14 font-medium font-uppercase">
+                        <a href="https://www.sandipuniversity.edu.in/blog/events/" class="mobLink font-white font-14 font-medium font-uppercase">
                             Recent Events
                         </a>
-
                         <a href="./president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Club Admin
                         </a>
@@ -123,36 +127,36 @@
                     </div>
                 </div>
             </header>
+            
+            <!-- Blur Screen for Mobile Menu -->
             <div class="blurScreen" onclick="closeMenu()"></div>
 
+            <!-- Event Calendar Main Content -->
             <main class="eventCalendarPage">
-                <!-- Hero Section -->
+                <!-- Hero Section with Title and Controls -->
                 <section class="eventCalendarHero">
                     <div class="container">
                         <div class="eventHeroWrapper">
+                            <!-- Page Title -->
                             <h1 class="go-HighlightHeading">Event<span class="fr-HeadingItalic"> Calendar</span></h1>
-                            <p class="heroParaTech">Discover all the exciting events happening at Sandip University
-                                clubs</p>
+                            <p class="heroParaTech">Discover all the exciting events happening at Sandip University clubs</p>
 
-                            <!-- Calendar Navigation -->
+                            <!-- Calendar Navigation Controls -->
                             <div class="calendarControls">
                                 <button id="prevMonth" class="calendarNavBtn" aria-label="Previous month">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </button>
-                                <h2 id="currentMonth" class="currentMonthTitle" role="heading" aria-level="2">July 2025
-                                </h2>
+                                <h2 id="currentMonth" class="currentMonthTitle" role="heading" aria-level="2">July 2025</h2>
                                 <button id="nextMonth" class="calendarNavBtn" aria-label="Next month">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </button>
                             </div>
 
-                            <!-- Filter Controls -->
+                            <!-- Event Filter Controls -->
                             <div class="filterControls">
                                 <label for="clubFilter" class="sr-only">Filter by club</label>
                                 <select id="clubFilter" class="filterSelect" aria-label="Filter events by club">
@@ -169,7 +173,7 @@
                     </div>
                 </section>
 
-                <!-- Calendar Section -->
+                <!-- Calendar Display Section -->
                 <section class="calendarSection">
                     <div class="container">
                         <!-- Loading State -->
@@ -186,6 +190,7 @@
 
                         <!-- Calendar Grid -->
                         <div id="calendarGrid" class="calendarWrapper" style="display: none;">
+                            <!-- Calendar Headers (Days of Week) -->
                             <div class="calendarHeader">
                                 <div class="dayHeader">Sun</div>
                                 <div class="dayHeader">Mon</div>
@@ -195,8 +200,9 @@
                                 <div class="dayHeader">Fri</div>
                                 <div class="dayHeader">Sat</div>
                             </div>
+                            <!-- Calendar Days (Generated by JavaScript) -->
                             <div id="calendarDays" class="calendarDays">
-                                <!-- Calendar days will be generated by JavaScript -->
+                                <!-- Calendar days will be dynamically generated -->
                             </div>
                         </div>
 
@@ -212,62 +218,61 @@
     </section>
 
     <!-- Event Detail Modal -->
-    <div id="eventModal" class="eventModal" role="dialog" aria-modal="true" aria-labelledby="eventName"
-        aria-hidden="true">
+    <div id="eventModal" class="eventModal" role="dialog" aria-modal="true" aria-labelledby="eventName" aria-hidden="true">
         <div class="eventModalContent">
+            <!-- Modal Header with Close Button -->
             <div class="modalHeader">
                 <button id="closeModal" class="closeModalBtn" aria-label="Close event details">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
             </div>
 
+            <!-- Modal Body Content -->
             <div class="modalBody">
-                <!-- Event Banner -->
+                <!-- Event Banner Image -->
                 <div class="eventBanner">
                     <img id="eventBannerImg" alt="Event Banner" style="display: none;">
                     <div id="eventBannerPlaceholder" class="bannerPlaceholder">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                            <rect x="3" y="4" width="18" height="14" rx="2" ry="2" stroke="currentColor"
-                                stroke-width="2" />
+                            <rect x="3" y="4" width="18" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2" />
                             <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2" />
                             <polyline points="21,15 16,10 5,21" stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
                 </div>
 
-                <!-- Event Info -->
+                <!-- Event Information -->
                 <div class="eventInfo">
+                    <!-- Event Status Badge -->
                     <div class="statusBadge" id="eventStatus">Upcoming</div>
+                    
+                    <!-- Event Title -->
                     <h2 id="eventName" class="eventTitle">Event Name</h2>
 
+                    <!-- Event Details Grid -->
                     <div class="eventDetails">
                         <div class="detailRow">
                             <span class="detailIcon">📅</span>
                             <span class="detailLabel">Date:</span>
                             <span id="eventDate" class="detailValue">TBA</span>
                         </div>
-
                         <div class="detailRow">
                             <span class="detailIcon">⏰</span>
                             <span class="detailLabel">Time:</span>
                             <span id="eventTime" class="detailValue">TBA</span>
                         </div>
-
                         <div class="detailRow">
                             <span class="detailIcon">🏢</span>
                             <span class="detailLabel">Organized by:</span>
                             <span id="eventClub" class="detailValue">Club Name</span>
                         </div>
-
                         <div class="detailRow">
                             <span class="detailIcon">📍</span>
                             <span class="detailLabel">Venue:</span>
                             <span id="eventVenue" class="detailValue">TBA</span>
                         </div>
-
                         <div class="detailRow">
                             <span class="detailIcon">💻</span>
                             <span class="detailLabel">Type:</span>
@@ -275,11 +280,13 @@
                         </div>
                     </div>
 
+                    <!-- Event Description -->
                     <div class="eventDescription">
                         <h3>Description</h3>
                         <p id="eventDescriptionText">Event description will appear here...</p>
                     </div>
 
+                    <!-- Student Coordinators Information -->
                     <div class="eventCoordinators">
                         <h3>Student Coordinators</h3>
                         <div class="coordinatorsList">
@@ -315,40 +322,45 @@
     </div>
 
     <!-- Share Modal -->
-    <div id="shareModal" class="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle"
-        aria-hidden="true">
+    <div id="shareModal" class="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" aria-hidden="true">
         <div class="shareModalContent">
+            <!-- Share Modal Header -->
             <div class="shareHeader">
                 <h3 id="shareModalTitle">Share Event</h3>
                 <button id="closeShareModal" class="closeModalBtn" aria-label="Close share options">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
             </div>
+            
+            <!-- Social Media Share Options -->
             <div class="shareOptions">
+                <!-- Facebook Share -->
                 <button class="shareOption" data-platform="facebook">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
-                        <path
-                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                     Facebook
                 </button>
+                
+                <!-- Twitter Share -->
                 <button class="shareOption" data-platform="twitter">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#1DA1F2">
-                        <path
-                            d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                     </svg>
                     Twitter
                 </button>
+                
+                <!-- WhatsApp Share -->
                 <button class="shareOption" data-platform="whatsapp">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
-                        <path
-                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.89 3.683" />
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.89 3.683" />
                     </svg>
                     WhatsApp
                 </button>
+                
+                <!-- Copy Link -->
                 <button class="shareOption" id="copyLink">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -360,26 +372,27 @@
         </div>
     </div>
 
+    <!-- JavaScript Files -->
     <script src="./js/event-calendar.js"></script>
 
-    <!-- Hamburger Menu Functionality -->
+    <!-- Hamburger Menu & Navigation Functionality -->
     <script>
         $(document).ready(function () {
-            // Hamburger menu click handler
+            // Hamburger menu toggle
             $('.hamburger').click(function () {
                 $('.mobMenuOuter').addClass('active');
-                $('#header').addClass('height')
+                $('#header').addClass('height');
                 $('body').css('overflow', 'hidden');
             });
 
-            // Close menu functionality
+            // Close mobile menu
             $('.closeIcon').click(function () {
-                $('.mobMenuOuter').removeClass('active')
-                $('#header').removeClass('height')
+                $('.mobMenuOuter').removeClass('active');
+                $('#header').removeClass('height');
                 $('body').css('overflow', 'auto');
             });
 
-            // Close menu function for blur screen
+            // Global close menu function
             window.closeMenu = function () {
                 $('.blurScreen').removeClass('active');
                 $('.megaLink').removeClass('active');
@@ -392,10 +405,12 @@
         });
     </script>
 
+    <!-- Preloader & Page Transition -->
     <script>
         // Initialize preloader fade out
         $("#preloader").fadeOut(1000);
 
+        // Handle page navigation with preloader
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".darkHeader a, footer a").forEach((link) => {
                 link.addEventListener("click", function () {
