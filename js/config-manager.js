@@ -1,6 +1,7 @@
 /**
  * Secure Configuration Manager
  * Handles environment variables and configuration securely
+ * Compatible with async environment loading for Netlify
  */
 
 class ConfigManager {
@@ -8,34 +9,112 @@ class ConfigManager {
         console.log('🔧 ConfigManager: Initializing...');
         this.config = {};
         this.isProduction = this.getEnvironment() === 'production';
+        this.isLoaded = false;
         console.log('🔧 ConfigManager: Environment detected:', this.getEnvironment());
         console.log('🔧 ConfigManager: Is Production:', this.isProduction);
-        this.loadConfiguration();
-        console.log('🔧 ConfigManager: Configuration loaded successfully');
+        
+        // Initialize with empty config, load async later
+        this.config = this.createEmptyConfig();
     }
 
     /**
-     * Load configuration from environment variables or fallback
+     * Load configuration asynchronously from environment variables
      */
-    loadConfiguration() {
-        // Try to load from environment variables first
-        this.config = {
+    async loadConfiguration() {
+        if (this.isLoaded) {
+            return this.config;
+        }
+
+        try {
+            console.log('🔧 ConfigManager: Loading configuration asynchronously...');
+            
+            // Wait for environment variables to be loaded
+            let env = {};
+            if (typeof getEnvironment === 'function') {
+                console.log('🔧 ConfigManager: Waiting for environment variables...');
+                env = await getEnvironment();
+                console.log('🔧 ConfigManager: Environment variables loaded:', Object.keys(env));
+            } else {
+                console.warn('🔧 ConfigManager: getEnvironment function not available, using direct access');
+                env = this.getDirectEnvironment();
+            }
+
+            this.config = {
+                supabase: {
+                    url: env.VITE_SUPABASE_URL || this.getEnvVar('VITE_SUPABASE_URL'),
+                    anonKey: env.VITE_SUPABASE_ANON_KEY || this.getEnvVar('VITE_SUPABASE_ANON_KEY')
+                },
+                app: {
+                    name: env.VITE_APP_NAME || this.getEnvVar('VITE_APP_NAME') || 'Sandip University Clubs',
+                    version: env.VITE_APP_VERSION || this.getEnvVar('VITE_APP_VERSION') || '1.0.0',
+                    environment: env.VITE_ENVIRONMENT || this.getEnvVar('VITE_ENVIRONMENT') || 'development'
+                },
+                admin: {
+                    secretKey: env.VITE_ADMIN_SECRET_KEY || this.getEnvVar('VITE_ADMIN_SECRET_KEY') || ''
+                }
+            };
+
+            // Validate required configuration
+            if (!this.config.supabase.url || !this.config.supabase.anonKey) {
+                console.warn('🔧 ConfigManager: Required Supabase configuration missing');
+                if (this.isProduction) {
+                    console.error('❌ Production deployment requires VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+                }
+            } else {
+                console.log('🔧 ConfigManager: Supabase configuration validated successfully');
+            }
+
+            this.isLoaded = true;
+            console.log('🔧 ConfigManager: Configuration loaded successfully');
+            return this.config;
+        } catch (error) {
+            console.error('🔧 ConfigManager: Error loading configuration:', error);
+            // Don't throw error, use empty config
+            this.config = this.createEmptyConfig();
+            this.isLoaded = true;
+            return this.config;
+        }
+    }
+
+    /**
+     * Get configuration synchronously (may be incomplete until loadConfiguration is called)
+     */
+    getConfig() {
+        return this.config;
+    }
+
+    /**
+     * Create empty/default configuration
+     */
+    createEmptyConfig() {
+        return {
             supabase: {
-                url: this.getEnvVar('VITE_SUPABASE_URL') || this.getFallbackConfig().url,
-                anonKey: this.getEnvVar('VITE_SUPABASE_ANON_KEY') || this.getFallbackConfig().anonKey
+                url: null,
+                anonKey: null
             },
             app: {
-                name: this.getEnvVar('VITE_APP_NAME') || 'Sandip University Clubs',
-                version: this.getEnvVar('VITE_APP_VERSION') || '1.0.0',
-                environment: this.getEnvVar('VITE_ENVIRONMENT') || 'development'
+                name: 'Sandip University Clubs',
+                version: '1.0.0',
+                environment: this.getEnvironment()
             },
             admin: {
-                secretKey: this.getEnvVar('VITE_ADMIN_SECRET_KEY') || ''
+                secretKey: ''
             }
         };
+    }
 
-        // Validate configuration
-        this.validateConfiguration();
+    /**
+     * Get environment variables from various sources directly
+     */
+    getDirectEnvironment() {
+        const sources = [
+            window.__NETLIFY_ENV__,
+            window.__BUILD_ENV__,
+            window.__MANUAL_ENV__,
+            {}
+        ];
+
+        return sources.find(source => source && source.VITE_SUPABASE_URL) || {};
     }
 
     /**
@@ -56,51 +135,36 @@ class ConfigManager {
         if (typeof window !== 'undefined' && window.__MANUAL_ENV__) {
             return window.__MANUAL_ENV__[key];
         }
-        
+
         return null;
     }
 
     /**
-     * Get current environment
+     * Detect environment
      */
     getEnvironment() {
-        // First check for explicit environment variables
-        const envVar = this.getEnvVar('VITE_ENVIRONMENT') || this.getEnvVar('NODE_ENV');
-        if (envVar) return envVar;
-        
-        // For browser applications, use hostname to determine environment
+        // Check various environment indicators
         if (typeof window !== 'undefined') {
             const hostname = window.location.hostname;
+            
+            // Production environments
+            if (hostname.includes('.netlify.app') || 
+                hostname.includes('.netlify.com') ||
+                hostname.includes('sandipuniversity.edu.in') ||
+                (window.location.protocol === 'https:' && !hostname.includes('localhost'))) {
+                return 'production';
+            }
             
             // Development environments
             if (hostname === 'localhost' || 
                 hostname === '127.0.0.1' || 
                 hostname.includes('localhost') ||
-                hostname.includes('127.0.0.1') ||
-                hostname.includes('.local')) {
+                window.location.port !== '') {
                 return 'development';
             }
-            
-            // Production environments (hosted domains)
-            return 'production';
         }
         
-        // Default fallback
         return 'development';
-    }
-
-    /**
-     * Fallback configuration for development/demo
-     * WARNING: These should NEVER be used in production
-     */
-    getFallbackConfig() {
-        if (this.isProduction) {
-            throw new Error('❌ CRITICAL: No environment configuration found in production! Please set up environment variables.');
-        }
-
-        console.warn('⚠️  WARNING: No Supabase configuration found! Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
-        
-        throw new Error('🚨 SECURITY: No Supabase configuration found! Please set environment variables.');
     }
 
     /**
@@ -108,38 +172,29 @@ class ConfigManager {
      */
     validateConfiguration() {
         const { supabase } = this.config;
-
+        
         if (!supabase.url || !supabase.anonKey) {
-            throw new Error('❌ CRITICAL: Supabase configuration is missing. Please check your environment variables.');
+            console.warn('⚠️ ConfigManager: Supabase configuration incomplete');
+            return false;
         }
-
-        if (!supabase.url.startsWith('https://')) {
-            throw new Error('❌ CRITICAL: Supabase URL must use HTTPS.');
+        
+        // Validate URL format
+        try {
+            new URL(supabase.url);
+        } catch (error) {
+            console.error('❌ ConfigManager: Invalid Supabase URL format');
+            return false;
         }
-
-        if (supabase.anonKey.length < 100) {
-            console.warn('⚠️  WARNING: Supabase anon key seems too short. Please verify.');
-        }
-
-        // Check for test/development values in production
-        if (this.isProduction) {
-            const testPatterns = ['test', 'demo', 'localhost', 'example'];
-            const configString = JSON.stringify(supabase).toLowerCase();
-            
-            if (testPatterns.some(pattern => configString.includes(pattern))) {
-                throw new Error('❌ CRITICAL: Test/development configuration detected in production!');
-            }
-        }
+        
+        console.log('✅ ConfigManager: Configuration validation passed');
+        return true;
     }
 
     /**
      * Get Supabase configuration
      */
     getSupabaseConfig() {
-        return {
-            url: this.config.supabase.url,
-            anonKey: this.config.supabase.anonKey
-        };
+        return this.config.supabase;
     }
 
     /**
@@ -157,40 +212,68 @@ class ConfigManager {
     }
 
     /**
-     * Get admin headers for authenticated requests
+     * Get admin headers for authentication
      */
     getAdminHeaders() {
         if (!this.isAdminEnabled()) {
             return {};
         }
-
+        
         return {
-            'x-admin-key': this.config.admin.secretKey
+            'Authorization': `Bearer ${this.config.admin.secretKey}`,
+            'X-Admin-Key': this.config.admin.secretKey
         };
     }
 
     /**
-     * Safe logging that doesn't expose sensitive data
+     * Log configuration (without sensitive data)
      */
     logConfig() {
-        if (!this.isProduction) {
-            console.log('📋 Configuration loaded:', {
-                environment: this.config.app.environment,
-                supabaseUrl: this.config.supabase.url ? '✅ Set' : '❌ Missing',
-                supabaseKey: this.config.supabase.anonKey ? '✅ Set' : '❌ Missing',
-                adminEnabled: this.isAdminEnabled()
-            });
-        }
+        const safeConfig = {
+            supabase: {
+                url: this.config.supabase.url ? '✅ Set' : '❌ Missing',
+                anonKey: this.config.supabase.anonKey ? '✅ Set' : '❌ Missing'
+            },
+            app: this.config.app,
+            admin: {
+                secretKey: this.config.admin.secretKey ? '✅ Set' : '❌ Missing'
+            }
+        };
+        
+        console.log('🔧 ConfigManager: Current configuration:', safeConfig);
     }
 }
 
-// Create singleton instance
+// Create global instance with async initialization
 const configManager = new ConfigManager();
 
-// Log configuration (safe)
-configManager.logConfig();
+// Global functions
+window.getConfigManager = function() {
+    return configManager;
+};
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ConfigManager, configManager };
+window.initializeConfig = async function() {
+    return await configManager.loadConfiguration();
+};
+
+// Auto-initialize configuration when environment is ready
+if (typeof window !== 'undefined') {
+    // Wait for environment loader to be available
+    const waitForEnvAndInit = async () => {
+        try {
+            if (typeof getEnvironment === 'function') {
+                await configManager.loadConfiguration();
+            } else {
+                // Retry after a short delay
+                setTimeout(waitForEnvAndInit, 100);
+            }
+        } catch (error) {
+            console.warn('ConfigManager auto-initialization failed:', error);
+        }
+    };
+    
+    // Start auto-initialization
+    setTimeout(waitForEnvAndInit, 50);
 }
+
+console.log('🔧 ConfigManager: Module loaded and ready for async initialization');

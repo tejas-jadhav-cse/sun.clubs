@@ -213,8 +213,14 @@ class ErrorBoundary {
             backdrop-filter: blur(10px);
         `;
 
-        // Add to DOM
-        document.body.appendChild(toast);
+        // Add to DOM safely
+        const targetElement = document.body || document.documentElement;
+        if (targetElement) {
+            targetElement.appendChild(toast);
+        } else {
+            console.error('ErrorBoundary: Cannot show toast - no target element available');
+            return;
+        }
 
         // Auto-remove after 5 seconds
         setTimeout(() => {

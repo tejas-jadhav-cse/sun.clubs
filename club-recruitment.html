@@ -46,6 +46,8 @@
     <script src="./js/modal-manager.js"></script>
     <script src="./js/config-manager.js"></script>
     <script src="./js/supabase-config.js"></script>
+    <!-- Application Initializer (loads after all dependencies) -->
+    <script src="./js/app-initializer.js"></script>
 
     <style>
         /* Custom styles for club recruitment page */
@@ -922,69 +924,82 @@
     <script>
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('DOM Content Loaded - Initializing Club Recruitment Form');
+            console.log('DOM Content Loaded - Waiting for App Initialization');
             
-            // Load environment variables first
-            let env = {};
-            try {
-                if (typeof getEnvironment === 'function') {
-                    env = await getEnvironment();
-                    console.log('🌍 Environment loaded:', Object.keys(env));
+            // Wait for app to be initialized
+            if (window.appInitializer) {
+                if (!window.appInitializer.isInitialized()) {
+                    console.log('Waiting for app initialization...');
+                    
+                    // Listen for initialization complete event
+                    window.addEventListener('app:initialized', function(event) {
+                        console.log('App initialized successfully, initializing form...');
+                        initializeForm(event.detail.components);
+                    });
+                    
+                    // Listen for initialization failed event
+                    window.addEventListener('app:initialization-failed', function(event) {
+                        console.error('App initialization failed:', event.detail.error);
+                        // Still try to initialize form with fallback
+                        initializeForm({});
+                    });
+                    
+                    // If initialization is taking too long, proceed anyway
+                    setTimeout(() => {
+                        if (!window.appInitializer.isInitialized()) {
+                            console.warn('App initialization timeout, proceeding with form initialization');
+                            initializeForm({});
+                        }
+                    }, 5000);
                 } else {
-                    console.warn('⚠️ getEnvironment function not available, using fallback');
-                    throw new Error('getEnvironment not available');
+                    console.log('App already initialized, initializing form...');
+                    initializeForm(window.appInitializer.components);
                 }
-            } catch (error) {
-                console.error('Failed to load environment:', error);
-                // No fallback - require environment variables
-                console.error('🚨 CRITICAL: No environment variables found!');
-                console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
-                throw new Error('Missing required environment variables');
+            } else {
+                console.warn('App initializer not available, using legacy initialization');
+                initializeFormLegacy();
             }
+        });
+
+        // New form initialization function
+        function initializeForm(components) {
+            console.log('🏗️ Initializing Club Recruitment Form with components:', Object.keys(components));
             
-            // Initialize Supabase client using loaded environment variables
-            let supabase = null;
-            try {
-                if (typeof initializeSupabase === 'function') {
-                    supabase = await initializeSupabase(env);
-                    if (supabase) {
-                        console.log('✅ Supabase client initialized successfully');
-                    } else {
-                        console.warn('⚠️ Supabase client initialization returned null');
-                    }
-                } else if (typeof window.createSupabaseClient === 'function') {
-                    console.warn('initializeSupabase not available, using singleton createSupabaseClient');
-                    supabase = await window.createSupabaseClient(env);
-                } else if (window.supabaseClient) {
-                    console.warn('Using existing supabaseClient instance');
-                    supabase = window.supabaseClient;
-                } else {
-                    console.warn('No Supabase initialization methods available, using direct initialization');
-                    // Create client directly with environment variables
-                    const SupabaseLib = window.SupabaseLibrary || window.supabase;
-                    if (SupabaseLib && SupabaseLib.createClient) {
-                        supabase = SupabaseLib.createClient(
-                            env.VITE_SUPABASE_URL, 
-                            env.VITE_SUPABASE_ANON_KEY
-                        );
-                        console.log('✅ Supabase client created with environment variables');
-                    } else {
-                        console.error('Supabase library not available');
-                    }
-                }
-            } catch (error) {
-                console.error('Error initializing Supabase:', error);
-                supabase = null;
-            }
+            const supabase = components.supabase;
+            const env = components.environment;
+            const config = components.config;
             
-            // Log final Supabase client status
-            console.log('Final Supabase client:', supabase);
-            console.log('Supabase client type:', supabase ? typeof supabase : 'null');
-            console.log('Available Supabase instances:', {
-                supabaseClient: !!window.supabaseClient,
-                createSupabaseClient: !!window.createSupabaseClient,
-                SupabaseLibrary: !!window.SupabaseLibrary
+            // Log component availability
+            console.log('Available components:', {
+                supabase: !!supabase,
+                environment: !!env && Object.keys(env).length > 0,
+                config: !!config && Object.keys(config).length > 0
             });
+
+            if (!supabase) {
+                console.error('🚨 No Supabase client available! Cannot proceed with form submission.');
+                showError('Configuration error: Database connection not available. Please refresh the page and try again.');
+                return;
+            }
+
+            // Proceed with form initialization
+            setupForm(supabase, env, config);
+        }
+
+        // Legacy initialization function for backwards compatibility
+        function initializeFormLegacy() {
+            console.log('🔄 Using legacy form initialization');
+            
+            // Show warning about missing configuration
+            console.warn('⚠️ Modern app initialization not available, using legacy mode');
+            
+            // You can implement fallback logic here if needed
+            showError('Configuration loading failed. Please refresh the page.');
+        }
+
+        // Main form setup function
+        function setupForm(supabase, env, config) {
+            console.log('🎯 Setting up club recruitment form with initialized components');
 
             // Fallback messages if not provided by supabase-config.js
             const LOCAL_MESSAGES = window.MESSAGES || {
@@ -1507,7 +1522,6 @@
                     setTimeout(() => testBtn.style.border = '', 1000);
                 }
             }, 100);
-        });
         
         // Hamburger Menu Functionality
         $(document).ready(function() {

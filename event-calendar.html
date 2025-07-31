@@ -31,18 +31,31 @@
 
     <link rel="stylesheet" href="./css/master-production.css">
     <link rel="stylesheet" href="./css/event-calendar.css">
-    <script src="./js/jquery.min.js"></script>
+    
+    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Core utility scripts (load in order) -->
-    <script src="./js/config-manager.js"></script>
+    <!-- Environment Variables Loader -->
+    <script src="./js/env-loader.js"></script>
+    <!-- Netlify Environment Injector (fallback) -->
+    <script src="./js/netlify-env-injector.js"></script>
+    <!-- Error Boundary -->
     <script src="./js/error-boundary.js"></script>
+    
+    <script src="./js/jquery.min.js"></script>
+    
+    <!-- Configuration Management -->
+    <script src="./js/config-manager.js"></script>
+    <!-- Core utility scripts (load in order) -->
     <script src="./js/logger.js"></script>
     <script src="./js/datetime-manager.js"></script>
     <script src="./js/input-validator.js"></script>
     <script src="./js/modal-manager.js"></script>
     
+    <!-- Supabase Configuration -->
     <script src="./js/event-supabase-config.js"></script>
+    <!-- Application Initializer (loads after all dependencies) -->
+    <script src="./js/app-initializer.js"></script>
 
     
     <script>
