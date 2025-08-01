@@ -15,6 +15,10 @@ class EventAdminDashboard {
     
     async init() {
         try {
+            // Clear any previous redirect counters on successful initialization attempt
+            sessionStorage.removeItem('dashboard_redirect_count');
+            sessionStorage.removeItem('dashboard_redirect_time');
+            
             // Check authentication
             await this.checkAuth();
             
@@ -39,10 +43,30 @@ class EventAdminDashboard {
     // Authentication Methods
     async checkAuth() {
         try {
+            // First check if PresidentAuth is available and properly initialized
+            if (typeof PresidentAuth === 'undefined') {
+                throw new Error('PresidentAuth not available. Please ensure president-supabase-config.js is loaded.');
+            }
+            
+            // Ensure PresidentAuth is properly initialized
+            if (typeof PresidentAuth.ensureInitialized === 'function') {
+                await PresidentAuth.ensureInitialized();
+            }
+            
             const session = await PresidentAuth.getSession();
             
             if (!session) {
-                throw new Error('No active session found. Please login again.');
+                // Try to check localStorage for existing authentication
+                const clubId = localStorage.getItem('clubId');
+                const clubName = localStorage.getItem('clubName');
+                const presidentName = localStorage.getItem('presidentName');
+                
+                if (!clubId || !clubName || !presidentName) {
+                    throw new Error('No active session found. Please login again.');
+                }
+                
+                // If localStorage has data but no session, redirect to login
+                throw new Error('Session expired. Please login again.');
             }
             
             const clubData = await PresidentAuth.getCurrentClubData();
@@ -83,7 +107,46 @@ class EventAdminDashboard {
     }
     
     redirectToLogin() {
-        window.location.href = 'president-login.html';
+        try {
+            // Check for redirect loop protection
+            const redirectKey = 'dashboard_redirect_count';
+            const redirectTimeKey = 'dashboard_redirect_time';
+            const currentTime = Date.now();
+            
+            // Get previous redirect count and time
+            let redirectCount = parseInt(sessionStorage.getItem(redirectKey) || '0');
+            const lastRedirectTime = parseInt(sessionStorage.getItem(redirectTimeKey) || '0');
+            
+            // Reset counter if more than 5 minutes have passed
+            if (currentTime - lastRedirectTime > 5 * 60 * 1000) {
+                redirectCount = 0;
+            }
+            
+            redirectCount++;
+            
+            // If we've redirected too many times, show error instead
+            if (redirectCount > 3) {
+                console.error('Too many redirects detected. Possible authentication loop.');
+                this.showError('Authentication error: Too many redirects. Please clear your browser cache and try again.');
+                sessionStorage.removeItem(redirectKey);
+                sessionStorage.removeItem(redirectTimeKey);
+                return;
+            }
+            
+            // Store redirect count and time
+            sessionStorage.setItem(redirectKey, redirectCount.toString());
+            sessionStorage.setItem(redirectTimeKey, currentTime.toString());
+            
+            if (typeof logger !== 'undefined') {
+                logger.warn('Redirecting to login page. Attempt:', redirectCount);
+            }
+            
+            window.location.href = 'president-login.html';
+            
+        } catch (error) {
+            console.error('Error in redirectToLogin:', error);
+            this.showError('Navigation error occurred. Please refresh the page.');
+        }
     }
     
     // Dashboard Initialization
@@ -648,7 +711,5 @@ class EventAdminDashboard {
     }
 }
 
-// Initialize dashboard when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.eventAdmin = new EventAdminDashboard();
-});
+// Dashboard will be initialized through app:initialized event
+// See event-admin-dashboard.html for proper initialization flow

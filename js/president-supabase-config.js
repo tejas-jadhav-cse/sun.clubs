@@ -9,23 +9,41 @@
  */
 
 // Get secure configuration
-const PRESIDENT_SUPABASE_CONFIG = (() => {
+let PRESIDENT_SUPABASE_CONFIG = null;
+let supabasePresident = null;
+
+// Initialize configuration and Supabase client properly
+async function initializePresidentSupabase() {
     try {
+        // Wait for config manager to be ready
         if (typeof configManager === 'undefined') {
             throw new Error('Configuration manager not loaded. Please include config-manager.js first.');
         }
-        return configManager.getSupabaseConfig();
+        
+        // Get configuration
+        await configManager.loadConfiguration();
+        PRESIDENT_SUPABASE_CONFIG = configManager.getSupabaseConfig();
+        
+        if (!PRESIDENT_SUPABASE_CONFIG.url || !PRESIDENT_SUPABASE_CONFIG.anonKey) {
+            throw new Error('Supabase configuration missing. Please check environment variables.');
+        }
+        
+        // Initialize Supabase client using the global library
+        if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+            supabasePresident = window.supabase.createClient(
+                PRESIDENT_SUPABASE_CONFIG.url, 
+                PRESIDENT_SUPABASE_CONFIG.anonKey
+            );
+        } else {
+            throw new Error('Supabase library not available');
+        }
+        
+        return supabasePresident;
     } catch (error) {
-        console.error('❌ Configuration Error:', error.message);
+        console.error('❌ President Supabase Initialization Error:', error.message);
         throw error;
     }
-})();
-
-// Initialize Supabase client
-const supabasePresident = supabase.createClient(
-    PRESIDENT_SUPABASE_CONFIG.url, 
-    PRESIDENT_SUPABASE_CONFIG.anonKey
-);
+}
 
 // Club configuration with proper mapping
 const CLUB_CONFIG = {
@@ -198,9 +216,19 @@ const CLUB_CONFIG = {
 
 // Authentication functions
 const PresidentAuth = {
+    // Initialize the client before use
+    async ensureInitialized() {
+        if (!supabasePresident) {
+            supabasePresident = await initializePresidentSupabase();
+        }
+        return supabasePresident;
+    },
+
     // Sign in function
     async signIn(clubId, password) {
         try {
+            await this.ensureInitialized();
+            
             const clubEmail = CLUB_CONFIG[clubId]?.email;
             if (!clubEmail) {
                 throw new Error('Invalid club selection');
@@ -254,6 +282,8 @@ const PresidentAuth = {
     // Create president record if doesn't exist
     async createPresidentRecord(clubId, user) {
         try {
+            await this.ensureInitialized();
+            
             const clubConfig = CLUB_CONFIG[clubId];
             
             // First check if the club exists
@@ -298,6 +328,7 @@ const PresidentAuth = {
     // Get current session
     async getSession() {
         try {
+            await this.ensureInitialized();
             const { data: { session }, error } = await supabasePresident.auth.getSession();
             if (error) throw error;
             return session;
@@ -310,6 +341,7 @@ const PresidentAuth = {
     // Get current user's club data
     async getCurrentClubData() {
         try {
+            await this.ensureInitialized();
             const { data: { user } } = await supabasePresident.auth.getUser();
             if (!user) return null;
 
@@ -340,6 +372,7 @@ const PresidentAuth = {
     // Sign out
     async signOut() {
         try {
+            await this.ensureInitialized();
             const { error } = await supabasePresident.auth.signOut();
             if (error) throw error;
             

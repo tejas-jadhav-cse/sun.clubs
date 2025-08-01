@@ -7,18 +7,33 @@
     <title>Event Admin Dashboard - Sandip University</title>
     <link rel="stylesheet" href="./css/master-production.css">
     <link rel="stylesheet" href="./css/event-calendar.css">
-    <script src="./js/jquery.min.js"></script>
+    
+    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Core utility scripts (load in order) -->
-    <script src="./js/config-manager.js"></script>
+    <!-- Environment Variables Loader (must load first) -->
+    <script src="./js/netlify-env-injector.js"></script>
+    <script src="./js/env-loader.js"></script>
+    
+    <!-- Core Libraries -->
+    <script src="./js/jquery.min.js"></script>
+    
+    <!-- Core utility scripts (load after environment) -->
     <script src="./js/error-boundary.js"></script>
     <script src="./js/logger.js"></script>
+    <script src="./js/config-manager.js"></script>
     <script src="./js/datetime-manager.js"></script>
     <script src="./js/input-validator.js"></script>
     <script src="./js/modal-manager.js"></script>
     
+    <!-- Supabase Configuration (load after config-manager) -->
+    <script src="./js/supabase-config.js"></script>
+    
+    <!-- President Authentication (specific for this dashboard) -->
     <script src="./js/president-supabase-config.js"></script>
+    
+    <!-- Application Initializer (manages initialization flow) -->
+    <script src="./js/app-initializer.js"></script>
     <style>
         .adminDashboard {
             background: var(--black);
@@ -433,6 +448,40 @@
     </div>
 
     <script src="./js/event-admin-dashboard.js"></script>
+    
+    <script>
+        // Wait for app initialization to complete before starting dashboard
+        window.addEventListener('app:initialized', function(event) {
+            console.log('🚀 Event Admin Dashboard: App initialization completed');
+            
+            // Initialize dashboard with app components
+            const dashboard = new EventAdminDashboard();
+        });
+        
+        // Handle initialization failure
+        window.addEventListener('app:initialization-failed', function(event) {
+            console.error('🚨 Event Admin Dashboard: App initialization failed:', event.detail.error);
+            alert('System initialization failed. Please refresh the page and try again.');
+            window.location.href = 'president-login.html';
+        });
+        
+        // Wait for DOM and start app initialization
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔧 Event Admin Dashboard: DOM loaded, starting app initialization...');
+            
+            // Start app initialization if available
+            if (typeof AppInitializer !== 'undefined') {
+                const appInitializer = new AppInitializer();
+                await appInitializer.initialize();
+            } else {
+                console.warn('🔧 Event Admin Dashboard: AppInitializer not available, falling back to direct init');
+                // Fallback to direct initialization
+                setTimeout(() => {
+                    const dashboard = new EventAdminDashboard();
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 </html>
 
