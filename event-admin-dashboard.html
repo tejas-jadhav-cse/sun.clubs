@@ -469,16 +469,31 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🔧 Event Admin Dashboard: DOM loaded, starting app initialization...');
             
-            // Start app initialization if available
-            if (typeof AppInitializer !== 'undefined') {
-                const appInitializer = new AppInitializer();
-                await appInitializer.initialize();
-            } else {
-                console.warn('🔧 Event Admin Dashboard: AppInitializer not available, falling back to direct init');
-                // Fallback to direct initialization
+            try {
+                // First, ensure the main Supabase client is initialized
+                if (typeof createSupabaseClient === 'function') {
+                    console.log('🔧 Initializing main Supabase client...');
+                    await createSupabaseClient();
+                    console.log('✅ Main Supabase client ready');
+                }
+                
+                // Start app initialization if available
+                if (typeof AppInitializer !== 'undefined') {
+                    const appInitializer = new AppInitializer();
+                    await appInitializer.initialize();
+                } else {
+                    console.warn('🔧 Event Admin Dashboard: AppInitializer not available, falling back to direct init');
+                    // Fallback to direct initialization
+                    setTimeout(() => {
+                        const dashboard = new EventAdminDashboard();
+                    }, 1000);
+                }
+            } catch (error) {
+                console.error('🔧 Event Admin Dashboard: Initialization error:', error);
+                // Fallback initialization
                 setTimeout(() => {
                     const dashboard = new EventAdminDashboard();
-                }, 1000);
+                }, 2000);
             }
         });
     </script>

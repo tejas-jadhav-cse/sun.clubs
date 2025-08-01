@@ -69,6 +69,10 @@ async function createSupabaseClient(envOverride = null) {
     if (supabaseClientInstance) {
         console.log('🔄 Returning existing Supabase client instance:', supabaseClientInstance);
         console.log('🔍 Existing instance has .from method:', typeof supabaseClientInstance.from);
+        
+        // Ensure it's exposed globally
+        window.supabaseClient = supabaseClientInstance;
+        
         return supabaseClientInstance;
     }
 
@@ -83,6 +87,10 @@ async function createSupabaseClient(envOverride = null) {
         if (SupabaseLibrary && SupabaseLibrary.createClient) {
             console.log('🚀 Creating Supabase client...');
             supabaseClientInstance = SupabaseLibrary.createClient(config.url, config.anonKey);
+            
+            // Expose the client globally to prevent multiple instances
+            window.supabaseClient = supabaseClientInstance;
+            
             console.log('✅ Single Supabase client created:', supabaseClientInstance);
             console.log('🔍 New instance has .from method:', typeof supabaseClientInstance.from);
             console.log('🔍 New instance methods:', Object.keys(supabaseClientInstance));
@@ -106,9 +114,15 @@ async function initializeSupabase(envOverride = null) {
     return await createSupabaseClient(envOverride);
 }
 
+// Function to get the existing Supabase client instance
+function getSupabaseClient() {
+    return supabaseClientInstance;
+}
+
 // Make functions available globally
 window.initializeSupabase = initializeSupabase;
 window.createSupabaseClient = createSupabaseClient;
+window.getSupabaseClient = getSupabaseClient;
 // Keep the original library accessible
 window.SupabaseLibrary = SupabaseLibrary;
 // Expose the singleton creation function

@@ -28,14 +28,32 @@ async function initializePresidentSupabase() {
             throw new Error('Supabase configuration missing. Please check environment variables.');
         }
         
-        // Initialize Supabase client using the global library
-        if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
-            supabasePresident = window.supabase.createClient(
-                PRESIDENT_SUPABASE_CONFIG.url, 
-                PRESIDENT_SUPABASE_CONFIG.anonKey
-            );
+        // Reuse existing Supabase client if available (to avoid multiple instances)
+        if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient) {
+            console.log('✅ Reusing existing Supabase client for president authentication');
+            console.log('🔍 Reused client has .from method:', typeof window.supabaseClient.from);
+            supabasePresident = window.supabaseClient;
+        } else if (typeof getSupabaseClient === 'function') {
+            // Try to get the client from supabase-config.js
+            console.log('📞 Getting Supabase client from main config...');
+            supabasePresident = await getSupabaseClient();
+            if (supabasePresident) {
+                console.log('✅ Successfully got Supabase client from main config');
+                console.log('🔍 Retrieved client has .from method:', typeof supabasePresident.from);
+            } else {
+                throw new Error('Failed to get Supabase client from main configuration');
+            }
         } else {
-            throw new Error('Supabase library not available');
+            // Fallback: create new client (but this should be avoided)
+            console.warn('⚠️ Creating new Supabase client as fallback (this may cause warnings)');
+            if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                supabasePresident = window.supabase.createClient(
+                    PRESIDENT_SUPABASE_CONFIG.url, 
+                    PRESIDENT_SUPABASE_CONFIG.anonKey
+                );
+            } else {
+                throw new Error('Supabase library not available');
+            }
         }
         
         return supabasePresident;
