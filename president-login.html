@@ -21,7 +21,6 @@
   </style>
    
   <link rel="stylesheet" href="./css/master-production.css">
-  <link rel="stylesheet" href="./css/owl.carousel.min.css">
   <link rel="stylesheet" href="./css/swiper-bundle.min.css">
   <link rel="stylesheet" href="./css/category-buttons.css">
   <link rel="stylesheet" href="./css/council-popup.css">
@@ -30,7 +29,8 @@
   <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
-  <!-- Environment Variables Loader -->
+  <!-- Environment Variables Loader (must load first) -->
+  <script src="./js/netlify-env-injector.js"></script>
   <script src="./js/env-loader.js"></script>
   
   <!-- Core Libraries -->
@@ -38,16 +38,19 @@
   <script src="./js/swiper-bundle.min.js"></script>
   <script src="./js/filestack.min.js"></script>
   
-  <!-- Core utility scripts (load in order) -->
-  <script src="./js/config-manager.js"></script>
+  <!-- Core utility scripts (load after environment) -->
   <script src="./js/error-boundary.js"></script>
   <script src="./js/logger.js"></script>
+  <script src="./js/config-manager.js"></script>
   <script src="./js/datetime-manager.js"></script>
   <script src="./js/input-validator.js"></script>
   <script src="./js/modal-manager.js"></script>
   
-  <!-- Supabase Configuration -->
+  <!-- Supabase Configuration (load after config-manager) -->
   <script src="./js/supabase-config.js"></script>
+  
+  <!-- Application Initializer (manages initialization flow) -->
+  <script src="./js/app-initializer.js"></script>
 
   <script type="text/javascript">
     // Initialize error handling early
@@ -76,6 +79,15 @@
         }
         e.preventDefault(); // Prevent the error from appearing in console
       }
+    });
+
+    // Debug environment loading
+    console.log('🔧 President Login: Starting environment debug...');
+    console.log('🔧 Available at page load:', {
+      getEnvironment: typeof getEnvironment,
+      configManager: typeof configManager,
+      window__NETLIFY_ENV__: !!window.__NETLIFY_ENV__,
+      window__MANUAL_ENV__: !!window.__MANUAL_ENV__
     });
   </script>
 
@@ -302,10 +314,46 @@
     <script>
       // Global variables for better state management
       let isLoginInProgress = false;
+      let appComponents = null;
       
-      // Wait for DOM and dependencies to load
-      document.addEventListener('DOMContentLoaded', function() {
+      // Wait for app initialization to complete
+      window.addEventListener('app:initialized', function(event) {
+        console.log('� President Login: App initialization completed');
+        appComponents = event.detail.components;
+        
+        // Initialize login form after app is ready
         initializeLoginForm();
+        initializeForgotPassword();
+        initializeInputValidation();
+        
+        // Check for existing session
+        setTimeout(checkExistingSession, 100);
+      });
+      
+      // Handle initialization failure
+      window.addEventListener('app:initialization-failed', function(event) {
+        console.error('� President Login: App initialization failed:', event.detail.error);
+        showModernErrorMessage('System initialization failed. Please refresh the page and try again.');
+      });
+      
+      // Wait for DOM and start app initialization
+      document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🔧 President Login: DOM loaded, starting app initialization...');
+        
+        // Start app initialization if available
+        if (typeof AppInitializer !== 'undefined') {
+          const appInitializer = new AppInitializer();
+          await appInitializer.initialize();
+        } else {
+          console.warn('🔧 President Login: AppInitializer not available, falling back to manual init');
+          // Fallback to manual initialization
+          setTimeout(() => {
+            initializeLoginForm();
+            initializeForgotPassword();
+            initializeInputValidation();
+            setTimeout(checkExistingSession, 500);
+          }, 1000);
+        }
       });
       
       function initializeLoginForm() {
@@ -340,43 +388,51 @@
         const password = document.getElementById('password').value;
         
         try {
-          // Initialize Supabase client using environment variables
+          // Use components from app initialization if available, otherwise fallback
           let supabaseClient = null;
           
-          try {
-            // Load environment variables first
-            let env = {};
-            if (typeof getEnvironment === 'function') {
-              env = await getEnvironment();
-            } else {
-              // No fallback - require environment variables
-              console.error('🚨 CRITICAL: No environment variables found!');
-              console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
-              throw new Error('Missing required environment variables');
-            }
+          if (appComponents && appComponents.supabase) {
+            console.log('🔧 Using initialized Supabase client from app components');
+            supabaseClient = appComponents.supabase;
+          } else {
+            console.log('🔧 App components not available, using fallback initialization');
             
-            // Initialize Supabase client with proper error handling
-            if (typeof initializeSupabase === 'function') {
-              supabaseClient = await initializeSupabase(env);
-            } else if (typeof window.createSupabaseClient === 'function') {
-              supabaseClient = await window.createSupabaseClient(env);
-            } else if (window.supabaseClient) {
-              supabaseClient = window.supabaseClient;
-            } else {
-              // Direct initialization as fallback
-              const SupabaseLib = window.supabase;
-              if (SupabaseLib && SupabaseLib.createClient) {
-                supabaseClient = SupabaseLib.createClient(
-                  env.VITE_SUPABASE_URL, 
-                  env.VITE_SUPABASE_ANON_KEY
-                );
+            // Fallback initialization
+            try {
+              // Load environment variables first
+              let env = {};
+              if (typeof getEnvironment === 'function') {
+                env = await getEnvironment();
               } else {
-                throw new Error('Supabase library not available');
+                // No fallback - require environment variables
+                console.error('🚨 CRITICAL: No environment variables found!');
+                console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
+                throw new Error('Missing required environment variables');
               }
+              
+              // Initialize Supabase client with proper error handling
+              if (typeof initializeSupabase === 'function') {
+                supabaseClient = await initializeSupabase(env);
+              } else if (typeof window.createSupabaseClient === 'function') {
+                supabaseClient = await window.createSupabaseClient(env);
+              } else if (window.supabaseClient) {
+                supabaseClient = window.supabaseClient;
+              } else {
+                // Direct initialization as fallback
+                const SupabaseLib = window.supabase;
+                if (SupabaseLib && SupabaseLib.createClient) {
+                  supabaseClient = SupabaseLib.createClient(
+                    env.VITE_SUPABASE_URL, 
+                    env.VITE_SUPABASE_ANON_KEY
+                  );
+                } else {
+                  throw new Error('Supabase library not available');
+                }
+              }
+            } catch (initError) {
+              console.error('Supabase initialization error:', initError);
+              throw new Error('Failed to initialize database connection. Please refresh the page and try again.');
             }
-          } catch (initError) {
-            console.error('Supabase initialization error:', initError);
-            throw new Error('Failed to initialize database connection. Please refresh the page and try again.');
           }
           
           if (!supabaseClient) {
@@ -563,8 +619,6 @@
         }
       });
       } // End of initializeLoginForm
-
-      // Modern error message function with fallback
       function showModernErrorMessage(message) {
         try {
           // Remove existing error message
@@ -756,44 +810,49 @@
       // Check if user is already logged in - separate function
       async function checkExistingSession() {
         try {
-          // Initialize Supabase client first
+          // Use components from app initialization if available
           let supabaseClient = null;
           
-          try {
-            // Load environment variables first
-            let env = {};
-            if (typeof getEnvironment === 'function') {
-              env = await getEnvironment();
-            } else {
-              // No fallback - require environment variables
-              console.error('🚨 CRITICAL: No environment variables found!');
-              console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your hosting platform.');
-              throw new Error('Missing required environment variables');
-            }
+          if (appComponents && appComponents.supabase) {
+            console.log('🔧 Session check: Using initialized Supabase client');
+            supabaseClient = appComponents.supabase;
+          } else {
+            console.log('🔧 Session check: App components not available, using fallback');
             
-            // Initialize Supabase client with proper error handling
-            if (typeof initializeSupabase === 'function') {
-              supabaseClient = await initializeSupabase(env);
-            } else if (typeof window.createSupabaseClient === 'function') {
-              supabaseClient = await window.createSupabaseClient(env);
-            } else if (window.supabaseClient) {
-              supabaseClient = window.supabaseClient;
-            } else {
-              // Direct initialization as fallback
-              const SupabaseLib = window.supabase;
-              if (SupabaseLib && SupabaseLib.createClient) {
-                supabaseClient = SupabaseLib.createClient(
-                  env.VITE_SUPABASE_URL, 
-                  env.VITE_SUPABASE_ANON_KEY
-                );
+            // Fallback initialization for session check
+            try {
+              // Load environment variables first
+              let env = {};
+              if (typeof getEnvironment === 'function') {
+                env = await getEnvironment();
               } else {
-                console.warn('Supabase library not available for session check');
-                return;
+                console.error('🚨 CRITICAL: No environment variables found!');
+                throw new Error('Missing required environment variables');
               }
+              
+              // Initialize Supabase client
+              if (typeof initializeSupabase === 'function') {
+                supabaseClient = await initializeSupabase(env);
+              } else if (typeof window.createSupabaseClient === 'function') {
+                supabaseClient = await window.createSupabaseClient(env);
+              } else if (window.supabaseClient) {
+                supabaseClient = window.supabaseClient;
+              } else {
+                const SupabaseLib = window.supabase;
+                if (SupabaseLib && SupabaseLib.createClient) {
+                  supabaseClient = SupabaseLib.createClient(
+                    env.VITE_SUPABASE_URL, 
+                    env.VITE_SUPABASE_ANON_KEY
+                  );
+                } else {
+                  console.warn('Supabase library not available for session check');
+                  return;
+                }
+              }
+            } catch (initError) {
+              console.error('Supabase initialization error during session check:', initError);
+              return;
             }
-          } catch (initError) {
-            console.error('Supabase initialization error during session check:', initError);
-            return;
           }
           
           if (!supabaseClient) {
@@ -865,30 +924,6 @@
           }
         }
       }
-      
-      // Initialize session check with dependency wait
-      document.addEventListener('DOMContentLoaded', function() {
-        // Wait for all dependencies to load before checking session
-        const checkDependencies = () => {
-          const hasSupabase = typeof window.supabase !== 'undefined';
-          const hasGetEnvironment = typeof getEnvironment === 'function';
-          const hasInitializeSupabase = typeof initializeSupabase === 'function';
-          
-          if (hasSupabase && (hasGetEnvironment || hasInitializeSupabase)) {
-            console.log('✅ Dependencies loaded, checking existing session');
-            setTimeout(checkExistingSession, 100);
-          } else {
-            console.log('⏳ Waiting for dependencies...', {
-              hasSupabase,
-              hasGetEnvironment,
-              hasInitializeSupabase
-            });
-            setTimeout(checkDependencies, 200);
-          }
-        };
-        
-        checkDependencies();
-      });
       
       // Handle forgot password - single event listener
       function initializeForgotPassword() {
@@ -993,7 +1028,12 @@
       }
       
       // Initialize all functionality when DOM is loaded
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🔧 President Login: Initializing additional features...');
+        
+        // Wait a moment for other scripts to load
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         initializeForgotPassword();
         initializeInputValidation();
       });

@@ -6,12 +6,18 @@
 
 class ConfigManager {
     constructor() {
-        console.log('🔧 ConfigManager: Initializing...');
+        console.log('🔧 ConfigManager: Initializing v2.0...');
         this.config = {};
-        this.isProduction = this.getEnvironment() === 'production';
         this.isLoaded = false;
-        console.log('🔧 ConfigManager: Environment detected:', this.getEnvironment());
-        console.log('🔧 ConfigManager: Is Production:', this.isProduction);
+        
+        try {
+            this.isProduction = this.getEnvironment() === 'production';
+            console.log('🔧 ConfigManager: Environment detected:', this.getEnvironment());
+            console.log('🔧 ConfigManager: Is Production:', this.isProduction);
+        } catch (error) {
+            console.warn('🔧 ConfigManager: Error detecting environment, defaulting to development:', error);
+            this.isProduction = false;
+        }
         
         // Initialize with empty config, load async later
         this.config = this.createEmptyConfig();
@@ -262,18 +268,31 @@ if (typeof window !== 'undefined') {
     const waitForEnvAndInit = async () => {
         try {
             if (typeof getEnvironment === 'function') {
+                console.log('🔧 ConfigManager: Environment loader detected, initializing...');
                 await configManager.loadConfiguration();
             } else {
+                // Check if we've been waiting too long
+                const maxWaitTime = 5000; // 5 seconds
+                const currentTime = Date.now();
+                if (!waitForEnvAndInit.startTime) {
+                    waitForEnvAndInit.startTime = currentTime;
+                }
+                
+                if (currentTime - waitForEnvAndInit.startTime > maxWaitTime) {
+                    console.warn('🔧 ConfigManager: Environment loader not available after 5s, continuing without auto-init');
+                    return;
+                }
+                
                 // Retry after a short delay
-                setTimeout(waitForEnvAndInit, 100);
+                setTimeout(waitForEnvAndInit, 200);
             }
         } catch (error) {
             console.warn('ConfigManager auto-initialization failed:', error);
         }
     };
     
-    // Start auto-initialization
-    setTimeout(waitForEnvAndInit, 50);
+    // Start auto-initialization with a small delay to let other scripts load
+    setTimeout(waitForEnvAndInit, 100);
 }
 
 console.log('🔧 ConfigManager: Module loaded and ready for async initialization');
