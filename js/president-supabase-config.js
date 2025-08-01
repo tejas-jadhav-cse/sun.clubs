@@ -29,30 +29,48 @@ async function initializePresidentSupabase() {
         }
         
         // Reuse existing Supabase client if available (to avoid multiple instances)
-        if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient) {
-            console.log('✅ Reusing existing Supabase client for president authentication');
-            console.log('🔍 Reused client has .from method:', typeof window.supabaseClient.from);
-            supabasePresident = window.supabaseClient;
-        } else if (typeof getSupabaseClient === 'function') {
-            // Try to get the client from supabase-config.js
-            console.log('📞 Getting Supabase client from main config...');
-            supabasePresident = await getSupabaseClient();
-            if (supabasePresident) {
-                console.log('✅ Successfully got Supabase client from main config');
-                console.log('🔍 Retrieved client has .from method:', typeof supabasePresident.from);
+        // First, wait a bit for the main client to be ready if it's not available yet
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        while (attempts < maxAttempts) {
+            if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient) {
+                console.log('✅ Reusing existing Supabase client for president authentication');
+                console.log('🔍 Reused client has .from method:', typeof window.supabaseClient.from);
+                supabasePresident = window.supabaseClient;
+                break;
+            } else if (typeof getSupabaseClient === 'function') {
+                // Try to get the client from supabase-config.js
+                console.log('📞 Getting Supabase client from main config...');
+                supabasePresident = await getSupabaseClient();
+                if (supabasePresident) {
+                    console.log('✅ Successfully got Supabase client from main config');
+                    console.log('🔍 Retrieved client has .from method:', typeof supabasePresident.from);
+                    break;
+                } else {
+                    console.log(`⏳ Attempt ${attempts + 1}: Main Supabase client not ready yet, waiting...`);
+                }
             } else {
-                throw new Error('Failed to get Supabase client from main configuration');
+                console.log(`⏳ Attempt ${attempts + 1}: getSupabaseClient not available yet, waiting...`);
             }
-        } else {
-            // Fallback: create new client (but this should be avoided)
-            console.warn('⚠️ Creating new Supabase client as fallback (this may cause warnings)');
+            
+            attempts++;
+            if (attempts < maxAttempts) {
+                await new Promise(resolve => setTimeout(resolve, 100)); // Wait 100ms
+            }
+        }
+        
+        // If we still don't have a client after waiting, use fallback
+        if (!supabasePresident) {
+            console.warn('⚠️ Could not get existing Supabase client after waiting. Using fallback (this may cause warnings)');
             if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
                 supabasePresident = window.supabase.createClient(
                     PRESIDENT_SUPABASE_CONFIG.url, 
                     PRESIDENT_SUPABASE_CONFIG.anonKey
                 );
+                console.warn('⚠️ Created fallback Supabase client');
             } else {
-                throw new Error('Supabase library not available');
+                throw new Error('Supabase library not available and no fallback possible');
             }
         }
         

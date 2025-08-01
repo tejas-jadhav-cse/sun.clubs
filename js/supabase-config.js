@@ -251,55 +251,6 @@ const SUPABASE_CONFIG = {
 };
 
 /**
- * Initialize Supabase client
- * @param {Object} envOverride - Optional environment override
- * @returns {Promise<Object|null>} Supabase client or null if not configured
- */
-async function initializeSupabase(envOverride = null) {
-    try {
-        // Use environment variables if available, otherwise fall back to SUPABASE_CONFIG
-        let config;
-        if (envOverride) {
-            config = {
-                url: envOverride.VITE_SUPABASE_URL || SUPABASE_CONFIG.url,
-                anonKey: envOverride.VITE_SUPABASE_ANON_KEY || SUPABASE_CONFIG.anonKey
-            };
-        } else {
-            try {
-                const envConfig = await getSupabaseConfigFromEnv();
-                config = envConfig;
-            } catch (error) {
-                console.warn('⚠️ Using fallback SUPABASE_CONFIG:', error);
-                config = SUPABASE_CONFIG;
-            }
-        }
-
-        // Check if configuration is using placeholder values
-        if (config.url === 'YOUR_SUPABASE_URL' || 
-            config.anonKey === 'YOUR_SUPABASE_ANON_KEY' ||
-            !config.url || 
-            !config.anonKey) {
-            console.warn('Supabase not configured. Please update configuration');
-            return null;
-        }
-
-        console.log('🔥 Getting Supabase client instance...');
-        
-        // Return existing singleton instance instead of creating a new one
-        if (supabaseClientInstance) {
-            console.log('✅ Returning existing Supabase client instance');
-            return supabaseClientInstance;
-        }
-
-        // Create new client with the resolved config
-        return await createSupabaseClient(config);
-    } catch (error) {
-        console.error('❌ Error in initializeSupabase:', error);
-        return null;
-    }
-}
-
-/**
  * Submit application to Supabase
  * @param {Object} formData - The form data to submit
  * @returns {Promise<Object>} Result of the submission

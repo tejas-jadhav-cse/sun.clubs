@@ -470,20 +470,18 @@
             console.log('🔧 Event Admin Dashboard: DOM loaded, starting app initialization...');
             
             try {
-                // First, ensure the main Supabase client is initialized
-                if (typeof createSupabaseClient === 'function') {
-                    console.log('🔧 Initializing main Supabase client...');
-                    await createSupabaseClient();
-                    console.log('✅ Main Supabase client ready');
-                }
-                
-                // Start app initialization if available
+                // Start app initialization - it will handle Supabase initialization internally
                 if (typeof AppInitializer !== 'undefined') {
                     const appInitializer = new AppInitializer();
                     await appInitializer.initialize();
                 } else {
                     console.warn('🔧 Event Admin Dashboard: AppInitializer not available, falling back to direct init');
-                    // Fallback to direct initialization
+                    // Fallback to direct initialization - only initialize once
+                    if (typeof createSupabaseClient === 'function') {
+                        console.log('🔧 Fallback: Initializing main Supabase client...');
+                        await createSupabaseClient();
+                        console.log('✅ Fallback: Main Supabase client ready');
+                    }
                     setTimeout(() => {
                         const dashboard = new EventAdminDashboard();
                     }, 1000);
