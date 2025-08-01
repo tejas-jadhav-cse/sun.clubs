@@ -454,8 +454,15 @@
         window.addEventListener('app:initialized', function(event) {
             console.log('🚀 Event Admin Dashboard: App initialization completed');
             
-            // Initialize dashboard with app components
-            const dashboard = new EventAdminDashboard();
+            // Initialize dashboard with app components and make it globally available
+            try {
+                const dashboard = new EventAdminDashboard();
+                window.eventAdmin = dashboard; // Make globally available for onclick handlers
+                console.log('✅ Event Admin Dashboard instance created and exposed globally');
+            } catch (error) {
+                console.error('❌ Failed to create EventAdminDashboard:', error);
+                alert('Failed to initialize dashboard. Please refresh the page.');
+            }
         });
         
         // Handle initialization failure
@@ -484,6 +491,7 @@
                     }
                     setTimeout(() => {
                         const dashboard = new EventAdminDashboard();
+                        window.eventAdmin = dashboard; // Make globally available for onclick handlers
                     }, 1000);
                 }
             } catch (error) {
@@ -491,6 +499,7 @@
                 // Fallback initialization
                 setTimeout(() => {
                     const dashboard = new EventAdminDashboard();
+                    window.eventAdmin = dashboard; // Make globally available for onclick handlers
                 }, 2000);
             }
         });

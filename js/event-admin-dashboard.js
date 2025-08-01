@@ -194,6 +194,20 @@ class EventAdminDashboard {
             }
         });
         
+        // Event delegation for dynamically created edit/delete buttons
+        document.getElementById('eventsList')?.addEventListener('click', (e) => {
+            const action = e.target.getAttribute('data-action');
+            const eventId = e.target.getAttribute('data-event-id');
+            
+            if (action && eventId) {
+                if (action === 'edit') {
+                    this.editEvent(eventId);
+                } else if (action === 'delete') {
+                    this.deleteEvent(eventId);
+                }
+            }
+        });
+        
         // Add phone number formatting
         document.getElementById('coordinator1Phone')?.addEventListener('input', (e) => {
             this.formatPhoneInput(e.target);
@@ -280,8 +294,8 @@ class EventAdminDashboard {
                 <div style="color: var(--white);">${this.formatEventType(event.event_type)}</div>
                 <div><span class="statusBadge" style="background: ${this.getStatusColor(event.status)}; color: var(--white);">${event.status || 'planned'}</span></div>
                 <div class="eventActions">
-                    <button class="actionBtn editBtn" onclick="eventAdmin.editEvent('${event.id}')">Edit</button>
-                    <button class="actionBtn deleteBtn" onclick="eventAdmin.deleteEvent('${event.id}')">Delete</button>
+                    <button class="actionBtn editBtn" data-action="edit" data-event-id="${event.id}">Edit</button>
+                    <button class="actionBtn deleteBtn" data-action="delete" data-event-id="${event.id}">Delete</button>
                 </div>
             </div>
         `).join('');
